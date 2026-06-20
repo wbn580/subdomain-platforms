@@ -1,0 +1,22 @@
+{
+  "slug": "luohu-chaxun",
+  "domain": "luohu-chaxun.wubaining.workers.dev",
+  "brand": "海归落户分数查询",
+  "tagline": "海归学历落户积分计算工具",
+  "lang": "zh-CN",
+  "bizLine": "hukou-calculator",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#1A2E4A",
+    "accent": "#19C37D"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "落户助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-luohu-chaxun",
+  "noBrandLink": true
+}

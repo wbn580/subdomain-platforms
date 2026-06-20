@@ -1,0 +1,22 @@
+{
+  "slug": "yasi-peixun",
+  "domain": "yasi-peixun.wubaining.workers.dev",
+  "brand": "雅思培训排名",
+  "tagline": "雅思培训机构横向排名/比价",
+  "lang": "zh-CN",
+  "bizLine": "edu-ranking",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#1E3A8A",
+    "accent": "#F59E0B"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "雅思小助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-yasi-peixun",
+  "noBrandLink": true
+}

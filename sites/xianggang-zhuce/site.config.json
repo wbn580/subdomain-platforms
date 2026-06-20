@@ -1,0 +1,22 @@
+{
+  "slug": "xianggang-zhuce",
+  "domain": "xianggang-zhuce.wubaining.workers.dev",
+  "brand": "香港公司注册指南",
+  "tagline": "你好！想喺香港开公司？我帮你睇流程同费用",
+  "lang": "zh-HK",
+  "bizLine": "biz-registration",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0B3D3A",
+    "accent": "#C8A24B"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "注册顾问"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-xianggang-zhuce",
+  "noBrandLink": true
+}

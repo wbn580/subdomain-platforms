@@ -1,0 +1,30 @@
+---
+// SiteLayout.astro — proxy that picks the right bespoke layout per site
+import ZjLayout from '../../sites/zhongjie-paiming/theme/Layout.astro';
+import XgLayout from '../../sites/xianggang-zhuce/theme/Layout.astro';
+import OsLayout from '../../sites/oshc-bijia/theme/Layout.astro';
+import LhLayout from '../../sites/luohu-chaxun/theme/Layout.astro';
+import HkLayout from '../../sites/huikuan-bijia/theme/Layout.astro';
+import YsLayout from '../../sites/yasi-peixun/theme/Layout.astro';
+import { siteConfig } from '../lib/site';
+
+const slug: string = siteConfig.slug || 'zhongjie-paiming';
+
+const bespokeLayouts: Record<string, any> = {
+  'zhongjie-paiming': ZjLayout,
+  'xianggang-zhuce': XgLayout,
+  'oshc-bijia': OsLayout,
+  'luohu-chaxun': LhLayout,
+  'huikuan-bijia': HkLayout,
+  'yasi-peixun': YsLayout,
+};
+
+const BespokeLayout = bespokeLayouts[slug];
+---
+{BespokeLayout ? (
+  <BespokeLayout {...Astro.props}>
+    <slot />
+  </BespokeLayout>
+) : (
+  <html><body><h1>Site not found: {slug}</h1></body></html>
+)}

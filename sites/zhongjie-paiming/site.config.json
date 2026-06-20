@@ -1,0 +1,22 @@
+{
+  "slug": "zhongjie-paiming",
+  "domain": "zhongjie-paiming.wubaining.workers.dev",
+  "brand": "留学中介排名榜",
+  "tagline": "哪间留学中介真正帮到你？",
+  "lang": "zh-CN",
+  "bizLine": "edu-ranking",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#13294B",
+    "accent": "#D4AF37"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "榜单顾问"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-zhongjie-paiming",
+  "noBrandLink": true
+}

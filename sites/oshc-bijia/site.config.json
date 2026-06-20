@@ -1,0 +1,22 @@
+{
+  "slug": "oshc-bijia",
+  "domain": "oshc-bijia.wubaining.workers.dev",
+  "brand": "留学保险OSHC比价",
+  "tagline": "澳洲OSHC留学生医保横向比价",
+  "lang": "zh-CN",
+  "bizLine": "insurance-compare",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0E7C86",
+    "accent": "#F2785C"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "OSHC比价助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-oshc-bijia",
+  "noBrandLink": true
+}

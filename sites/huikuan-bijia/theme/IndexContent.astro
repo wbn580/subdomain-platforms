@@ -1,0 +1,791 @@
+---
+// Bespoke homepage content
+---
+
+
+<!-- ===== HERO ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" id="heroBg"
+    role="img"
+    aria-label="留学生使用手机进行跨境汇款"
+    style="background-image: url('https://images.pexels.com/photos/6289170/pexels-photo-6289170.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop');">
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-flow" aria-hidden="true">
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+    <div class="flow-line"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <!-- Left: Headline + CTAs -->
+      <div>
+        <div class="hero-tag">实时汇率 · 独立比价</div>
+        <h1 class="hero-title" id="hero-title">
+          汇学费生活费，<br>
+          每一分都该<em>物尽其值</em>
+        </h1>
+        <p class="hero-tagline">
+          汇款比价为留学生家庭独立测评 Wise、Remitly、银行电汇、Flywire 学费直缴等主流渠道——真实汇率差、手续费、到账时间，一目了然，每年最多帮你省 ¥2,000+。
+        </p>
+        <div class="hero-ctas">
+          <a href="#calculator" class="btn-primary" aria-label="开始免费试算">
+            ⚡ 立即试算
+          </a>
+          <a href="#compare" class="btn-ghost" aria-label="查看渠道对比">
+            查看渠道对比
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>4+</strong>
+            主流渠道对比
+          </div>
+          <div class="hero-stat">
+            <strong>¥0</strong>
+            使用完全免费
+          </div>
+          <div class="hero-stat">
+            <strong>每日</strong>
+            汇率数据更新
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Quick Calculator Card -->
+      <div class="hero-calc" id="calculator" role="region" aria-label="汇款费用快速试算">
+        <div class="calc-title">汇款费用快速试算</div>
+        <div class="calc-row">
+          <label class="calc-label" for="calcAmount">汇款金额（人民币）</label>
+          <div class="calc-input-wrap">
+            <span class="calc-prefix">¥ CNY</span>
+            <input type="number" id="calcAmount" class="calc-input" value="50000"
+              min="100" max="1000000" step="1000"
+              aria-label="输入汇款金额（人民币）" />
+          </div>
+        </div>
+        <div class="calc-row">
+          <label class="calc-label" for="calcTarget">收款货币</label>
+          <select id="calcTarget" class="calc-select" aria-label="选择收款货币">
+            <option value="AUD" data-rate="0.2065" data-rate-bank="0.1998">澳大利亚元 (AUD)</option>
+            <option value="GBP" data-rate="0.1092" data-rate-bank="0.1055">英镑 (GBP)</option>
+            <option value="USD" data-rate="0.1378" data-rate-bank="0.1335">美元 (USD)</option>
+            <option value="EUR" data-rate="0.1252" data-rate-bank="0.1215">欧元 (EUR)</option>
+            <option value="CAD" data-rate="0.1901" data-rate-bank="0.1842">加元 (CAD)</option>
+            <option value="NZD" data-rate="0.2248" data-rate-bank="0.2178">新西兰元 (NZD)</option>
+            <option value="SGD" data-rate="0.1832" data-rate-bank="0.1776">新加坡元 (SGD)</option>
+            <option value="JPY" data-rate="20.65" data-rate-bank="19.98">日元 (JPY)</option>
+          </select>
+        </div>
+        <button class="btn-calc" id="calcBtn" onclick="runCalc()" aria-label="开始比较各渠道">
+          <span id="calcBtnText">比较各渠道</span>
+          <span id="calcBtnIcon">→</span>
+        </button>
+        <div class="calc-results" id="calcResults" role="region" aria-live="polite" aria-label="各渠道对比结果">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS STRIP ===== -->
+<section class="stats-strip" aria-label="平台数据概览">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number" id="stat1">4+</div>
+        <div class="stat-label">已收录汇款渠道</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number">3%</div>
+        <div class="stat-label">综合汇率差最大节省幅度</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number">24h</div>
+        <div class="stat-label">最快到账时效（Wise）</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number">¥0</div>
+        <div class="stat-label">完全独立免费比价</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CHANNEL COMPARISON ===== -->
+<section class="section section-alt" id="compare" aria-labelledby="compare-title">
+  <div class="container">
+    <div class="section-label">渠道横向对比</div>
+    <h2 class="section-title" id="compare-title">主流汇款渠道，一屏看全</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">
+      下方数据基于 ¥50,000 → AUD 场景，汇率数据参考银行间中间价，实际金额因时因渠道略有浮动，仅供参考。
+    </p>
+
+    <!-- Table header labels -->
+    <div class="compare-header" aria-hidden="true">
+      <div class="compare-header-item" style="text-align:left;">渠道</div>
+      <div class="compare-header-item">综合汇率</div>
+      <div class="compare-header-item">手续费</div>
+      <div class="compare-header-item">到账时间</div>
+      <div class="compare-header-item">操作</div>
+    </div>
+
+    <div class="provider-cards" role="list">
+      <!-- Wise -->
+      <div class="provider-card recommended reveal" role="listitem" aria-label="Wise 汇款">
+        <div class="provider-best-badge">⭐ 最省手续费</div>
+        <div class="provider-info">
+          <div class="provider-logo" style="background:linear-gradient(135deg,#00B9FF,#0057A8);" aria-hidden="true">W</div>
+          <div>
+            <div class="provider-name">Wise（前 TransferWise）</div>
+            <div class="provider-sub">真实中间汇率 · 国际主流首选</div>
+          </div>
+        </div>
+        <div class="provider-stat highlight">
+          <div class="provider-stat-value">0.45%</div>
+          <div class="provider-stat-label">综合汇率优势</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">≈¥9/笔</div>
+          <div class="provider-stat-label">手续费（参考）</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">1–2天</div>
+          <div class="provider-stat-label">预计到账</div>
+        </div>
+        <div class="provider-cta">
+          <a href="#" class="btn-compare" aria-label="了解 Wise 详情（跳转前请确认已验证链接）">了解详情</a>
+        </div>
+      </div>
+
+      <!-- Remitly -->
+      <div class="provider-card reveal reveal-delay-1" role="listitem" aria-label="Remitly 汇款">
+        <div class="provider-info">
+          <div class="provider-logo" style="background:linear-gradient(135deg,#FF5C3A,#E03A20);" aria-hidden="true">R</div>
+          <div>
+            <div class="provider-name">Remitly</div>
+            <div class="provider-sub">速汇档位灵活 · 首笔优惠</div>
+          </div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">0.35%</div>
+          <div class="provider-stat-label">综合汇率优势</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">≈¥25/笔</div>
+          <div class="provider-stat-label">手续费（参考）</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">1–3天</div>
+          <div class="provider-stat-label">预计到账</div>
+        </div>
+        <div class="provider-cta">
+          <a href="#" class="btn-compare" aria-label="了解 Remitly 详情">了解详情</a>
+        </div>
+      </div>
+
+      <!-- Bank Wire -->
+      <div class="provider-card reveal reveal-delay-2" role="listitem" aria-label="银行电汇">
+        <div class="provider-info">
+          <div class="provider-logo" style="background:linear-gradient(135deg,#64748B,#475569);" aria-hidden="true">🏦</div>
+          <div>
+            <div class="provider-name">银行电汇（工行/建行）</div>
+            <div class="provider-sub">传统通道 · 到账稳定</div>
+          </div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">基准</div>
+          <div class="provider-stat-label">汇率（银行牌价）</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">¥150–300</div>
+          <div class="provider-stat-label">手续费（参考）</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">2–5天</div>
+          <div class="provider-stat-label">预计到账</div>
+        </div>
+        <div class="provider-cta">
+          <a href="#" class="btn-compare" aria-label="了解银行电汇详情">了解详情</a>
+        </div>
+      </div>
+
+      <!-- Flywire -->
+      <div class="provider-card reveal reveal-delay-3" role="listitem" aria-label="Flywire 学费直缴">
+        <div class="provider-info">
+          <div class="provider-logo" style="background:linear-gradient(135deg,#7C3AED,#5B21B6);" aria-hidden="true">F</div>
+          <div>
+            <div class="provider-name">Flywire 学费直缴</div>
+            <div class="provider-sub">直达学校账户 · 学费专属</div>
+          </div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">0.25%</div>
+          <div class="provider-stat-label">综合汇率优势</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">¥0/笔</div>
+          <div class="provider-stat-label">手续费（多渠道）</div>
+        </div>
+        <div class="provider-stat">
+          <div class="provider-stat-value">1–3天</div>
+          <div class="provider-stat-label">预计到账</div>
+        </div>
+        <div class="provider-cta">
+          <a href="#" class="btn-compare" aria-label="了解 Flywire 详情">了解详情</a>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:var(--space-md);font-size:0.78rem;color:var(--c-text-muted);">
+      ⚠️ 数据仅供参考，实际汇率及费用请以各平台官网为准。本站独立中立，不代表任何渠道立场。推广链接均通过 go.compares.cheap 追踪（§3.43 合规）。
+    </p>
+  </div>
+</section>
+
+<!-- ===== SCENARIOS ===== -->
+<section class="section" id="scenarios" aria-labelledby="scenarios-title">
+  <div class="container">
+    <div class="section-label">留学缴费场景</div>
+    <h2 class="section-title" id="scenarios-title">这些场景，你选哪条路最省？</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">每年学费、生活费、押金——不同场景，最优渠道不一样。</p>
+    <div class="scenario-grid">
+      <div class="scenario-card reveal">
+        <div class="scenario-icon" aria-hidden="true">🎓</div>
+        <div class="scenario-title">一次性缴学费<br>（大金额¥50,000+）</div>
+        <p class="scenario-desc">
+          澳英加美院校学费通常单笔 5–15 万人民币，汇率差 0.5% 就是 250–750 元。学费专项渠道 Flywire 直达学校账户，免去中间转账风险；Wise 汇率更优但需对方学校账户支持。
+        </p>
+        <div class="scenario-tip">大金额学费优先考虑 Flywire 或 Wise，避免银行高额电报费吃掉节省。</div>
+      </div>
+      <div class="scenario-card reveal reveal-delay-1">
+        <div class="scenario-icon" aria-hidden="true">🏠</div>
+        <div class="scenario-title">每月生活费<br>（小额高频¥5,000–¥15,000）</div>
+        <p class="scenario-desc">
+          家长每月打生活费，频次高、单笔较小。Wise 支持分批发送、汇率稳定、App 操作便捷；Remitly 首笔无手续费优惠适合尝试。银行电报费按笔收，频率高反而亏。
+        </p>
+        <div class="scenario-tip">月度生活费用 Wise 最划算，固定汇款可开启定期提醒功能。</div>
+      </div>
+      <div class="scenario-card reveal reveal-delay-2">
+        <div class="scenario-icon" aria-hidden="true">🏡</div>
+        <div class="scenario-title">房租押金<br>（中等¥10,000–¥30,000）</div>
+        <p class="scenario-desc">
+          租房押金往往要求 2–4 周租金，到账时效要求高。Wise 1–2 个工作日稳定；部分学校专属平台也接受 Flywire 房租支付。传统电汇 3–5 天可能影响交房时间。
+        </p>
+        <div class="scenario-tip">押金时效敏感，选 Wise 或 Remitly 速汇档位，不要用银行电汇赌时间。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ARRIVAL TIME ===== -->
+<section class="section section-alt" id="arrival" aria-labelledby="arrival-title">
+  <div class="container">
+    <div class="section-label">到账时效对比</div>
+    <h2 class="section-title" id="arrival-title">钱什么时候到，一眼看清</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">到账时间影响学费缴纳截止日、押金时效。以下为 CNY→AUD 工作日场景参考。</p>
+    <div class="arrival-cards">
+      <div class="arrival-card reveal">
+        <div class="arrival-time-bar"><div class="arrival-bar-fill" style="background:var(--c-green);width:20%;"></div></div>
+        <div class="arrival-icon" aria-hidden="true">⚡</div>
+        <div class="arrival-provider">Wise</div>
+        <div class="arrival-time fast">1–2天</div>
+        <div class="arrival-label">工作日最快次日达</div>
+      </div>
+      <div class="arrival-card reveal reveal-delay-1">
+        <div class="arrival-time-bar"><div class="arrival-bar-fill" style="background:var(--c-blue-light);width:35%;"></div></div>
+        <div class="arrival-icon" aria-hidden="true">🔄</div>
+        <div class="arrival-provider">Remitly</div>
+        <div class="arrival-time fast">1–3天</div>
+        <div class="arrival-label">速汇档可选加急</div>
+      </div>
+      <div class="arrival-card reveal reveal-delay-2">
+        <div class="arrival-time-bar"><div class="arrival-bar-fill" style="background:var(--c-gold);width:60%;"></div></div>
+        <div class="arrival-icon" aria-hidden="true">🏫</div>
+        <div class="arrival-provider">Flywire</div>
+        <div class="arrival-time">2–3天</div>
+        <div class="arrival-label">直达学校账户</div>
+      </div>
+      <div class="arrival-card reveal reveal-delay-3">
+        <div class="arrival-time-bar"><div class="arrival-bar-fill" style="background:var(--c-red);width:90%;"></div></div>
+        <div class="arrival-icon" aria-hidden="true">🏦</div>
+        <div class="arrival-provider">银行电汇</div>
+        <div class="arrival-time slow">3–5天</div>
+        <div class="arrival-label">受节假日影响较大</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SAVING TIPS ===== -->
+<section class="section" id="tips" aria-labelledby="tips-title">
+  <div class="container">
+    <div class="section-label">省钱攻略</div>
+    <h2 class="section-title" id="tips-title">汇款省钱，这六招要知道</h2>
+    <div class="divider"></div>
+    <p class="section-subtitle">留学 4 年，光是汇款手续费就能攒下一张回国机票。</p>
+    <div class="tips-grid">
+      <div class="tip-card reveal">
+        <div class="tip-num" aria-hidden="true">1</div>
+        <div class="tip-body">
+          <div class="tip-title">避开银行牌价，选中间汇率渠道</div>
+          <p class="tip-text">银行公告汇率在中间价基础上加点 1–2%，Wise 使用真实中间价，单笔 5 万汇款可节省约 500–1,000 元。</p>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-num" aria-hidden="true">2</div>
+        <div class="tip-body">
+          <div class="tip-title">学费用 Flywire，直达不绕路</div>
+          <p class="tip-text">合作院校可通过 Flywire 直接缴学费，到账时间比电汇快、无需担心汇款被拦截或退回，减少沟通成本。</p>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-num" aria-hidden="true">3</div>
+        <div class="tip-body">
+          <div class="tip-title">关注汇率低点，批量汇一次</div>
+          <p class="tip-text">人民币汇率有周期性波动，学期开始前提前关注汇率走势，汇率相对低时一次性汇整学期费用比月月汇更省。</p>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-3">
+        <div class="tip-num" aria-hidden="true">4</div>
+        <div class="tip-body">
+          <div class="tip-title">首次注册平台享新客优惠</div>
+          <p class="tip-text">Remitly、Wise 等平台均有新用户首笔免手续费或优惠汇率活动，家长和学生可分别注册享受各自优惠，合计省 50–200 元。</p>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-num" aria-hidden="true">5</div>
+        <div class="tip-body">
+          <div class="tip-title">对比总到账金额，不只看手续费</div>
+          <p class="tip-text">有的平台宣称"0 手续费"，实则汇率差更大。真正的省钱要比对方收到的金额，而不是单看手续费一栏。</p>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-num" aria-hidden="true">6</div>
+        <div class="tip-body">
+          <div class="tip-title">提前 3 天汇款，别赶最后期限</div>
+          <p class="tip-text">跨境汇款最快 1 天、最慢 5 天，遇上节假日还会延误。学费缴纳截止前预留 3–5 个工作日，避免逾期罚款。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section section-alt" id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <div class="section-label">常见问题</div>
+    <h2 class="section-title" id="faq-title">家长常问的汇款问题</h2>
+    <div class="divider"></div>
+    <div class="faq-list" role="list">
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq1">
+          Wise 和银行电汇哪个更安全？
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq1" role="region">
+          <div class="faq-answer-inner">
+            Wise 是英国金融行为监管局（FCA）持牌机构，在澳大利亚受 AUSTRAC 监管，客户资金存放于独立银行账户与公司运营资金完全分离，安全性有充分保障。银行电汇同样安全，两者都是受监管机构。Wise 的优势在于汇率透明、费用低，不是安全层面的劣势。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq2">
+          每人每年汇款有限额吗？
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq2" role="region">
+          <div class="faq-answer-inner">
+            中国外汇管理局规定，中国居民个人每年境外汇款等值 5 万美元以内无需申报，超出需要提交相关材料。留学学费及生活费属于经常项下项目，凭录取通知书、在读证明等可办理，通常不受此额度限制，但具体以银行及外汇局当时政策为准。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq3">
+          Flywire 只能缴学费吗？
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq3" role="region">
+          <div class="faq-answer-inner">
+            Flywire 最初以学费支付起家，目前支持澳大利亚、英国、美国、加拿大等主要留学目的地的大学学费直缴。部分学生公寓、语言学校也接入了 Flywire。生活费和个人消费汇款一般仍选 Wise 或 Remitly。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq4">
+          汇款需要填写哪些信息？
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq4" role="region">
+          <div class="faq-answer-inner">
+            通常需要：收款人姓名（与银行账户一致）、收款银行 SWIFT/BIC 代码、账号或 IBAN（欧洲）、银行地址；缴学费时还需填写学校账户及学生学号。Flywire 直缴学费只需学校名称和学号，无需银行信息。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" aria-expanded="false" aria-controls="faq5">
+          汇款后多久能确认到账？
+          <span class="faq-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="faq-answer" id="faq5" role="region">
+          <div class="faq-answer-inner">
+            Wise 提供实时追踪，App 内可看到汇款在哪个阶段；Remitly 同样有状态提醒。银行电汇通常通过 SWIFT 报文追踪，需向银行柜台申请查询，效率较低。学费缴纳后可要求学校财务开具收款确认函。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDITORIAL PICKS ===== -->
+<section class="section" id="editorial" aria-labelledby="editorial-title">
+  <div class="container">
+    <div class="section-label">编辑精选</div>
+    <h2 class="section-title" id="editorial-title">留学汇款必看攻略</h2>
+    <div class="divider"></div>
+    <div class="editorial-grid">
+      <article class="article-card reveal">
+        <div class="article-thumb">
+          <img
+            class="article-thumb-bg"
+            src="https://images.pexels.com/photos/4386442/pexels-photo-4386442.jpeg?auto=compress&cs=tinysrgb&w=640&h=360&fit=crop"
+            alt="Wise 汇款评测封面——手机屏幕上显示汇率转换"
+            loading="lazy"
+            width="640" height="360">
+          <span class="article-category">渠道评测</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">2026 年 Wise 汇款留学生真实评测：汇率、手续费、到账全解</h3>
+          <div class="article-meta">
+            <span>汇款比价编辑部</span>
+            <span class="article-meta-dot">·</span>
+            <span>2026-06-15</span>
+          </div>
+        </div>
+      </article>
+      <article class="article-card reveal reveal-delay-1">
+        <div class="article-thumb">
+          <img
+            class="article-thumb-bg"
+            src="https://images.pexels.com/photos/6289174/pexels-photo-6289174.jpeg?auto=compress&cs=tinysrgb&w=640&h=360&fit=crop"
+            alt="学费缴纳攻略封面——大学校园建筑"
+            loading="lazy"
+            width="640" height="360">
+          <span class="article-category">学费缴纳</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">留学学费如何缴最省？Flywire vs 银行电汇 vs Wise 横向对比</h3>
+          <div class="article-meta">
+            <span>汇款比价编辑部</span>
+            <span class="article-meta-dot">·</span>
+            <span>2026-06-08</span>
+          </div>
+        </div>
+      </article>
+      <article class="article-card reveal reveal-delay-2">
+        <div class="article-thumb">
+          <img
+            class="article-thumb-bg"
+            src="https://images.pexels.com/photos/5849567/pexels-photo-5849567.jpeg?auto=compress&cs=tinysrgb&w=640&h=360&fit=crop"
+            alt="外汇限额攻略封面——人民币现金"
+            loading="lazy"
+            width="640" height="360">
+          <span class="article-category">外汇政策</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">2026 年中国外汇 5 万美元年度限额：留学汇款家长必读</h3>
+          <div class="article-meta">
+            <span>汇款比价编辑部</span>
+            <span class="article-meta-dot">·</span>
+            <span>2026-06-01</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div style="text-align:center;margin-top:var(--space-xl);">
+      <a href="#" class="btn-primary" style="display:inline-flex;" aria-label="查看全部攻略文章">查看全部攻略 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRUST BAND ===== -->
+<div class="trust-band" aria-label="平台信任背书">
+  <div class="container">
+    <div class="trust-inner">
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">🔒</span>
+        <span>数据独立中立，无渠道利益捆绑</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">📊</span>
+        <span>每日更新汇率参考数据</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">✅</span>
+        <span>编辑团队真实测试各平台</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon" aria-hidden="true">🎓</span>
+        <span>专为留学生家庭设计</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+
+<script>
+// ---- SCROLL EFFECTS ----
+  const nav = document.getElementById('mainNav');
+  const backTop = document.getElementById('backTop');
+  const heroBg = document.getElementById('heroBg');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 60);
+    backTop.classList.toggle('show', y > 400);
+  }, { passive: true });
+
+  // Hero BG parallax subtle
+  window.addEventListener('scroll', () => {
+    if (heroBg) {
+      heroBg.style.transform = `scale(1.04) translateY(${window.scrollY * 0.12}px)`;
+    }
+  }, { passive: true });
+
+  // Hero BG load effect
+  window.addEventListener('load', () => {
+    if (heroBg) heroBg.classList.add('loaded');
+  });
+
+  // ---- SCROLL REVEAL ----
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ---- HAMBURGER ----
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+  });
+  // Close on nav link click
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', false);
+    });
+  });
+
+  // ---- CALCULATOR ----
+  const PROVIDERS = [
+    {
+      name: 'Wise',
+      feeBase: 9,       // flat CNY
+      feePct: 0.0046,   // % of CNY amount
+      rateFactor: 1.000,// uses true mid-rate
+      badge: '最省手续费',
+      color: '#0057A8'
+    },
+    {
+      name: 'Remitly',
+      feeBase: 25,
+      feePct: 0.0020,
+      rateFactor: 0.994,
+      badge: '',
+      color: '#E03A20'
+    },
+    {
+      name: 'Flywire',
+      feeBase: 0,
+      feePct: 0.0000,
+      rateFactor: 0.996,
+      badge: '学费直缴',
+      color: '#7C3AED'
+    },
+    {
+      name: '银行电汇',
+      feeBase: 200,
+      feePct: 0.0010,
+      rateFactor: 0.980,
+      badge: '',
+      color: '#475569'
+    }
+  ];
+
+  function runCalc() {
+    const btn = document.getElementById('calcBtn');
+    const btnText = document.getElementById('calcBtnText');
+    const btnIcon = document.getElementById('calcBtnIcon');
+    const amountInput = document.getElementById('calcAmount');
+    const targetSel = document.getElementById('calcTarget');
+    const resultsDiv = document.getElementById('calcResults');
+
+    const amount = parseFloat(amountInput.value) || 50000;
+    const selectedOpt = targetSel.selectedOptions[0];
+    const baseRate = parseFloat(selectedOpt.dataset.rate);
+    const currency = targetSel.value;
+
+    // Loading state
+    btn.classList.add('loading');
+    btnText.textContent = '计算中…';
+    btnIcon.textContent = '⏳';
+
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      btnText.textContent = '重新计算';
+      btnIcon.textContent = '↺';
+
+      // Compute results
+      const results = PROVIDERS.map(p => {
+        const fee = p.feeBase + amount * p.feePct;
+        const netCNY = amount - fee;
+        const received = netCNY * baseRate * p.rateFactor;
+        return { ...p, fee, received };
+      }).sort((a, b) => b.received - a.received);
+
+      const best = results[0];
+
+      let html = '';
+      results.forEach((r, i) => {
+        const isBest = i === 0;
+        const savingVsWorst = r.received - results[results.length - 1].received;
+        html += `
+          <div class="calc-result-row ${isBest ? 'best' : ''}">
+            <div>
+              <div class="result-provider">
+                <span style="width:8px;height:8px;border-radius:50%;background:${r.color};display:inline-block;flex-shrink:0;" aria-hidden="true"></span>
+                ${r.name}
+                ${r.badge ? `<span class="result-badge">${r.badge}</span>` : ''}
+              </div>
+              <div class="result-fee">手续费约 ¥${Math.round(r.fee).toLocaleString()}</div>
+            </div>
+            <div>
+              <div class="result-amount">${currency} ${r.received.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+              ${isBest ? `<div class="result-fee" style="color:var(--c-green)">最多到账</div>` : `<div class="result-fee">少 ${currency} ${(best.received - r.received).toFixed(0)}</div>`}
+            </div>
+          </div>
+        `;
+      });
+
+      html += `<p class="calc-disclaimer">汇率数据为参考估算，实际以各平台为准。推广链接已合规标注（§3.43）。</p>`;
+      resultsDiv.innerHTML = html;
+      resultsDiv.classList.add('show');
+    }, 800);
+  }
+
+  // ---- FAQ ACCORDION ----
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ---- WIDGET ----
+  let widgetOpen = false;
+  function toggleWidget() {
+    widgetOpen = !widgetOpen;
+    document.getElementById('widgetPanel').classList.toggle('open', widgetOpen);
+    document.getElementById('widgetBubble').setAttribute('aria-expanded', widgetOpen);
+    if (widgetOpen) {
+      setTimeout(() => document.getElementById('widgetInput').focus(), 300);
+    }
+  }
+
+  const BOT_REPLIES = {
+    '澳洲学费怎么缴最省？': '缴澳洲学费建议优先用 Flywire——直达学校账户、到账稳定、部分学校合作免汇率差。大金额（>5万CNY）也可以考虑 Wise，真实中间汇率比银行牌价省约 0.5%。银行电汇虽然稳妥，但手续费 ¥150–300 加上汇率差，5万以上能差出好几百元。需要我帮你算一下具体差多少吗？',
+    'Wise 安全吗？': 'Wise 非常安全！它是英国 FCA 持牌机构，在澳大利亚受 AUSTRAC 监管，客户资金存放在独立账户，与公司运营资金完全分开。全球每月处理超过 100 亿美元，是国际汇款领域最合规透明的平台之一。',
+    '每月生活费用哪个渠道？': '月度生活费（5000–15000 CNY）用 Wise 最合适：✅ 真实中间汇率无隐藏加价，✅ App 操作简单可设定金额，✅ 1–2 工作日到账，✅ 手续费低（约 ¥9 起）。Remitly 首笔有新客优惠也可以试试。银行电汇手续费按笔收，频次高亏多。'
+  };
+
+  function widgetSend(preset) {
+    const input = document.getElementById('widgetInput');
+    const msgs = document.getElementById('widgetMsgs');
+    const text = preset || input.value.trim();
+    if (!text) return;
+
+    // Remove quick btns
+    const qBtns = msgs.querySelector('.widget-quick-btns');
+    if (qBtns) qBtns.remove();
+
+    // User bubble
+    const userMsg = document.createElement('div');
+    userMsg.className = 'msg user';
+    userMsg.textContent = text;
+    msgs.appendChild(userMsg);
+    input.value = '';
+    msgs.scrollTop = msgs.scrollHeight;
+
+    // Typing indicator
+    const typing = document.createElement('div');
+    typing.className = 'msg-typing';
+    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    msgs.appendChild(typing);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    // Bot reply
+    setTimeout(() => {
+      msgs.removeChild(typing);
+      const reply = BOT_REPLIES[text] || '好的！请告诉我你想汇款的目标国家和大约金额，我来帮你比较哪条渠道最省钱。';
+      const botMsg = document.createElement('div');
+      botMsg.className = 'msg bot';
+      botMsg.textContent = reply;
+      msgs.appendChild(botMsg);
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 1200);
+  }
+
+  // ---- SMOOTH SCROLL for nav links ----
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ---- ARRIVAL BAR ANIMATE ----
+  const arrivalObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.arrival-bar-fill').forEach(bar => {
+          const w = bar.style.width;
+          bar.style.width = '0';
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => { bar.style.width = w; });
+          });
+        });
+        arrivalObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.arrival-cards').forEach(el => arrivalObserver.observe(el));
+</script>

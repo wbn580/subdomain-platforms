@@ -1,0 +1,653 @@
+---
+// Bespoke homepage content
+---
+
+  </nav>
+
+  <!-- ========================= HERO ========================= -->
+  <section class="hero" id="hero" aria-label="首屏">
+    <div class="hero__bg" id="heroBg"
+         role="img"
+         aria-label="上海陆家嘴夜景天际线"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+    <div class="hero__grid-lines" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <div class="hero__badge" role="status" aria-label="实时在线">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        实时政策数据 · 2026年最新口径
+      </div>
+      <h1 class="hero__title">
+        海归落户<em>积分</em><br>一键测算，心中有数
+      </h1>
+      <p class="hero__sub">
+        覆盖北京、上海、广州、深圳四大城市落户政策。<br>
+        输入学历、年龄、社保年限，即时估算你的落户分数。
+      </p>
+      <div class="hero__actions">
+        <a href="#calculator" class="btn-primary">
+          <span>⚡</span> 立即测算我的分数
+        </a>
+        <a href="#cities" class="btn-secondary">
+          <span>🏙</span> 查看各城市门槛
+        </a>
+      </div>
+      <div class="hero__stats" role="list" aria-label="平台数据概况">
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num">12<span>万+</span></div>
+          <div class="hero__stat-label">海归查询次数</div>
+        </div>
+        <div class="hero__divider" aria-hidden="true"></div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num">4</div>
+          <div class="hero__stat-label">核心城市覆盖</div>
+        </div>
+        <div class="hero__divider" aria-hidden="true"></div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num">2026</div>
+          <div class="hero__stat-label">政策更新年份</div>
+        </div>
+        <div class="hero__divider" aria-hidden="true"></div>
+        <div class="hero__stat" role="listitem">
+          <div class="hero__stat-num">0</div>
+          <div class="hero__stat-label">元免费使用</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= CALCULATOR ========================= -->
+  <section class="calc-section" id="calculator" aria-label="落户积分计算器">
+    <div class="container">
+      <div class="calc-card" role="main">
+        <div class="calc-header">
+          <div class="calc-header-icon" aria-hidden="true">🧮</div>
+          <div class="calc-header-text">
+            <h2>落户积分快速测算</h2>
+            <p>选择目标城市，填写基本信息，即时估算落户总分</p>
+          </div>
+          <div class="calc-header-badge" role="status">实时演示</div>
+        </div>
+
+        <div class="calc-body">
+          <!-- City Tabs -->
+          <div class="calc-city-tabs" role="tablist" aria-label="选择目标城市">
+            <button class="city-tab active" role="tab" aria-selected="true"
+                    data-city="sh" onclick="switchCity(this, 'sh')">🏙 上海</button>
+            <button class="city-tab" role="tab" aria-selected="false"
+                    data-city="bj" onclick="switchCity(this, 'bj')">🏯 北京</button>
+            <button class="city-tab" role="tab" aria-selected="false"
+                    data-city="gz" onclick="switchCity(this, 'gz')">🌸 广州</button>
+            <button class="city-tab" role="tab" aria-selected="false"
+                    data-city="sz" onclick="switchCity(this, 'sz')">🌊 深圳</button>
+          </div>
+
+          <!-- Form Grid -->
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label for="eduLevel">最高学历<span>*</span></label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="eduLevel" aria-label="最高学历" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="phd">博士（国外/国内）</option>
+                  <option value="master_oversea">境外硕士（海外认证）</option>
+                  <option value="master_domestic">国内硕士</option>
+                  <option value="bachelor_oversea">境外本科（海外认证）</option>
+                  <option value="bachelor_domestic">国内本科（985/211）</option>
+                  <option value="bachelor_other">国内本科（其他院校）</option>
+                  <option value="college">大专/高职</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="uniTier">院校层次（境外院校适用）</label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="uniTier" aria-label="院校层次" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="qs50">QS Top 50</option>
+                  <option value="qs100">QS 51–100</option>
+                  <option value="qs200">QS 101–200</option>
+                  <option value="qs500">QS 201–500</option>
+                  <option value="other">其他境外院校</option>
+                  <option value="na">不适用（国内院校）</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="ageGroup">年龄段<span>*</span></label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="ageGroup" aria-label="年龄段" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="u25">25岁以下</option>
+                  <option value="25_30">25–30岁</option>
+                  <option value="30_35">30–35岁</option>
+                  <option value="35_40">35–40岁</option>
+                  <option value="o40">40岁以上</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="socialSec">在目标城市社保缴纳年限<span>*</span></label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="socialSec" aria-label="社保缴纳年限" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="0">尚未缴纳</option>
+                  <option value="1">1年以下</option>
+                  <option value="2">1–3年</option>
+                  <option value="5">3–5年</option>
+                  <option value="7">5–7年</option>
+                  <option value="10">7–10年</option>
+                  <option value="15">10年以上</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="overseasYrs">境外学习/工作年限</label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="overseasYrs" aria-label="境外经历年限" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="0">无境外经历</option>
+                  <option value="1">1年以下</option>
+                  <option value="2">1–2年</option>
+                  <option value="4">2–4年</option>
+                  <option value="5">4年以上</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label for="sector">所在行业/岗位类别</label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="sector" aria-label="所在行业" onchange="calcScore()">
+                  <option value="">— 请选择 —</option>
+                  <option value="tech">科技/互联网/AI</option>
+                  <option value="finance">金融/证券/保险</option>
+                  <option value="bio">生物医药/医疗健康</option>
+                  <option value="edu">教育/科研</option>
+                  <option value="gov">国有企事业单位</option>
+                  <option value="service">服务业/其他</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-field calc-full">
+              <label for="specialTalent">特殊人才加分项（多选适用）</label>
+              <div class="calc-select-wrap">
+                <select class="calc-select" id="specialTalent" aria-label="特殊人才加分" onchange="calcScore()">
+                  <option value="0">无特殊加分</option>
+                  <option value="15">持有中国政府奖学金</option>
+                  <option value="20">国家重点人才计划入选者</option>
+                  <option value="10">持有境外专业执照（CPA/律师/工程师）</option>
+                  <option value="12">创业/初创公司注册（本地）</option>
+                  <option value="8">持有发明专利（已授权）</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading Skeleton -->
+          <div class="calc-skeleton" id="calcSkeleton" aria-live="polite" aria-label="计算中">
+            <div class="skel-row" style="width:100%"></div>
+            <div class="skel-row" style="width:85%"></div>
+            <div class="skel-row"></div>
+          </div>
+
+          <!-- Result Panel -->
+          <div class="calc-result" id="calcResult" role="region" aria-live="polite" aria-label="测算结果">
+            <div class="result-header">
+              <div class="result-score-ring" aria-hidden="true">
+                <svg viewBox="0 0 72 72">
+                  <circle class="ring-bg" cx="36" cy="36" r="28"></circle>
+                  <circle class="ring-fg" cx="36" cy="36" r="28" id="ringFg"></circle>
+                </svg>
+                <div class="ring-label">
+                  <div class="ring-num" id="totalScore">—</div>
+                  <div class="ring-unit">分</div>
+                </div>
+              </div>
+              <div class="result-meta">
+                <h3 id="resultCityLabel">上海落户积分估算</h3>
+                <p id="resultThreshold">当前门槛：约 120 分（以官方公告为准）</p>
+                <span class="result-verdict" id="resultVerdict"></span>
+              </div>
+            </div>
+            <div class="result-breakdown">
+              <div class="breakdown-item">
+                <div class="bi-label">学历学位</div>
+                <div class="bi-score" id="brkEdu">— <span>分</span></div>
+              </div>
+              <div class="breakdown-item">
+                <div class="bi-label">年龄加分</div>
+                <div class="bi-score" id="brkAge">— <span>分</span></div>
+              </div>
+              <div class="breakdown-item">
+                <div class="bi-label">社保缴纳</div>
+                <div class="bi-score" id="brkSocial">— <span>分</span></div>
+              </div>
+              <div class="breakdown-item">
+                <div class="bi-label">境外经历</div>
+                <div class="bi-score" id="brkOverseas">— <span>分</span></div>
+              </div>
+              <div class="breakdown-item">
+                <div class="bi-label">院校加成</div>
+                <div class="bi-score" id="brkUni">— <span>分</span></div>
+              </div>
+              <div class="breakdown-item">
+                <div class="bi-label">特殊加分</div>
+                <div class="bi-score" id="brkSpecial">— <span>分</span></div>
+              </div>
+            </div>
+            <div class="result-disclaimer">
+              仅供参考，以官方公告及主管部门最终核定为准。具体分数计算规则因城市政策调整有所变化，建议咨询专业顾问。
+            </div>
+          </div>
+
+          <button class="calc-run-btn" id="calcRunBtn" onclick="runCalc()" aria-label="点击测算落户分数">
+            <span class="btn-icon">⚡</span>
+            立即测算我的落户分数
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= CITY POLICIES ========================= -->
+  <section class="city-section" id="cities" aria-label="各城市落户政策对比">
+    <div class="container">
+      <header class="section-header reveal">
+        <div class="section-label" aria-hidden="true">城市政策</div>
+        <h2 class="section-title">四大城市落户门槛一览</h2>
+        <p class="section-sub">数据依据 2026 年公开政策口径整理，海归专属通道标注。</p>
+      </header>
+      <div class="city-grid" role="list">
+
+        <article class="city-card reveal" role="listitem" tabindex="0" aria-label="上海落户政策">
+          <div class="city-card__top">
+            <span class="city-card__emoji" aria-hidden="true">🏙</span>
+            <div class="city-card__name">上海</div>
+            <div class="city-card__route">居住证积分 → 居转户 → 直接落户</div>
+          </div>
+          <div class="city-card__body">
+            <div class="city-card__threshold">
+              <span class="threshold-num">120</span>
+              <span class="threshold-unit">分 门槛</span>
+            </div>
+            <p class="city-card__label">居住证积分申请基准线</p>
+            <div class="city-tag-list">
+              <span class="city-tag highlight">海归直接落户</span>
+              <span class="city-tag highlight">QS百强校加分</span>
+              <span class="city-tag">7年居住证转户</span>
+              <span class="city-tag">人才引进绿道</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="city-card city-card--bj reveal" role="listitem" tabindex="0" aria-label="北京落户政策">
+          <div class="city-card__top">
+            <span class="city-card__emoji" aria-hidden="true">🏯</span>
+            <div class="city-card__name">北京</div>
+            <div class="city-card__route">积分落户 → 工作居住证 → 户籍迁入</div>
+          </div>
+          <div class="city-card__body">
+            <div class="city-card__threshold">
+              <span class="threshold-num">100</span>
+              <span class="threshold-unit">分 参考线</span>
+            </div>
+            <p class="city-card__label">积分落户竞争排名参考</p>
+            <div class="city-tag-list">
+              <span class="city-tag highlight">博士直接落户</span>
+              <span class="city-tag highlight">北京工作居住证</span>
+              <span class="city-tag">年度名额配额制</span>
+              <span class="city-tag">重点单位引进</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="city-card city-card--gz reveal" role="listitem" tabindex="0" aria-label="广州落户政策">
+          <div class="city-card__top">
+            <span class="city-card__emoji" aria-hidden="true">🌸</span>
+            <div class="city-card__name">广州</div>
+            <div class="city-card__route">积分制 → 人才引进 → 投资落户</div>
+          </div>
+          <div class="city-card__body">
+            <div class="city-card__threshold">
+              <span class="threshold-num">60</span>
+              <span class="threshold-unit">分 基准线</span>
+            </div>
+            <p class="city-card__label">积分制入户申请基准分</p>
+            <div class="city-tag-list">
+              <span class="city-tag highlight">人才引进快速通道</span>
+              <span class="city-tag">学历型人才</span>
+              <span class="city-tag">社保年限加权</span>
+              <span class="city-tag">创业加分</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="city-card city-card--sz reveal" role="listitem" tabindex="0" aria-label="深圳落户政策">
+          <div class="city-card__top">
+            <span class="city-card__emoji" aria-hidden="true">🌊</span>
+            <div class="city-card__name">深圳</div>
+            <div class="city-card__route">核准制 → 积分制 → 人才引进</div>
+          </div>
+          <div class="city-card__body">
+            <div class="city-card__threshold">
+              <span class="threshold-num">100</span>
+              <span class="threshold-unit">分 目标线</span>
+            </div>
+            <p class="city-card__label">秒批条件：本科+社保1年</p>
+            <div class="city-tag-list">
+              <span class="city-tag highlight">本科以上秒批</span>
+              <span class="city-tag highlight">海外名校绿道</span>
+              <span class="city-tag">医疗福利配套</span>
+              <span class="city-tag">无名额限制</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= HAIGUI CHANNEL ========================= -->
+  <section class="channel-section" id="channel" aria-label="海归专属落户通道">
+    <div class="container">
+      <div class="channel-grid">
+        <div class="channel-visual reveal" aria-hidden="true">
+          <div class="channel-visual-bg"></div>
+          <div class="channel-visual-grid"></div>
+          <div class="channel-cards">
+            <div class="channel-mini-card">
+              <div class="channel-mini-icon cmi-green">🎓</div>
+              <div class="channel-mini-text">
+                <div class="channel-mini-title">境外学历认证通道</div>
+                <div class="channel-mini-sub">教育部学信网 CSSD 认证加分</div>
+              </div>
+              <div class="channel-mini-score">+25</div>
+            </div>
+            <div class="channel-mini-card">
+              <div class="channel-mini-icon cmi-blue">🏅</div>
+              <div class="channel-mini-text">
+                <div class="channel-mini-title">QS百强校优先通道</div>
+                <div class="channel-mini-sub">Top50 院校专项加权</div>
+              </div>
+              <div class="channel-mini-score">+30</div>
+            </div>
+            <div class="channel-mini-card">
+              <div class="channel-mini-icon cmi-gold">⚡</div>
+              <div class="channel-mini-text">
+                <div class="channel-mini-title">人才引进绿道</div>
+                <div class="channel-mini-sub">海外工作经验专项认定</div>
+              </div>
+              <div class="channel-mini-score">+20</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="channel-content reveal">
+          <div class="section-label" aria-hidden="true">海归专属</div>
+          <h2 class="section-title">比普通积分多走哪些绿道？</h2>
+          <p class="section-sub" style="margin-bottom:32px">
+            持境外学历回国，可叠加多项海归专属加分政策，部分城市支持直接落户。
+          </p>
+
+          <div class="channel-item">
+            <div class="channel-item-num" aria-hidden="true">01</div>
+            <div class="channel-item-body">
+              <h4>境外学历认证加分</h4>
+              <p>完成教育部学信网（CSSD）认证的境外学历，可额外获得加分。认证等级与国内学历对应层次决定分值。</p>
+            </div>
+          </div>
+          <div class="channel-item">
+            <div class="channel-item-num" aria-hidden="true">02</div>
+            <div class="channel-item-body">
+              <h4>QS/THE 世界百强院校专项加权</h4>
+              <p>毕业于 QS Top 100、THE Top 100 院校者，多城市设有专项加权系数，部分城市（如深圳）直接进入快速通道。</p>
+            </div>
+          </div>
+          <div class="channel-item">
+            <div class="channel-item-num" aria-hidden="true">03</div>
+            <div class="channel-item-body">
+              <h4>海外工作经历年限折算</h4>
+              <p>在境外取得正式工作经历并持合法签证证明的，可按年限折算为积分。UNILINK 可协助材料梳理与申报。</p>
+            </div>
+          </div>
+          <div class="channel-item">
+            <div class="channel-item-num" aria-hidden="true">04</div>
+            <div class="channel-item-body">
+              <h4>紧缺人才直接引进</h4>
+              <p>AI、生物医药、新能源、集成电路等重点行业从业者，可申请人才引进直接落户，不受积分名额限制。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= FLOW ========================= -->
+  <section class="flow-section" id="flow" aria-label="海归落户办理流程">
+    <div class="container">
+      <header class="section-header reveal" style="text-align:center; max-width:560px; margin:0 auto 48px;">
+        <div class="section-label" aria-hidden="true">办理流程</div>
+        <h2 class="section-title">从学历认证到落户拿证</h2>
+        <p class="section-sub" style="margin:0 auto">五步走完整流程，清晰了解每个环节所需时间。</p>
+      </header>
+      <div class="flow-steps reveal">
+        <div class="flow-step active">
+          <div class="flow-step-icon" aria-hidden="true">📋</div>
+          <h4>学历认证</h4>
+          <p>教育部学信网提交境外学历认证，约 30–60 个工作日</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon" aria-hidden="true">📁</div>
+          <h4>材料准备</h4>
+          <p>护照、认证书、社保记录、劳动合同等关键文件整理</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon" aria-hidden="true">📤</div>
+          <h4>网上申报</h4>
+          <p>登录目标城市积分管理系统完成在线填报与材料上传</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon" aria-hidden="true">🔍</div>
+          <h4>审核公示</h4>
+          <p>经街道/区级初审、复审及公示期（约 20 个工作日）</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-icon" aria-hidden="true">🏠</div>
+          <h4>落户拿证</h4>
+          <p>公示无异议后，在指定派出所办理户口迁移手续</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= FAQ ========================= -->
+  <section class="faq-section" id="faq" aria-label="常见问题解答">
+    <div class="container">
+      <header class="section-header reveal">
+        <div class="section-label" aria-hidden="true">常见问题</div>
+        <h2 class="section-title">海归落户高频疑问</h2>
+        <p class="section-sub">以下答案基于 2026 年公开政策整理，具体情况建议咨询专业顾问。</p>
+      </header>
+      <div class="faq-grid" role="list">
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">境外学历一定要做认证才能算分吗？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              是的。境外学历需在教育部学信网（CSSD）完成学历认证，并取得《国外学历学位认证书》。认证通过后才可按对应学历层次计入积分。未认证的境外学历，在大多数城市积分系统中仅按高中同等对待。
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">在国外缴纳的养老/社保可以折算到国内吗？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              一般不能直接折算。国内积分系统计算的社保年限，特指在目标城市连续缴纳的城镇职工社会保险月数。境外社保记录通常不被认可，但在部分城市（如上海），持有境外合法工作记录可申请"海外经历加分"，需提供雇主证明和签证记录。
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">上海"直接落户"和"积分落户"有什么区别？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              上海"直接落户"（应届留学生落户）指毕业两年内的境外学历持有者，在沪就业后可绕过积分排队直接申请户口，享有全程绿色通道。"积分落户"则需先申领居住证并积累积分至 120 分，再等待公示名单。直接落户通道门槛更低，但对毕业年限有严格限制。
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">年龄越小积分越高吗？有没有年龄上限？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              多数城市积分系统对年龄设有加分区间，通常 45 岁以下有正向加分，45 岁以上则可能不计年龄分或有一定扣减（具体以各城市发布的积分标准为准）。上海积分系统中，年龄段满足条件者可获 0–30 分不等。年龄本身没有"拒绝申请"的硬性上限，但综合得分会受影响。
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">深圳的"秒批"政策是真的吗？条件是什么？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              是真实政策。深圳"秒批"落户针对学历型人才核准制，条件包括：① 全日制本科以上学历（含境外认证）② 在深圳就业（需提供劳动合同/营业执照）③ 在深圳缴纳社会保险满 1 个月以上。符合条件者系统自动审批，一般 1–3 个工作日内批复，部分情况当天完成，无名额限制。
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="listitem">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+            <span class="faq-q-text">同时在两个城市工作，可以选择分数高的那个申报吗？</span>
+            <span class="faq-toggle" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a" role="region">
+            <div class="faq-a-inner">
+              理论上可以，但实际存在限制：① 社保必须是在目标城市缴纳的记录 ② 居住证必须在目标城市申领 ③ 很多城市要求实际工作和居住地一致（需提供劳动合同、工资记录、通讯地址等证明）。建议在选择落户城市前，先稳定社保缴纳关系，再按该城市要求准备材料，避免后续材料审核失败。
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= EDITORIAL ========================= -->
+  <section class="editorial-section" id="editorial" aria-label="编辑精选文章">
+    <div class="container">
+      <header class="section-header reveal">
+        <div class="section-label" aria-hidden="true">编辑精选</div>
+        <h2 class="section-title">深度解读，助你做对决定</h2>
+        <p class="section-sub">编辑团队持续追踪最新政策动态与海归落户实战经验。</p>
+      </header>
+      <div class="editorial-grid" role="list">
+
+        <article class="article-card article-card--featured reveal" role="listitem" tabindex="0">
+          <div class="article-card__img">
+            <div class="article-card__img-overlay"></div>
+            <span>🏙</span>
+            <span class="article-card__img-label">深度报道</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__tag-row">
+              <span class="article-chip">上海</span>
+              <span class="article-chip">应届生落户</span>
+              <span class="article-chip gray">2026最新</span>
+            </div>
+            <h3 class="article-card__title">
+              2026年上海应届海归落户最新政策全解析：直接落户通道收紧了吗？
+            </h3>
+            <p class="article-card__meta">编辑部 · 2026年6月 · 阅读 8 分钟</p>
+          </div>
+        </article>
+
+        <article class="article-card reveal" role="listitem" tabindex="0">
+          <div class="article-card__img">
+            <div class="article-card__img-overlay"></div>
+            <span>📊</span>
+            <span class="article-card__img-label">工具攻略</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__tag-row">
+              <span class="article-chip">北京</span>
+              <span class="article-chip gray">积分策略</span>
+            </div>
+            <h3 class="article-card__title">
+              北京积分落户：海归如何利用学历+年龄组合拿到最高分？
+            </h3>
+            <p class="article-card__meta">政策研究组 · 2026年5月</p>
+          </div>
+        </article>
+
+        <article class="article-card reveal" role="listitem" tabindex="0">
+          <div class="article-card__img">
+            <div class="article-card__img-overlay"></div>
+            <span>🌊</span>
+            <span class="article-card__img-label">城市对比</span>
+          </div>
+          <div class="article-card__body">
+            <div class="article-card__tag-row">
+              <span class="article-chip">深圳</span>
+              <span class="article-chip gray">秒批攻略</span>
+            </div>
+            <h3 class="article-card__title">
+              深圳学历型人才落户实战：从提交到拿到户口本需要几步？
+            </h3>
+            <p class="article-card__meta">实操组 · 2026年5月</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================= TRUST STRIP ========================= -->
+  <div class="trust-strip" aria-label="平台信息">
+    <div class="container">
+      <div class="trust-inner" role="list">
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">📅</span>
+          <span>政策数据 <strong>2026年最新</strong> 口径</span>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">🔒</span>
+          <span>信息 <strong>匿名估算</strong>，无需注册</span>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">⚡</span>
+          <span><strong>即时计算</strong>，纯前端无延迟</span>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">🎯</span>
+          <span>覆盖 <strong>北上广深</strong> 四城口径</span>
+        </div>
+        <div class="trust-item" role="listitem">
+          <span class="trust-icon" aria-hidden="true">👨‍💼</span>
+          <span>UNILINK <strong>专业顾问</strong> 在线支持</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= FOOTER ========================= -->
+  

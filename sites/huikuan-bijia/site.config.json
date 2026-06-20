@@ -1,0 +1,22 @@
+{
+  "slug": "huikuan-bijia",
+  "domain": "huikuan-bijia.wubaining.workers.dev",
+  "brand": "跨境汇款比价",
+  "tagline": "留学生跨境汇款省钱横向比价",
+  "lang": "zh-CN",
+  "bizLine": "remittance-compare",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0E2A3F",
+    "accent": "#1FB57A"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "汇款小助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-huikuan-bijia",
+  "noBrandLink": true
+}

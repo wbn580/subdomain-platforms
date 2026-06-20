@@ -1,0 +1,486 @@
+---
+// Bespoke homepage content
+---
+
+
+  <nav class="mobile-nav" id="mobile-nav" aria-label="移动端菜单">
+    <a href="#ranking">📊 机构排名</a>
+    <a href="#skills">🎯 四项备考</a>
+    <a href="#score-method">📈 提分方法</a>
+    <a href="#compare">⚖️ 自学vs报班</a>
+    <a href="#faq">❓ 常见问题</a>
+    <a href="#" class="mob-cta">免费留学评估 →</a>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" role="banner">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">2026 年度权威榜单</div>
+      <h1>雅思培训机构<br /><em>横向排名</em>与对比</h1>
+      <p class="hero-sub">聚合真实学员评价 · 听说读写四技能科学拆解 · 帮你花对钱、一次过目标分</p>
+      <div class="hero-ctas">
+        <a href="#ranking" class="btn-primary">查看2026最新榜单 →</a>
+        <a href="#skills" class="btn-secondary">备考资源</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="num">40+</span>
+          <span class="label">收录培训机构</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">12,000+</span>
+          <span class="label">真实学员评价</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">7.5</span>
+          <span class="label">编辑平均目标分</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">2026</span>
+          <span class="label">最近更新</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>向下探索</span>
+      <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M8 0v16M2 10l6 8 6-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </header>
+
+  <!-- ===== SECTION 1: 排名榜 ===== -->
+  <section id="ranking">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">2026 权威榜单</span>
+        <h2 class="section-title">雅思培训机构排名榜</h2>
+        <p class="section-desc">编辑团队综合师资背景、课程体系、真实提分率、学员满意度及性价比，持续更新。</p>
+      </div>
+
+      <div class="ranking-filter reveal">
+        <button class="filter-btn active" onclick="filterRank(this,'all')">全部机构</button>
+        <button class="filter-btn" onclick="filterRank(this,'online')">线上授课</button>
+        <button class="filter-btn" onclick="filterRank(this,'offline')">线下面授</button>
+        <button class="filter-btn" onclick="filterRank(this,'budget')">经济实惠</button>
+        <button class="filter-btn" onclick="filterRank(this,'intensive')">冲分强化</button>
+      </div>
+
+      <div class="ranking-list reveal" id="ranking-list">
+
+        <article class="ranking-card top-1">
+          <div class="rank-num">1、</div>
+          <div class="rank-info">
+            <h3>某A类综合雅思培训品牌（示例）</h3>
+            <div class="rank-tags">
+              <span class="rank-tag highlight">🏆 编辑首选</span>
+              <span class="rank-tag">线上+线下</span>
+              <span class="rank-tag">口语强化</span>
+              <span class="rank-tag">小班精品</span>
+            </div>
+            <p class="rank-desc">师资团队均持剑桥CELTA认证，口语课以真实考场模拟为核心，考生反馈听力提分稳定，课后练习量充足。2026年学员综合满意度位列榜首。</p>
+          </div>
+          <div class="rank-meta">
+            <div class="rank-score">
+              <span class="score-val">9.4</span>
+              <span class="score-label">综合评分</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </article>
+
+        <article class="ranking-card top-2">
+          <div class="rank-num">2、</div>
+          <div class="rank-info">
+            <h3>某B类写作专项培训品牌（示例）</h3>
+            <div class="rank-tags">
+              <span class="rank-tag">线上为主</span>
+              <span class="rank-tag">写作Task1/2</span>
+              <span class="rank-tag">批改精细</span>
+            </div>
+            <p class="rank-desc">大作文批改精准到位，Task 2逻辑框架体系清晰，适合写作单项薄弱考生集中突破。录播配合直播，时间灵活。</p>
+          </div>
+          <div class="rank-meta">
+            <div class="rank-score">
+              <span class="score-val">9.1</span>
+              <span class="score-label">综合评分</span>
+            </div>
+            <div class="stars">★★★★★</div>
+          </div>
+        </article>
+
+        <article class="ranking-card top-3">
+          <div class="rank-num">3、</div>
+          <div class="rank-info">
+            <h3>某C类听力精讲品牌（示例）</h3>
+            <div class="rank-tags">
+              <span class="rank-tag">纯线上</span>
+              <span class="rank-tag">听力专项</span>
+              <span class="rank-tag">题型精讲</span>
+            </div>
+            <p class="rank-desc">听力做题技巧体系完整，从填空到选择多题型全覆盖，搭配大量真题精讲，适合自律性强的考生。</p>
+          </div>
+          <div class="rank-meta">
+            <div class="rank-score">
+              <span class="score-val">8.8</span>
+              <span class="score-label">综合评分</span>
+            </div>
+            <div class="stars">★★★★½</div>
+          </div>
+        </article>
+
+        <article class="ranking-card">
+          <div class="rank-num">4、</div>
+          <div class="rank-info">
+            <h3>某D类全程保分班品牌（示例）</h3>
+            <div class="rank-tags">
+              <span class="rank-tag">线下大班</span>
+              <span class="rank-tag">保分承诺</span>
+              <span class="rank-tag">全程监督</span>
+            </div>
+            <p class="rank-desc">提供阶段测评及保分协议，适合需要外部督促的考生，价格偏高，需认真核查条款。</p>
+          </div>
+          <div class="rank-meta">
+            <div class="rank-score">
+              <span class="score-val">8.5</span>
+              <span class="score-label">综合评分</span>
+            </div>
+            <div class="stars">★★★★☆</div>
+          </div>
+        </article>
+
+        <article class="ranking-card">
+          <div class="rank-num">5、</div>
+          <div class="rank-info">
+            <h3>某E类性价比精品班（示例）</h3>
+            <div class="rank-tags">
+              <span class="rank-tag highlight">💰 高性价比</span>
+              <span class="rank-tag">线上小班</span>
+              <span class="rank-tag">四项均衡</span>
+            </div>
+            <p class="rank-desc">入门至进阶课程体系完整，价格亲民，适合预算有限但希望系统备考的考生，师资稳定。</p>
+          </div>
+          <div class="rank-meta">
+            <div class="rank-score">
+              <span class="score-val">8.2</span>
+              <span class="score-label">综合评分</span>
+            </div>
+            <div class="stars">★★★★☆</div>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="ranking-note reveal">排名综合师资、课程、提分效果、学员口碑四维度评估，每季度更新 · 机构仅作参考对比，<a href="#">查看完整评估方法论 →</a></p>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: 四项技能 ===== -->
+  <section id="skills">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow accent">备考资源中心</span>
+        <h2 class="section-title">听 · 说 · 读 · 写 四项备考攻略</h2>
+        <p class="section-desc">针对每项技能特点拆解训练路径，帮你把握考官评分重点，精准提分。</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal" style="transition-delay:0s">
+          <div class="skill-icon">🎧</div>
+          <h3>听力 Listening</h3>
+          <p>填空、选择、地图匹配三大题型精讲，预判关键词 + 边听边记技巧，提升从7.0到8.0+的实战路径。</p>
+          <div class="skill-score-bar">
+            <div class="skill-score-fill" style="width:0" data-width="82%"></div>
+          </div>
+          <div class="skill-score-label"><span>可提升难度</span><span>高</span></div>
+          <a href="#" class="skill-link">查看听力攻略 →</a>
+        </div>
+
+        <div class="skill-card reveal" style="transition-delay:0.08s">
+          <div class="skill-icon">🗣️</div>
+          <h3>口语 Speaking</h3>
+          <p>Part1/2/3 话题库系统梳理，流利度+连贯性+词汇+语法四维度同步训练，突破7分口语评分障碍。</p>
+          <div class="skill-score-bar">
+            <div class="skill-score-fill" style="width:0" data-width="90%"></div>
+          </div>
+          <div class="skill-score-label"><span>可提升难度</span><span>极高</span></div>
+          <a href="#" class="skill-link">查看口语攻略 →</a>
+        </div>
+
+        <div class="skill-card reveal" style="transition-delay:0.16s">
+          <div class="skill-icon">📖</div>
+          <h3>阅读 Reading</h3>
+          <p>True/False/NG逻辑辨析、段落配对高效定位法，限时150字策略精讲，目标8分的阅读冲刺方案。</p>
+          <div class="skill-score-bar">
+            <div class="skill-score-fill" style="width:0" data-width="74%"></div>
+          </div>
+          <div class="skill-score-label"><span>可提升难度</span><span>中高</span></div>
+          <a href="#" class="skill-link">查看阅读攻略 →</a>
+        </div>
+
+        <div class="skill-card reveal" style="transition-delay:0.24s">
+          <div class="skill-icon">✍️</div>
+          <h3>写作 Writing</h3>
+          <p>Task1图表数据描述 + Task2论说文结构模板，高分范文精析，避开大部分考生的低分陷阱。</p>
+          <div class="skill-score-bar">
+            <div class="skill-score-fill" style="width:0" data-width="86%"></div>
+          </div>
+          <div class="skill-score-label"><span>可提升难度</span><span>高</span></div>
+          <a href="#" class="skill-link">查看写作攻略 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: 提分方法 + 曲线 ===== -->
+  <section id="score-method">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">科学提分</span>
+        <h2 class="section-title">从5.5到7.0+<br />四步提分路径</h2>
+        <p class="section-desc">基于数千份学员备考数据，总结出最短路径提分方法论。</p>
+      </div>
+
+      <div class="methods-grid reveal">
+        <div class="method-card">
+          <div class="method-num">01</div>
+          <h3>精准诊断弱项</h3>
+          <p>通过模拟测试定位四项各自得分区间，重点突破最拖均分的那一项——通常是口语或写作。避免平均分配时间的低效备考方式。</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">02</div>
+          <h3>刷题与精析结合</h3>
+          <p>只刷题不复盘 = 原地踏步。每套真题做完须对照考官评分标准逐题分析错因，听力错误按"漏听/听错音/拼写"分类统计。</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">03</div>
+          <h3>高频词汇分主题积累</h3>
+          <p>雅思词汇按学术场景分组（环境/医学/科技/社会）比词汇书背诵效率高3倍，结合阅读原文语境记忆，留存率更高。</p>
+        </div>
+        <div class="method-card">
+          <div class="method-num">04</div>
+          <h3>模拟考场 + 时间管理</h3>
+          <p>正式考试前至少完成3套严格计时全真模考，尤其阅读60分钟3篇的节奏感必须提前适应，临场不乱。</p>
+        </div>
+      </div>
+
+      <div class="score-curve-visual reveal">
+        <p class="curve-title">典型学员备考提分曲线（16周）</p>
+        <div class="curve-canvas">
+          <svg class="curve-svg" viewBox="0 0 700 130" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="curveGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- grid lines -->
+            <line x1="0" y1="110" x2="700" y2="110" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+            <line x1="0" y1="84" x2="700" y2="84" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="0" y1="58" x2="700" y2="58" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="0" y1="32" x2="700" y2="32" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="4 4"/>
+            <!-- fill area -->
+            <path id="curve-fill" d="M0,110 C50,108 100,106 150,98 C200,90 220,86 270,74 C320,62 360,50 420,38 C480,26 560,18 700,12 L700,130 L0,130 Z" fill="url(#curveGrad)" opacity="0"/>
+            <!-- main curve -->
+            <path id="curve-line" d="M0,110 C50,108 100,106 150,98 C200,90 220,86 270,74 C320,62 360,50 420,38 C480,26 560,18 700,12" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="900" stroke-dashoffset="900"/>
+            <!-- data points -->
+            <circle cx="0" cy="110" r="5" fill="#F59E0B" opacity="0"/>
+            <circle cx="150" cy="98" r="5" fill="#F59E0B" opacity="0"/>
+            <circle cx="270" cy="74" r="5" fill="#F59E0B" opacity="0"/>
+            <circle cx="420" cy="38" r="5" fill="#F59E0B" opacity="0"/>
+            <circle cx="700" cy="12" r="5" fill="#F59E0B" opacity="0"/>
+          </svg>
+        </div>
+        <div class="curve-labels">
+          <div class="curve-label"><strong>5.5</strong>入门</div>
+          <div class="curve-label"><strong>第4周</strong>基础巩固</div>
+          <div class="curve-label"><strong>第8周</strong>技能提升</div>
+          <div class="curve-label"><strong>第12周</strong>冲刺备考</div>
+          <div class="curve-label"><strong>7.0+</strong>目标达成</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: 自学 vs 报班 ===== -->
+  <section id="compare">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">选择决策</span>
+        <h2 class="section-title">自学备考 vs 报班培训<br />怎么选才对？</h2>
+        <p class="section-desc">不同备考方式适合不同类型考生，看清自己的情况再决定。</p>
+      </div>
+      <div class="compare-grid reveal">
+        <div class="compare-card">
+          <h3>📚 自学备考</h3>
+          <p class="compare-sub">适合基础扎实 · 自律性强 · 预算有限</p>
+          <div class="compare-list">
+            <div class="compare-item"><span class="ci">✅</span><span>剑桥官方真题系列（剑1-18）是核心材料</span></div>
+            <div class="compare-item"><span class="ci">✅</span><span>YouTube/B站有大量免费雅思讲解视频</span></div>
+            <div class="compare-item"><span class="ci">✅</span><span>时间灵活，可按自己节奏推进</span></div>
+            <div class="compare-item"><span class="ci">⚠️</span><span>口语无人纠正，容易形成固化错误</span></div>
+            <div class="compare-item"><span class="ci">⚠️</span><span>写作批改需付费人工服务，成本另算</span></div>
+            <div class="compare-item"><span class="ci">❌</span><span>缺乏外部督促，进度容易拖延</span></div>
+          </div>
+          <div class="compare-verdict">适合：雅思基础5.5以上 + 目标6.0-6.5 + 英语学习自律者。预算有限时优先自学搭配单项批改服务。</div>
+        </div>
+
+        <div class="compare-card recommended">
+          <div class="compare-badge">🎯 大多数考生推荐</div>
+          <h3>🏫 正规培训班</h3>
+          <p class="compare-sub">适合时间紧张 · 需要督促 · 目标7分+</p>
+          <div class="compare-list">
+            <div class="compare-item"><span class="ci">✅</span><span>系统课程体系，四项均有专项训练</span></div>
+            <div class="compare-item"><span class="ci">✅</span><span>口语真人陪练 + 写作精细批改</span></div>
+            <div class="compare-item"><span class="ci">✅</span><span>考官视角解析，避免低分陷阱</span></div>
+            <div class="compare-item"><span class="ci">✅</span><span>进度管理和学员督促机制完善</span></div>
+            <div class="compare-item"><span class="ci">⚠️</span><span>费用差距大，需认真甄别机构质量</span></div>
+            <div class="compare-item"><span class="ci">⚠️</span><span>大班课程互动有限，优选小班</span></div>
+          </div>
+          <div class="compare-verdict">首次备考 / 目标7.0+ / 口语写作薄弱者：优先报靠谱培训班，搭配本榜单筛选机构，事半功倍。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: FAQ ===== -->
+  <section id="faq">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">常见疑问</span>
+        <h2 class="section-title">考生最常问的问题</h2>
+      </div>
+      <div class="faq-list reveal">
+
+        <div class="faq-item">
+          <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+            <span>备考雅思通常需要多长时间？</span>
+            <div class="faq-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="faq-a">视基础不同差异较大。英语基础5.5分的考生冲到6.5-7.0，通常需要2-4个月系统备考（每天1.5-2小时）。零基础或雅思4.0以下考生建议先提升通用英语，再投入雅思专项，总备考时间可能需要6-12个月。</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+            <span>雅思培训班价格区间是多少？怎么判断贵不贵？</span>
+            <div class="faq-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="faq-a">国内在线课程价格大致区间：精品小班课3000-8000元，大班课1000-3000元，一对一辅导500-1500元/小时。判断性价比不只看价格，关键看：师资认证（CELTA/DELTA持证优先）、班级人数（≤15人小班效果更佳）、是否含写作批改和口语陪练课时。</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+            <span>机构宣称的"保分协议"可信度如何？</span>
+            <div class="faq-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="faq-a">保分协议本身不是坏事，但需仔细核对条款：① 达标续读是退钱还是继续上课？② 考试次数限制（通常3次内）；③ 出勤率、作业完成率是否有硬性要求。签协议前务必看清退款条件和生效前提，避免纠纷。</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+            <span>学术类（A类）和培训类（G类）雅思有什么区别？培训班有没有区分？</span>
+            <div class="faq-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="faq-a">A类用于大学申请和部分移民签证；G类主要用于技术移民和工作签证（如澳洲189/190/491）。两者听力和口语相同，阅读和写作难度不同（G类相对低）。正规培训班会区分课程，报名前需明确告知机构你的考试类别。</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+            <span>考了多次都过不了7分，怎么办？</span>
+            <div class="faq-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+          </div>
+          <div class="faq-a">多次备考未过7分通常有三个根因：① 某单项（尤其口语/写作）反复卡分——此时需针对性集训，不是全面刷题；② 考试焦虑影响发挥——模拟考练习不足；③ 备考方式没有变化——重复同一套方法期待不同结果。建议找一对一教练做诊断性分析再制定方案。</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 6: 编辑精选 ===== -->
+  <section id="editorial">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-eyebrow">编辑精选</span>
+        <h2 class="section-title">本期深度推荐</h2>
+        <p class="section-desc">编辑团队精选备考干货，帮你少走弯路。</p>
+      </div>
+
+      <div class="editorial-grid reveal">
+
+        <article class="ed-card">
+          <div class="ed-card-img">
+            <img
+              src="https://images.pexels.com/photos/6929274/pexels-photo-6929274.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop"
+              alt="雅思备考教室场景"
+              loading="lazy"
+            />
+          </div>
+          <div class="ed-card-body">
+            <span class="ed-chip">📌 编辑深度</span>
+            <h3>2026年雅思备考全攻略：从选机构到考场策略完整路径</h3>
+            <p>涵盖机构筛选、课程购买注意事项、四项技能练习节奏、最后两周冲刺安排及考试当天细节，一文读懂。</p>
+            <div class="ed-meta">
+              <span>📅 2026-06</span>
+              <span>⏱ 15分钟阅读</span>
+              <span>👁 24,800</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="ed-card">
+          <div class="ed-card-img" style="background:linear-gradient(135deg,#1E3A8A,#3B5CB8); align-items:center; justify-content:center; font-size:3rem; min-height:160px;">
+            🎧
+          </div>
+          <div class="ed-card-body">
+            <span class="ed-chip orange">🔥 高人气</span>
+            <h3>雅思听力7分+：Section 3&4大题型拆解与做题顺序</h3>
+            <p>大多数考生在Section 3学术讨论和Section 4单人演讲失分最多，本文针对性解析。</p>
+            <div class="ed-meta"><span>👁 18,200</span></div>
+          </div>
+        </article>
+
+        <article class="ed-card">
+          <div class="ed-card-img" style="background:linear-gradient(135deg,#F59E0B,#D97706); align-items:center; justify-content:center; font-size:3rem; min-height:160px;">
+            ✍️
+          </div>
+          <div class="ed-card-body">
+            <span class="ed-chip">🆕 最新</span>
+            <h3>Task 2大作文：让考官给高分的段落结构拆解</h3>
+            <p>超过60%考生在Task 2的Coherence & Cohesion失分，本文拆解高分逻辑链构建方法。</p>
+            <div class="ed-meta"><span>👁 11,400</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RESOURCES BANNER ===== -->
+  <section id="resources">
+    <div class="resources-inner">
+      <div class="reveal">
+        <h2>找到合适的雅思培训，也找到留学通道</h2>
+        <p>雅思只是第一步——选好大学、选对中介，才是留学成功的关键</p>
+        <div class="resource-pills">
+          <a href="#" class="res-pill">📋 免费留学评估</a>
+          <a href="#" class="res-pill">🏫 大学申请指南</a>
+          <a href="#" class="res-pill">📊 雅思成绩要求查询</a>
+          <a href="#" class="res-pill">🎓 奖学金信息</a>
+        </div>
+        <a href="#" class="btn-dark">联系UNILINK留学顾问 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  

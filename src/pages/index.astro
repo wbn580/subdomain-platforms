@@ -1,0 +1,29 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { siteConfig } from "../lib/site";
+
+// Bespoke homepage imports
+import ZjIndex from '../../sites/zhongjie-paiming/theme/IndexContent.astro';
+import XgIndex from '../../sites/xianggang-zhuce/theme/IndexContent.astro';
+import OsIndex from '../../sites/oshc-bijia/theme/IndexContent.astro';
+import LhIndex from '../../sites/luohu-chaxun/theme/IndexContent.astro';
+import HkIndex from '../../sites/huikuan-bijia/theme/IndexContent.astro';
+import YsIndex from '../../sites/yasi-peixun/theme/IndexContent.astro';
+
+const slug: string = siteConfig.slug || 'zhongjie-paiming';
+
+const bespokeMap: Record<string, any> = {
+  'zhongjie-paiming': ZjIndex,
+  'xianggang-zhuce': XgIndex,
+  'oshc-bijia': OsIndex,
+  'luohu-chaxun': LhIndex,
+  'huikuan-bijia': HkIndex,
+  'yasi-peixun': YsIndex,
+};
+
+const BespokeIndex = bespokeMap[slug];
+---
+
+<SiteLayout title={siteConfig.brand} description={siteConfig.tagline}>
+  {BespokeIndex && <BespokeIndex />}
+</SiteLayout>

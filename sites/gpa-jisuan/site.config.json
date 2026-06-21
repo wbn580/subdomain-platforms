@@ -1,0 +1,22 @@
+{
+  "slug": "gpa-jisuan",
+  "domain": "gpa-jisuan.wubaining.workers.dev",
+  "brand": "GPA 换算器",
+  "tagline": "中外成绩换算神器",
+  "lang": "zh-CN",
+  "bizLine": "gpa-converter",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#27348B",
+    "accent": "#22A06B"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "Lina · 留学助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-gpa-jisuan",
+  "noBrandLink": true
+}

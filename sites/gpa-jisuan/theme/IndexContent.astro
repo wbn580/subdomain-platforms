@@ -1,0 +1,517 @@
+---
+---
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-label="首屏" id="top">
+  <div class="hero-bg" role="img" aria-label="大学校园学习场景"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <!-- Left: text -->
+    <div class="hero-text">
+      <div class="hero-badge" role="text">留学申请必备工具</div>
+      <h1 class="hero-title">
+        GPA 中外<br>
+        <span class="accent-line">一键换算</span>
+      </h1>
+      <p class="hero-sub">
+        中国百分制 ↔ 美式 4.0 ↔ 英式等第，支持多门课加权计算。
+        WES、北大算法、标准四分制均可选择，留学申请材料准备不再犯难。
+      </p>
+      <div class="hero-actions">
+        <a href="#converter" class="btn-primary">
+          <span>立即换算</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#standards" class="btn-ghost">了解换算标准</a>
+      </div>
+      <div class="hero-stats" role="list">
+        <div class="hero-stat" role="listitem">
+          <strong>4 种</strong>
+          <span>换算制度</span>
+        </div>
+        <div class="hero-stat" role="listitem">
+          <strong>即时</strong>
+          <span>无需注册</span>
+        </div>
+        <div class="hero-stat" role="listitem">
+          <strong>免费</strong>
+          <span>永久可用</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Calculator card -->
+    <div class="hero-calc-card" id="converter" role="main" aria-label="GPA换算器">
+      <div class="calc-card-header">
+        <div class="calc-icon" aria-hidden="true">📐</div>
+        <div class="calc-title-group">
+          <h3>GPA 加权换算器</h3>
+          <p>输入各科成绩与学分，即时计算</p>
+        </div>
+      </div>
+
+      <div class="course-grid" id="courseTable" role="table" aria-label="课程成绩输入表">
+        <div class="course-row-header" role="row">
+          <div class="course-th" role="columnheader">课程名称</div>
+          <div class="course-th" role="columnheader">成绩</div>
+          <div class="course-th" role="columnheader">学分</div>
+          <div class="course-th" role="columnheader" aria-label="删除"></div>
+        </div>
+        <div id="courseRows" role="rowgroup">
+          <div class="course-row" data-row="0" role="row">
+            <div role="cell"><input class="course-input" type="text" placeholder="高等数学" aria-label="课程名称" value="高等数学"></div>
+            <div role="cell"><input class="course-input score-input" type="number" min="0" max="100" placeholder="85" aria-label="成绩" value="85"></div>
+            <div role="cell"><input class="course-input credit-input" type="number" min="0.5" max="20" step="0.5" placeholder="4" aria-label="学分" value="4"></div>
+            <div role="cell"><button class="del-btn" onclick="removeRow(0)" aria-label="删除此行">✕</button></div>
+          </div>
+          <div class="course-row" data-row="1" role="row">
+            <div role="cell"><input class="course-input" type="text" placeholder="大学英语" aria-label="课程名称" value="大学英语"></div>
+            <div role="cell"><input class="course-input score-input" type="number" min="0" max="100" placeholder="78" aria-label="成绩" value="78"></div>
+            <div role="cell"><input class="course-input credit-input" type="number" min="0.5" max="20" step="0.5" placeholder="2" aria-label="学分" value="2"></div>
+            <div role="cell"><button class="del-btn" onclick="removeRow(1)" aria-label="删除此行">✕</button></div>
+          </div>
+          <div class="course-row" data-row="2" role="row">
+            <div role="cell"><input class="course-input" type="text" placeholder="线性代数" aria-label="课程名称" value="线性代数"></div>
+            <div role="cell"><input class="course-input score-input" type="number" min="0" max="100" placeholder="92" aria-label="成绩" value="92"></div>
+            <div role="cell"><input class="course-input credit-input" type="number" min="0.5" max="20" step="0.5" placeholder="3" aria-label="学分" value="3"></div>
+            <div role="cell"><button class="del-btn" onclick="removeRow(2)" aria-label="删除此行">✕</button></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="add-course-btn" onclick="addRow()" aria-label="新增一门课程">
+        <span>＋</span> 新增课程
+      </button>
+
+      <label for="scaleSelect" style="font-size:0.75rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px;">换算算法</label>
+      <select class="calc-scale-select" id="scaleSelect" aria-label="选择换算算法">
+        <option value="standard">标准四分制（通用 / WES 参考）</option>
+        <option value="pku">北京大学算法（绩点 = (百分制 - 50) / 10）</option>
+        <option value="moe">教育部折算法（60分以下0，60-74=1.5，75-89=3，90+=4）</option>
+      </select>
+
+      <button class="calc-btn" onclick="calculate()" aria-label="开始计算">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        计算 GPA
+      </button>
+
+      <!-- Result panel -->
+      <div class="calc-result" id="calcResult" aria-live="polite">
+        <div class="result-divider"></div>
+        <div class="result-grades">
+          <div class="grade-badge pct">
+            <div class="gb-label">加权均分</div>
+            <div class="gb-value" id="resPct">&mdash;</div>
+            <div class="gb-sub">百分制</div>
+          </div>
+          <div class="grade-badge gpa4">
+            <div class="gb-label">美式 GPA</div>
+            <div class="gb-value" id="resGpa4">&mdash;</div>
+            <div class="gb-sub">/ 4.0 制</div>
+          </div>
+          <div class="grade-badge uk">
+            <div class="gb-label">英式等第</div>
+            <div class="gb-value" id="resUK" style="font-size:1rem;">&mdash;</div>
+            <div class="gb-sub">Degree Class</div>
+          </div>
+        </div>
+        <div class="scale-bar-wrap" aria-label="GPA刻度条" role="img">
+          <div class="scale-bar-label">
+            <span>0.0</span><span id="barLabel" style="font-weight:700;color:var(--primary)">GPA 0.00</span><span>4.0</span>
+          </div>
+          <div class="scale-bar-track">
+            <div class="scale-bar-fill" id="scaleBarFill" style="width:0%">
+              <div class="scale-bar-thumb"></div>
+            </div>
+          </div>
+          <div class="scale-markers">
+            <span>不及格</span><span>及格</span><span>良好</span><span>优秀</span>
+          </div>
+        </div>
+        <p class="disclaimer-note">
+          <span>⚠</span>
+          各校算法有所不同，本结果<strong>仅供参考</strong>，请以<a href="#">院校官方计算为准</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONVERSION REFERENCE ============ -->
+<section class="section" aria-labelledby="conv-title">
+  <div class="section-inner">
+    <p class="section-label reveal">快速对照</p>
+    <h2 class="section-title reveal reveal-delay-1" id="conv-title">常见分数段换算对照</h2>
+    <p class="section-desc reveal reveal-delay-2">以下对照基于通用四分制，各院校及 WES 认证可能有细微差异。</p>
+    <div class="conversion-grid" id="convGrid" role="list"></div>
+  </div>
+</section>
+
+<!-- ============ STANDARDS ============ -->
+<section class="section alt" id="standards" aria-labelledby="std-title">
+  <div class="section-inner">
+    <p class="section-label reveal">算法说明</p>
+    <h2 class="section-title reveal reveal-delay-1" id="std-title">主要换算标准详解</h2>
+    <p class="section-desc reveal reveal-delay-2">不同机构、不同国家的 GPA 换算方式存在实质差异，申请前务必确认目标院校接受哪种算法。</p>
+    <div class="standards-grid">
+      <div class="standard-card reveal reveal-delay-1">
+        <div class="sc-icon blue" aria-hidden="true">🇺🇸</div>
+        <h3>标准四分制（通用/WES）</h3>
+        <p>90-100 → 4.0，80-89 → 3.0，70-79 → 2.0，60-69 → 1.0，60以下 → 0.0。WES 国际成绩认证及大多数北美院校采用此或类似标准。</p>
+        <span class="sc-tag">北美最常见</span>
+      </div>
+      <div class="standard-card reveal reveal-delay-2">
+        <div class="sc-icon green" aria-hidden="true">🇨🇳</div>
+        <h3>北京大学算法</h3>
+        <p>绩点 = (百分制 ÷ 10) − 5，满分 5.0 制折算为 4.0 时 × 0.8。适用于国内很多自行计算的场景，但北美院校一般不直接接受。</p>
+        <span class="sc-tag">国内常见</span>
+      </div>
+      <div class="standard-card reveal reveal-delay-3">
+        <div class="sc-icon orange" aria-hidden="true">🇬🇧</div>
+        <h3>英式荣誉学位等第</h3>
+        <p>First Class（一等，≥70%）、Upper Second 2:1（二等一，60-69%）、Lower Second 2:2（二等二，50-59%）、Third（三等，40-49%）。</p>
+        <span class="sc-tag">英国/澳洲院校</span>
+      </div>
+      <div class="standard-card reveal reveal-delay-4">
+        <div class="sc-icon purple" aria-hidden="true">📋</div>
+        <h3>教育部折算法</h3>
+        <p>60分以下 → 0，60-74 → 1.5，75-84 → 2，85-89 → 3，90-100 → 4。部分国内外学校在成绩单认证中使用此方法。</p>
+        <span class="sc-tag">官方认证参考</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REQUIREMENTS ============ -->
+<section class="section" id="requirements" aria-labelledby="req-title">
+  <div class="section-inner">
+    <p class="section-label reveal">院校要求</p>
+    <h2 class="section-title reveal reveal-delay-1" id="req-title">主要留学目的地 GPA 要求参考</h2>
+    <p class="section-desc reveal reveal-delay-2">以下数据为常见 GPA 申请要求区间，具体以各院校官网公布为准，授权中介可获取最新要求。</p>
+    <div class="req-grid" role="list">
+      <div class="req-card reveal reveal-delay-1" role="listitem">
+        <div class="req-card-header">
+          <span class="req-flag" aria-hidden="true">🇦🇺</span>
+          <h3>澳大利亚</h3>
+          <span class="req-badge">G8 大学</span>
+        </div>
+        <ul class="req-list">
+          <li><span class="rl-name">悉尼大学（本科）</span><span class="rl-val high">≥ 3.0</span></li>
+          <li><span class="rl-name">墨尔本大学（研究生）</span><span class="rl-val high">≥ 3.2</span></li>
+          <li><span class="rl-name">UNSW（工程/商科）</span><span class="rl-val medium">≥ 2.8</span></li>
+          <li><span class="rl-name">ANU（研究型项目）</span><span class="rl-val high">≥ 3.5</span></li>
+        </ul>
+      </div>
+      <div class="req-card reveal reveal-delay-2" role="listitem">
+        <div class="req-card-header">
+          <span class="req-flag" aria-hidden="true">🇬🇧</span>
+          <h3>英国</h3>
+          <span class="req-badge">Russell Group</span>
+        </div>
+        <ul class="req-list">
+          <li><span class="rl-name">帝国理工（研究生）</span><span class="rl-val high">2:1 以上</span></li>
+          <li><span class="rl-name">UCL（多数项目）</span><span class="rl-val high">2:1 以上</span></li>
+          <li><span class="rl-name">曼彻斯特（商科）</span><span class="rl-val medium">2:2 以上</span></li>
+          <li><span class="rl-name">爱丁堡（文科研究）</span><span class="rl-val high">2:1 以上</span></li>
+        </ul>
+      </div>
+      <div class="req-card reveal reveal-delay-3" role="listitem">
+        <div class="req-card-header">
+          <span class="req-flag" aria-hidden="true">🇨🇦</span>
+          <h3>加拿大</h3>
+          <span class="req-badge">U15 院校</span>
+        </div>
+        <ul class="req-list">
+          <li><span class="rl-name">多伦多大学（研究生）</span><span class="rl-val high">≥ 3.3</span></li>
+          <li><span class="rl-name">麦吉尔大学（本科）</span><span class="rl-val high">≥ 3.0</span></li>
+          <li><span class="rl-name">UBC（商科）</span><span class="rl-val medium">≥ 3.0</span></li>
+          <li><span class="rl-name">滑铁卢（理工科）</span><span class="rl-val high">≥ 3.2</span></li>
+        </ul>
+      </div>
+      <div class="req-card reveal reveal-delay-4" role="listitem">
+        <div class="req-card-header">
+          <span class="req-flag" aria-hidden="true">🇳🇿</span>
+          <h3>新西兰</h3>
+          <span class="req-badge">八大院校</span>
+        </div>
+        <ul class="req-list">
+          <li><span class="rl-name">奥克兰大学（研究生）</span><span class="rl-val high">≥ 3.0</span></li>
+          <li><span class="rl-name">维多利亚大学（商科）</span><span class="rl-val medium">≥ 2.8</span></li>
+          <li><span class="rl-name">坎特伯雷大学（工程）</span><span class="rl-val medium">≥ 2.7</span></li>
+          <li><span class="rl-name">奥塔哥大学（医学预备）</span><span class="rl-val high">≥ 3.5</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADVICE ============ -->
+<section class="section alt" aria-labelledby="advice-title">
+  <div class="section-inner">
+    <p class="section-label reveal">提分建议</p>
+    <h2 class="section-title reveal reveal-delay-1" id="advice-title">GPA 不够怎么办？</h2>
+    <p class="section-desc reveal reveal-delay-2">GPA 低于目标院校要求并非申请终止，针对性的策略可以有效弥补。</p>
+    <div class="advice-grid">
+      <div class="advice-card tip1 reveal reveal-delay-1">
+        <span class="ac-num" aria-hidden="true">01</span>
+        <h3>申请成绩提升项目</h3>
+        <p>部分院校设有 Diploma/Foundation/Pre-Master 衔接项目，达标后可直通主课程，不必重读学位。</p>
+      </div>
+      <div class="advice-card tip2 reveal reveal-delay-2">
+        <span class="ac-num" aria-hidden="true">02</span>
+        <h3>强化软性背景</h3>
+        <p>科研经历、实习、竞赛、论文发表等软性背景可以有效弥补 GPA 的不足，特别是研究生申请。</p>
+      </div>
+      <div class="advice-card tip3 reveal reveal-delay-3">
+        <span class="ac-num" aria-hidden="true">03</span>
+        <h3>选择 GPA 门槛更灵活的项目</h3>
+        <p>同一院校不同专业、不同授课形式（全日制/在线）的 GPA 要求可能有较大差异，多方比较。</p>
+      </div>
+      <div class="advice-card tip1 reveal reveal-delay-4">
+        <span class="ac-num" aria-hidden="true">04</span>
+        <h3>说明成绩差异背景</h3>
+        <p>个人陈述中诚实解释 GPA 较低的原因（如转专业、健康原因等），往往比掩盖更有说服力。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section" id="faq" aria-labelledby="faq-title">
+  <div class="section-inner">
+    <p class="section-label reveal">常见问题</p>
+    <h2 class="section-title reveal reveal-delay-1" id="faq-title">关于 GPA 换算的疑问</h2>
+    <div class="faq-list reveal reveal-delay-2" role="list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- ============ EDITORIAL PICKS ============ -->
+<section class="section alt" aria-labelledby="picks-title">
+  <div class="section-inner">
+    <p class="section-label reveal">编辑精选</p>
+    <h2 class="section-title reveal reveal-delay-1" id="picks-title">留学申请深度参考</h2>
+    <p class="section-desc reveal reveal-delay-2">来自留学从业者的实操经验，帮你在 GPA 换算之外做好全面准备。</p>
+    <div class="picks-grid" id="picksGrid"></div>
+  </div>
+</section>
+
+<!-- ============ CTA BANNER ============ -->
+<section class="section" aria-label="联系我们">
+  <div class="section-inner reveal">
+    <div class="cta-banner" role="complementary">
+      <div class="cta-text">
+        <h2>GPA 刚好踩线？专业顾问帮你评估</h2>
+        <p>免费成绩评估，告诉你 GPA 对应哪些院校和项目。UNILINK 持英国文化协会双认证（UK Knowledge Agent 110226），专注中国学生留学申请。</p>
+      </div>
+      <div class="cta-actions">
+        <a href="#" class="btn-white">
+          免费预约评估
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" class="btn-outline-white">了解 UNILINK</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALCULATOR & PAGE JAVASCRIPT ============ -->
+<script is:inline>
+  'use strict';
+
+  /* ---- Observe any new .reveal elements added dynamically ---- */
+  const revealObsLocal = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObsLocal.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  // Also observe pre-existing .reveal from Layout (they may be seen by Layout's observer too, but double-observing is harmless)
+  document.querySelectorAll('.reveal').forEach(el => revealObsLocal.observe(el));
+
+  /* ---- Row counter ---- */
+  let rowId = 3;
+
+  function addRow() {
+    const container = document.getElementById('courseRows');
+    const row = document.createElement('div');
+    row.className = 'course-row';
+    row.setAttribute('data-row', rowId);
+    row.setAttribute('role', 'row');
+    row.innerHTML = '<div role="cell"><input class="course-input" type="text" placeholder="课程名称" aria-label="课程名称"></div>' +
+      '<div role="cell"><input class="course-input score-input" type="number" min="0" max="100" placeholder="成绩" aria-label="成绩"></div>' +
+      '<div role="cell"><input class="course-input credit-input" type="number" min="0.5" max="20" step="0.5" placeholder="学分" aria-label="学分"></div>' +
+      '<div role="cell"><button class="del-btn" onclick="removeRow(' + rowId + ')" aria-label="删除此行">✕</button></div>';
+    container.appendChild(row);
+    rowId++;
+    document.getElementById('calcResult').classList.remove('visible');
+  }
+
+  function removeRow(id) {
+    const container = document.getElementById('courseRows');
+    const rows = container.querySelectorAll('.course-row');
+    if (rows.length <= 1) return;
+    const row = container.querySelector('.course-row[data-row="' + id + '"]');
+    if (row) row.remove();
+    document.getElementById('calcResult').classList.remove('visible');
+  }
+
+  /* ---- GPA conversion algorithms ---- */
+  function toGpa4_standard(pct) {
+    if (pct >= 90) return 4.0;
+    if (pct >= 85) return 3.7;
+    if (pct >= 80) return 3.3;
+    if (pct >= 75) return 3.0;
+    if (pct >= 70) return 2.7;
+    if (pct >= 65) return 2.3;
+    if (pct >= 60) return 2.0;
+    if (pct >= 50) return 1.0;
+    return 0.0;
+  }
+
+  function toGpa4_pku(pct) {
+    if (pct < 60) return 0.0;
+    const g5 = (pct / 10) - 5;
+    return Math.min(4.0, parseFloat((g5 * 0.8).toFixed(2)));
+  }
+
+  function toGpa4_moe(pct) {
+    if (pct < 60) return 0.0;
+    if (pct < 75) return 1.5;
+    if (pct < 85) return 2.0;
+    if (pct < 90) return 3.0;
+    return 4.0;
+  }
+
+  function toUKDegree(gpa4) {
+    if (gpa4 >= 3.7) return 'First';
+    if (gpa4 >= 3.3) return '2:1';
+    if (gpa4 >= 2.7) return '2:2';
+    if (gpa4 >= 2.0) return 'Third';
+    return 'Pass';
+  }
+
+  function calculate() {
+    const scaleMethod = document.getElementById('scaleSelect').value;
+    const rows = document.querySelectorAll('#courseRows .course-row');
+    let totalPoints = 0, totalCredits = 0, totalPct = 0;
+    let valid = false;
+
+    rows.forEach(row => {
+      const scoreEl = row.querySelector('.score-input');
+      const creditEl = row.querySelector('.credit-input');
+      if (!scoreEl || !creditEl) return;
+      const score = parseFloat(scoreEl.value);
+      const credit = parseFloat(creditEl.value);
+      if (!isNaN(score) && !isNaN(credit) && credit > 0 && score >= 0 && score <= 100) {
+        let gpa4;
+        if (scaleMethod === 'standard') gpa4 = toGpa4_standard(score);
+        else if (scaleMethod === 'pku') gpa4 = toGpa4_pku(score);
+        else gpa4 = toGpa4_moe(score);
+        totalPoints += gpa4 * credit;
+        totalPct += score * credit;
+        totalCredits += credit;
+        valid = true;
+      }
+    });
+
+    if (!valid || totalCredits === 0) {
+      alert('请至少填写一门课程的有效成绩和学分。');
+      return;
+    }
+
+    const weightedPct = totalPct / totalCredits;
+    const weightedGpa4 = totalPoints / totalCredits;
+    const ukDegree = toUKDegree(weightedGpa4);
+
+    document.getElementById('resPct').textContent = weightedPct.toFixed(1);
+    document.getElementById('resGpa4').textContent = weightedGpa4.toFixed(2);
+    document.getElementById('resUK').textContent = ukDegree;
+
+    // Scale bar animation
+    const pct = Math.min(100, (weightedGpa4 / 4.0) * 100);
+    document.getElementById('scaleBarFill').style.width = pct + '%';
+    document.getElementById('barLabel').textContent = 'GPA ' + weightedGpa4.toFixed(2);
+
+    const result = document.getElementById('calcResult');
+    result.classList.add('visible');
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /* ---- Conversion reference grid ---- */
+  const convData = [
+    { pct: '95–100', gpa: '4.0', uk: 'First', cls: 'first', note: '各算法满绩' },
+    { pct: '90–94', gpa: '4.0', uk: 'First', cls: 'first', note: '通用四分制满绩' },
+    { pct: '85–89', gpa: '3.7', uk: 'First', cls: 'first', note: 'WES A−/A档' },
+    { pct: '80–84', gpa: '3.3', uk: 'First', cls: 'first', note: '部分算法 3.3' },
+    { pct: '75–79', gpa: '3.0', uk: '2:1', cls: 'upper-second', note: 'B档 · 大多院校达标' },
+    { pct: '70–74', gpa: '2.7', uk: '2:1', cls: 'upper-second', note: '2:1 下沿' },
+    { pct: '65–69', gpa: '2.3', uk: '2:2', cls: 'lower-second', note: '英 2:2 门槛' },
+    { pct: '60–64', gpa: '2.0', uk: '2:2', cls: 'lower-second', note: '及格线' },
+  ];
+  const convGrid = document.getElementById('convGrid');
+  convData.forEach((d, i) => {
+    const el = document.createElement('div');
+    el.className = 'conv-card reveal reveal-delay-' + ((i % 4) + 1);
+    el.setAttribute('role', 'listitem');
+    el.innerHTML = '<div class="cc-pct">' + d.pct + '</div>' +
+      '<div class="cc-gpa">GPA ' + d.gpa + ' / 4.0</div>' +
+      '<div class="cc-uk ' + d.cls + '">' + d.uk + '</div>' +
+      '<div class="cc-note">' + d.note + '</div>';
+    convGrid.appendChild(el);
+    revealObsLocal.observe(el);
+  });
+
+  /* ---- FAQ ---- */
+  const faqs = [
+    { q: '中国百分制直接换算成 4.0 制可靠吗？', a: '不同的换算算法（通用四分制、北大算法、WES 标准）结果有差异。北美院校通常接受 WES 认证结果；英国院校以百分制或国内 GPA 判断，本工具仅供你自评估，申请时请以院校官方要求为准。' },
+    { q: '加权 GPA 和普通平均 GPA 有什么区别？', a: '普通平均 GPA 是各科绩点直接求平均，加权 GPA 以学分为权重加权，更能反映真实学业水平。大多数院校和认证机构使用加权 GPA，本工具也采用加权计算。' },
+    { q: '我的 GPA 是 3.2，够申请澳洲 G8 大学吗？', a: 'G8 大学多数项目要求 GPA 3.0–3.5 之间，3.2 属于基本达线。但具体还需结合专业、英语成绩、是否需要提交研究计划等因素综合评估。建议咨询专业留学顾问做个人定向评估。' },
+    { q: '英式等第 2:1 相当于美式 GPA 多少？', a: '通常 2:1（60-69%区间）对应美式 GPA 约 3.0–3.5，换算在不同院校和算法下略有差异。First（≥70%）约对应 3.7–4.0。' },
+    { q: '什么是 WES 认证？申请是否必须提交？', a: 'WES（World Education Services）是北美最通用的国际学历认证机构，为申请学校或雇主评估中国学历。部分学校和签证要求提交，但并非所有申请都强制，请以目标院校要求为准。' },
+    { q: '毕业后还能补救 GPA 吗？', a: '部分院校接受修读研究生预科课程（如 Diploma/Pre-Master）来展示近期学业能力。此外，优秀的软性背景（科研/实习/工作经历）可以弥补 GPA 不足，可向留学顾问寻求具体策略。' },
+  ];
+  const faqList = document.getElementById('faqList');
+  faqs.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.setAttribute('role', 'listitem');
+    item.innerHTML = '<div class="faq-q" onclick="toggleFaq(this)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key===\'Enter\'||event.key===\' \')toggleFaq(this)">' +
+      '<span>' + f.q + '</span>' +
+      '<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</div>' +
+      '<div class="faq-a" role="region"><div class="faq-a-inner">' + f.a + '</div></div>';
+    faqList.appendChild(item);
+  });
+
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.toggle('open');
+    el.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  /* ---- Editorial Picks ---- */
+  const picks = [
+    { emoji: '📊', g: 'g1', tag: '申请策略', title: '中国学生 GPA 不足 3.0，还能申请澳八大研究生吗？', desc: '从条件录取、衔接课程到真实案例，系统梳理低 GPA 申请路径与成功率分析。', date: '2026-06-15' },
+    { emoji: '🎓', g: 'g2', tag: 'WES 认证', title: 'WES 成绩认证申请全流程：中国学生操作指南（2026 版）', desc: '材料清单、网申步骤、时间预估、费用明细，首次申请 WES 必读。', date: '2026-06-10' },
+    { emoji: '🇬🇧', g: 'g3', tag: '英式等第', title: '英国学位等第（First / 2:1 / 2:2）换算成中国成绩是多少？', desc: '英国 30+ 所大学真实换算标准对照，帮助回国就业或继续深造的学生准确换算。', date: '2026-06-05' },
+  ];
+  const picksGrid = document.getElementById('picksGrid');
+  picks.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'pick-card reveal reveal-delay-' + (i + 1);
+    card.innerHTML = '<div class="pick-img">' +
+      '<div class="pick-img-gradient ' + p.g + '" aria-hidden="true"></div>' +
+      '<span class="pick-img-emoji" aria-hidden="true">' + p.emoji + '</span>' +
+      '</div>' +
+      '<div class="pick-body">' +
+      '<div class="pick-tag">' + p.tag + '</div>' +
+      '<h3>' + p.title + '</h3>' +
+      '<p>' + p.desc + '</p>' +
+      '</div>' +
+      '<div class="pick-footer">' +
+      '<span class="pick-date">' + p.date + '</span>' +
+      '<span class="pick-read">阅读全文 →</span>' +
+      '</div>';
+    picksGrid.appendChild(card);
+    revealObsLocal.observe(card);
+  });
+</script>

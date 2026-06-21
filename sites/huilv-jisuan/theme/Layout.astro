@@ -1,0 +1,1173 @@
+---
+// 汇率换汇试算器 · Fintech Terminal Layout
+import { siteConfig } from '../../../src/lib/site';
+
+const { title, description, ogImage } = Astro.props;
+const brand = siteConfig.brand || '汇率换汇试算器';
+const pageTitle = title || brand;
+const pageDesc = description || '多币种换汇试算 + 留学换汇成本测算';
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{pageTitle}</title>
+<meta name="description" content={pageDesc} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+<style is:global>
+  /* ===== CSS Variables: Fintech Terminal Theme ===== */
+  :root {
+    --midnight: #0E2740;
+    --midnight-light: #152f4a;
+    --midnight-mid: #1a3a5c;
+    --midnight-deep: #091d30;
+    --gold: #D9A441;
+    --gold-light: #e8b85a;
+    --gold-pale: #f5e4b8;
+    --gold-dim: rgba(217,164,65,0.15);
+    --neutral-900: #0a0e14;
+    --neutral-800: #111823;
+    --neutral-700: #1e2b3a;
+    --neutral-600: #2d3f54;
+    --neutral-500: #4a617c;
+    --neutral-400: #7a94ae;
+    --neutral-300: #adc0d4;
+    --neutral-200: #d4e2ef;
+    --neutral-100: #edf3f9;
+    --neutral-50: #f7fafd;
+    --white: #ffffff;
+    --green-tick: #22c55e;
+    --green-pulse: #16a34a;
+    --red-neg: #ef4444;
+    --font-stack: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SF Mono", "Fira Code", "Consolas", "Courier New", monospace;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-card: 0 2px 16px rgba(14,39,64,0.18), 0 1px 4px rgba(14,39,64,0.12);
+    --shadow-elevated: 0 8px 40px rgba(14,39,64,0.28), 0 2px 8px rgba(14,39,64,0.16);
+    --shadow-gold: 0 4px 24px rgba(217,164,65,0.28);
+    --transition: 180ms ease;
+    --transition-slow: 300ms ease;
+  }
+
+  /* ===== Reset & Base ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: var(--font-stack);
+    background: var(--neutral-50);
+    color: var(--midnight);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { cursor: pointer; font-family: inherit; border: none; background: none; }
+  input, select { font-family: inherit; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--neutral-100); }
+  ::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 99px; }
+
+  /* ===== Typography ===== */
+  h1 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(1.4rem, 2.8vw, 2.1rem); font-weight: 700; line-height: 1.3; letter-spacing: -0.015em; }
+  h3 { font-size: clamp(1.05rem, 2vw, 1.35rem); font-weight: 600; line-height: 1.4; }
+  h4 { font-size: 1rem; font-weight: 600; }
+  p { color: var(--neutral-500); }
+
+  /* ===== Layout ===== */
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  .container-narrow { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 80px 0; }
+  .section-sm { padding: 56px 0; }
+
+  /* ===== Scroll Reveal ===== */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.55s ease, transform 0.55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: transparent;
+    transition: background var(--transition-slow), backdrop-filter var(--transition-slow), box-shadow var(--transition-slow), padding var(--transition-slow);
+  }
+  .nav.scrolled {
+    background: rgba(9,29,48,0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 rgba(217,164,65,0.18);
+    padding: 12px 24px;
+  }
+  .nav-inner { max-width: 1140px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; }
+  .nav-logo {
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--gold) 0%, #b8831f 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; color: white; font-weight: 800; letter-spacing: -0.05em;
+    box-shadow: var(--shadow-gold);
+    flex-shrink: 0;
+  }
+  .nav-name { font-size: 1.05rem; font-weight: 700; color: var(--white); letter-spacing: -0.01em; }
+  .nav-name span { color: var(--gold); }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-links a {
+    color: rgba(255,255,255,0.82); font-size: 0.9rem; font-weight: 500;
+    padding: 6px 14px; border-radius: var(--radius-sm);
+    transition: color var(--transition), background var(--transition);
+  }
+  .nav-links a:hover { color: var(--gold); background: rgba(217,164,65,0.1); }
+  .nav-cta {
+    background: var(--gold); color: var(--midnight-deep) !important; font-weight: 700 !important;
+    padding: 8px 18px !important; border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-gold); transition: all var(--transition) !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(217,164,65,0.38) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; width: 28px; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; height: 2px; background: var(--white); border-radius: 2px; transition: all var(--transition); }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  .mobile-menu {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--midnight-deep); z-index: 999; padding-top: 80px;
+    flex-direction: column; align-items: center; gap: 8px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: var(--white); font-size: 1.15rem; font-weight: 500; padding: 14px 32px; width: 100%; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .mobile-menu a:hover { color: var(--gold); background: rgba(217,164,65,0.06); }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: url('https://images.pexels.com/photos/6781273/pexels-photo-6781273.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1280&fit=crop') center/cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(165deg,
+      rgba(9,29,48,0.82) 0%,
+      rgba(14,39,64,0.72) 40%,
+      rgba(14,39,64,0.88) 80%,
+      rgba(9,29,48,0.97) 100%
+    );
+  }
+  .hero-overlay-grid {
+    position: absolute; inset: 0; z-index: 2;
+    background-image: linear-gradient(rgba(217,164,65,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(217,164,65,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 3;
+    padding: 160px 24px 0;
+  }
+  .hero-inner { max-width: 1140px; margin: 0 auto; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(217,164,65,0.12); border: 1px solid rgba(217,164,65,0.3);
+    border-radius: 99px; padding: 6px 14px; margin-bottom: 24px;
+    font-size: 0.8rem; font-weight: 600; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .hero-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); animation: pulse-gold 2s infinite; }
+  @keyframes pulse-gold {
+    0%,100% { opacity: 1; box-shadow: 0 0 0 0 rgba(217,164,65,0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(217,164,65,0); }
+  }
+  .hero-title { color: var(--white); margin-bottom: 16px; max-width: 680px; }
+  .hero-title .highlight { color: var(--gold); }
+  .hero-sub { font-size: 1.1rem; color: rgba(255,255,255,0.72); max-width: 540px; margin-bottom: 36px; line-height: 1.7; }
+
+  /* ===== CALCULATOR (Hero embedded) ===== */
+  .calc-hero-wrap {
+    position: relative; z-index: 3;
+    padding: 0 24px 0;
+    margin-top: 28px;
+  }
+  .calc-hero-inner { max-width: 1140px; margin: 0 auto; }
+
+  .calc-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(217,164,65,0.22);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 32px;
+    box-shadow: 0 8px 64px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .calc-header { margin-bottom: 24px; }
+  .calc-title { color: var(--white); font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .calc-icon { font-size: 1.3rem; }
+  .calc-subtitle { color: rgba(255,255,255,0.5); font-size: 0.82rem; margin-top: 4px; font-style: italic; }
+
+  .calc-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: end; margin-bottom: 20px; }
+  .calc-field { display: flex; flex-direction: column; gap: 8px; }
+  .calc-label { color: rgba(255,255,255,0.6); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .calc-input-wrap { position: relative; }
+  .calc-amount {
+    width: 100%; padding: 14px 16px; padding-right: 80px;
+    background: rgba(255,255,255,0.07); border: 1.5px solid rgba(217,164,65,0.25);
+    border-radius: var(--radius-md); color: var(--white); font-size: 1.5rem;
+    font-weight: 700; font-family: var(--font-mono);
+    transition: border-color var(--transition), background var(--transition);
+    outline: none;
+  }
+  .calc-amount::placeholder { color: rgba(255,255,255,0.25); }
+  .calc-amount:focus { border-color: var(--gold); background: rgba(217,164,65,0.07); }
+  .calc-currency-badge {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 0.78rem; font-weight: 700; color: var(--gold); letter-spacing: 0.04em;
+  }
+  .calc-select {
+    width: 100%; padding: 14px 16px;
+    background: rgba(255,255,255,0.07); border: 1.5px solid rgba(217,164,65,0.25);
+    border-radius: var(--radius-md); color: var(--white); font-size: 1rem; font-weight: 600;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23D9A441' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 40px; cursor: pointer; outline: none;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .calc-select:focus { border-color: var(--gold); }
+  .calc-select option { background: var(--midnight-deep); color: var(--white); }
+  .calc-swap-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(217,164,65,0.15); border: 1.5px solid rgba(217,164,65,0.35);
+    color: var(--gold); font-size: 1.3rem; display: flex; align-items: center; justify-content: center;
+    transition: all var(--transition); cursor: pointer; flex-shrink: 0; margin-bottom: 4px;
+  }
+  .calc-swap-btn:hover { background: var(--gold); color: var(--midnight-deep); transform: rotate(180deg) scale(1.1); }
+
+  .calc-result-area { background: rgba(217,164,65,0.07); border: 1px solid rgba(217,164,65,0.2); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 16px; }
+  .calc-result-label { color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+  .calc-result-amount {
+    font-size: 2.4rem; font-weight: 800; color: var(--gold); font-family: var(--font-mono);
+    letter-spacing: -0.02em; line-height: 1.1; display: flex; align-items: baseline; gap: 10px;
+  }
+  .calc-result-currency { font-size: 1.1rem; font-weight: 600; color: rgba(255,255,255,0.6); }
+  .calc-result-rate { color: rgba(255,255,255,0.45); font-size: 0.78rem; margin-top: 6px; font-family: var(--font-mono); }
+
+  .calc-disclaimer { color: rgba(255,255,255,0.38); font-size: 0.72rem; text-align: center; margin-bottom: 20px; line-height: 1.5; }
+  .calc-disclaimer strong { color: rgba(217,164,65,0.7); }
+
+  /* Ticker scroll */
+  .rate-ticker-wrap { overflow: hidden; border-top: 1px solid rgba(217,164,65,0.12); padding-top: 16px; }
+  .rate-ticker-label { color: rgba(255,255,255,0.35); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .rate-ticker { display: flex; gap: 20px; animation: ticker-scroll 30s linear infinite; width: max-content; }
+  .rate-ticker:hover { animation-play-state: paused; }
+  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .ticker-item {
+    display: flex; align-items: center; gap: 8px; white-space: nowrap;
+    padding: 6px 14px; background: rgba(255,255,255,0.04); border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .ticker-pair { color: rgba(255,255,255,0.75); font-size: 0.78rem; font-weight: 600; font-family: var(--font-mono); }
+  .ticker-rate { color: var(--gold); font-size: 0.82rem; font-weight: 700; font-family: var(--font-mono); }
+  .ticker-change { font-size: 0.7rem; font-weight: 600; font-family: var(--font-mono); }
+  .ticker-change.pos { color: var(--green-tick); }
+  .ticker-change.neg { color: var(--red-neg); }
+
+  /* hero section bottom padding */
+  .hero-bottom-pad { position: relative; z-index: 3; padding: 32px 24px 0; }
+
+  /* ===== COST COMPARISON SECTION ===== */
+  .cost-compare {
+    background: var(--midnight-deep);
+    padding: 72px 0 80px;
+    position: relative; overflow: hidden;
+  }
+  .cost-compare::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+    opacity: 0.25;
+  }
+  .cost-compare::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+    opacity: 0.15;
+  }
+  .section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-title-dark { color: var(--white); margin-bottom: 12px; }
+  .section-desc-dark { color: var(--neutral-400); font-size: 1rem; max-width: 560px; }
+
+  .cost-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 44px; }
+  .cost-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-lg); padding: 28px 24px;
+    transition: all var(--transition-slow); position: relative; overflow: hidden;
+  }
+  .cost-card:hover { border-color: rgba(217,164,65,0.35); background: rgba(217,164,65,0.04); transform: translateY(-4px); box-shadow: 0 12px 48px rgba(0,0,0,0.3); }
+  .cost-card.recommended { border-color: rgba(217,164,65,0.45); background: rgba(217,164,65,0.06); }
+  .cost-card.recommended::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  }
+  .cost-badge-rec {
+    display: inline-block; background: var(--gold); color: var(--midnight-deep);
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 99px; margin-bottom: 12px;
+  }
+  .cost-channel { font-size: 1.05rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .cost-channel-sub { font-size: 0.8rem; color: var(--neutral-500); margin-bottom: 20px; }
+  .cost-detail-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .cost-detail-row:last-of-type { border-bottom: none; }
+  .cost-detail-label { font-size: 0.82rem; color: var(--neutral-400); }
+  .cost-detail-val { font-size: 0.88rem; font-weight: 600; color: var(--white); font-family: var(--font-mono); }
+  .cost-detail-val.good { color: var(--green-tick); }
+  .cost-detail-val.bad { color: #ff8c82; }
+  .cost-total { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(217,164,65,0.2); }
+  .cost-total-label { font-size: 0.75rem; color: var(--neutral-500); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+  .cost-total-amount { font-size: 1.6rem; font-weight: 800; color: var(--gold); font-family: var(--font-mono); letter-spacing: -0.02em; }
+  .cost-note { color: rgba(255,255,255,0.28); font-size: 0.7rem; margin-top: 20px; text-align: center; line-height: 1.6; }
+  .cost-cta-row { display: flex; justify-content: center; margin-top: 36px; gap: 14px; flex-wrap: wrap; }
+  .btn-gold {
+    background: var(--gold); color: var(--midnight-deep);
+    font-weight: 700; font-size: 0.92rem; padding: 12px 28px;
+    border-radius: var(--radius-md); border: none; cursor: pointer;
+    box-shadow: var(--shadow-gold); transition: all var(--transition);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 36px rgba(217,164,65,0.4); }
+  .btn-outline-gold {
+    background: transparent; color: var(--gold); border: 1.5px solid rgba(217,164,65,0.5);
+    font-weight: 600; font-size: 0.92rem; padding: 12px 28px;
+    border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline-gold:hover { background: rgba(217,164,65,0.1); border-color: var(--gold); }
+
+  /* ===== STUDY TIPS SECTION ===== */
+  .study-tips { background: var(--neutral-50); padding: 80px 0; }
+  .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
+  .tip-card {
+    background: var(--white); border-radius: var(--radius-lg); padding: 28px 24px;
+    border: 1px solid var(--neutral-200); transition: all var(--transition-slow);
+    box-shadow: 0 2px 12px rgba(14,39,64,0.06);
+  }
+  .tip-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 8px 36px rgba(14,39,64,0.1); }
+  .tip-icon {
+    width: 52px; height: 52px; border-radius: var(--radius-md);
+    background: var(--gold-dim); display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 18px;
+  }
+  .tip-title { font-size: 1rem; font-weight: 700; color: var(--midnight); margin-bottom: 10px; }
+  .tip-body { font-size: 0.88rem; color: var(--neutral-500); line-height: 1.7; }
+  .tip-tag { display: inline-block; background: var(--gold-dim); color: var(--gold); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; margin-top: 14px; }
+
+  /* ===== SPREAD EXPLAINER ===== */
+  .spread-section {
+    background: var(--midnight);
+    padding: 80px 0;
+    position: relative; overflow: hidden;
+  }
+  .spread-section::before {
+    content: '汇差'; position: absolute; right: -40px; top: -60px;
+    font-size: 20rem; font-weight: 900; color: rgba(217,164,65,0.03);
+    pointer-events: none; letter-spacing: -0.05em; line-height: 1;
+  }
+  .spread-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; margin-top: 44px; }
+  .spread-visual { position: relative; }
+  .spread-bar-wrap { background: rgba(255,255,255,0.04); border-radius: var(--radius-lg); padding: 28px; border: 1px solid rgba(255,255,255,0.07); }
+  .spread-bar-label { color: var(--neutral-400); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 18px; }
+  .bar-row { margin-bottom: 16px; }
+  .bar-row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .bar-channel { color: var(--white); font-size: 0.85rem; font-weight: 600; }
+  .bar-pct { font-size: 0.8rem; font-family: var(--font-mono); font-weight: 700; }
+  .bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .bar-fill.good { background: linear-gradient(90deg, var(--green-tick), #4ade80); }
+  .bar-fill.ok { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .bar-fill.bad { background: linear-gradient(90deg, #ef4444, #f87171); }
+  .spread-insights { }
+  .insight-item { padding: 18px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .insight-item:last-child { border-bottom: none; }
+  .insight-num { font-size: 2rem; font-weight: 800; color: var(--gold); font-family: var(--font-mono); letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
+  .insight-label { font-size: 0.88rem; color: var(--white); font-weight: 600; margin-bottom: 4px; }
+  .insight-desc { font-size: 0.8rem; color: var(--neutral-500); line-height: 1.6; }
+
+  /* ===== TIMING TIPS ===== */
+  .timing-section { background: var(--neutral-50); padding: 80px 0; }
+  .timing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 44px; }
+  .timing-card {
+    background: var(--white); border-radius: var(--radius-lg); padding: 24px 20px; text-align: center;
+    border: 1px solid var(--neutral-200); transition: all var(--transition-slow);
+    box-shadow: 0 2px 8px rgba(14,39,64,0.05);
+  }
+  .timing-card:hover { border-color: rgba(217,164,65,0.4); transform: translateY(-3px); box-shadow: 0 6px 28px rgba(14,39,64,0.1); }
+  .timing-emoji { font-size: 2rem; margin-bottom: 14px; display: block; }
+  .timing-title { font-size: 0.95rem; font-weight: 700; color: var(--midnight); margin-bottom: 8px; }
+  .timing-body { font-size: 0.82rem; color: var(--neutral-500); line-height: 1.65; }
+  .timing-chip { display: inline-block; margin-top: 12px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; }
+  .timing-chip.positive { background: rgba(34,197,94,0.12); color: var(--green-tick); }
+  .timing-chip.caution { background: rgba(217,164,65,0.12); color: var(--gold); }
+  .timing-chip.neutral { background: var(--neutral-100); color: var(--neutral-500); }
+
+  /* ===== FAQ ===== */
+  .faq-section { background: var(--midnight-deep); padding: 80px 0; }
+  .faq-list { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-lg); overflow: hidden; transition: border-color var(--transition);
+  }
+  .faq-item:hover { border-color: rgba(217,164,65,0.3); }
+  .faq-item.open { border-color: rgba(217,164,65,0.4); background: rgba(217,164,65,0.04); }
+  .faq-q {
+    width: 100%; text-align: left; padding: 20px 24px;
+    color: var(--white); font-size: 0.95rem; font-weight: 600;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; cursor: pointer;
+    background: none; border: none; font-family: inherit;
+    transition: color var(--transition);
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-q-icon {
+    width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%;
+    background: rgba(217,164,65,0.12); color: var(--gold);
+    display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 300;
+    transition: transform var(--transition), background var(--transition);
+  }
+  .faq-item.open .faq-q-icon { transform: rotate(45deg); background: var(--gold); color: var(--midnight-deep); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+  .faq-item.open .faq-a { max-height: 300px; }
+  .faq-a-inner { padding: 0 24px 20px; color: var(--neutral-400); font-size: 0.88rem; line-height: 1.75; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; }
+
+  /* ===== EDITORIAL PICKS ===== */
+  .editorial-section { background: var(--neutral-50); padding: 80px 0; }
+  .editorial-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 44px; }
+  .editorial-card {
+    background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
+    border: 1px solid var(--neutral-200); transition: all var(--transition-slow);
+    box-shadow: 0 2px 10px rgba(14,39,64,0.05); display: flex; flex-direction: column;
+  }
+  .editorial-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(14,39,64,0.12); border-color: var(--gold); }
+  .editorial-img { height: 180px; overflow: hidden; background: var(--midnight); position: relative; }
+  .editorial-img-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--midnight) 0%, var(--midnight-mid) 100%);
+    display: flex; align-items: center; justify-content: center; font-size: 3rem;
+    transition: transform 0.5s ease;
+  }
+  .editorial-card:hover .editorial-img-inner { transform: scale(1.05); }
+  .editorial-tag { position: absolute; top: 12px; left: 12px; background: var(--gold); color: var(--midnight-deep); font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border-radius: 99px; }
+  .editorial-body { padding: 20px 20px 24px; flex: 1; display: flex; flex-direction: column; }
+  .editorial-title { font-size: 0.95rem; font-weight: 700; color: var(--midnight); margin-bottom: 8px; line-height: 1.45; }
+  .editorial-card:hover .editorial-title { color: var(--midnight); }
+  .editorial-excerpt { font-size: 0.82rem; color: var(--neutral-500); line-height: 1.65; flex: 1; margin-bottom: 16px; }
+  .editorial-meta { display: flex; align-items: center; justify-content: space-between; }
+  .editorial-date { font-size: 0.72rem; color: var(--neutral-400); }
+  .editorial-read { font-size: 0.75rem; font-weight: 600; color: var(--gold); display: flex; align-items: center; gap: 4px; }
+  .editorial-read::after { content: '→'; transition: transform var(--transition); }
+  .editorial-card:hover .editorial-read::after { transform: translateX(4px); }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: var(--neutral-900);
+    padding: 60px 0 32px; border-top: 1px solid rgba(217,164,65,0.12);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+  .footer-brand-col { }
+  .footer-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .footer-logo { width: 32px; height: 32px; border-radius: var(--radius-sm); background: linear-gradient(135deg, var(--gold) 0%, #b8831f 100%); display: flex; align-items: center; justify-content: center; font-size: 15px; color: white; font-weight: 800; }
+  .footer-name { font-size: 0.95rem; font-weight: 700; color: var(--white); }
+  .footer-name span { color: var(--gold); }
+  .footer-desc { color: var(--neutral-500); font-size: 0.82rem; line-height: 1.7; max-width: 260px; margin-bottom: 20px; }
+  .footer-disclaimer { font-size: 0.72rem; color: var(--neutral-600); line-height: 1.65; max-width: 280px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .footer-col h5 { color: var(--white); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .footer-links a { color: var(--neutral-500); font-size: 0.85rem; transition: color var(--transition); }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .footer-copy { color: var(--neutral-600); font-size: 0.78rem; }
+  .footer-copy a { color: var(--neutral-500); }
+  .footer-copy a:hover { color: var(--gold); }
+  .footer-legal { color: var(--neutral-600); font-size: 0.75rem; }
+
+  /* ===== WIDGET ===== */
+  #widget-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--midnight-mid) 0%, var(--midnight-deep) 100%);
+    border: 2px solid rgba(217,164,65,0.5);
+    box-shadow: 0 4px 24px rgba(14,39,64,0.45), 0 0 0 0 rgba(217,164,65,0.3);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.25s ease;
+    animation: widget-breathe 4s ease-in-out infinite;
+  }
+  @keyframes widget-breathe { 0%,100% { box-shadow: 0 4px 24px rgba(14,39,64,0.45), 0 0 0 0 rgba(217,164,65,0.3); } 50% { box-shadow: 0 6px 36px rgba(14,39,64,0.55), 0 0 0 8px rgba(217,164,65,0); } }
+  #widget-btn:hover { transform: scale(1.1); border-color: var(--gold); }
+  .widget-online-dot {
+    position: absolute; top: 0; left: 0; width: 14px; height: 14px;
+    background: var(--green-tick); border-radius: 50%;
+    border: 2px solid var(--midnight-deep);
+    animation: widget-pulse 2s ease-in-out infinite;
+  }
+  @keyframes widget-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); } 60% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+  .widget-icon { font-size: 1.4rem; }
+
+  #widget-panel {
+    position: fixed; bottom: 100px; right: 28px; z-index: 8999;
+    width: 340px; max-height: 500px;
+    background: var(--midnight-deep); border: 1px solid rgba(217,164,65,0.3);
+    border-radius: var(--radius-xl); box-shadow: var(--shadow-elevated);
+    display: none; flex-direction: column; overflow: hidden;
+    animation: panel-in 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    transform-origin: bottom right;
+  }
+  @keyframes panel-in { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+  #widget-panel.open { display: flex; }
+  .widget-header {
+    padding: 16px 18px; background: linear-gradient(135deg, rgba(217,164,65,0.12) 0%, rgba(14,39,64,0) 100%);
+    border-bottom: 1px solid rgba(217,164,65,0.15);
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+  }
+  .widget-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold) 0%, #b8831f 100%);
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    position: relative;
+  }
+  .widget-avatar-dot { position: absolute; top: -1px; left: -1px; width: 12px; height: 12px; background: var(--green-tick); border-radius: 50%; border: 2px solid var(--midnight-deep); animation: widget-pulse 2s ease-in-out infinite; }
+  .widget-header-info { flex: 1; }
+  .widget-name { color: var(--white); font-size: 0.9rem; font-weight: 700; }
+  .widget-status { color: var(--green-tick); font-size: 0.72rem; display: flex; align-items: center; gap: 5px; }
+  .widget-close { color: var(--neutral-400); font-size: 1.3rem; cursor: pointer; padding: 4px; line-height: 1; transition: color var(--transition); }
+  .widget-close:hover { color: var(--white); }
+  .widget-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .widget-msg { max-width: 85%; }
+  .widget-msg.bot { align-self: flex-start; }
+  .widget-msg.user { align-self: flex-end; }
+  .widget-bubble {
+    padding: 10px 14px; border-radius: 14px; font-size: 0.82rem; line-height: 1.55;
+  }
+  .widget-msg.bot .widget-bubble { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.88); border-bottom-left-radius: 4px; }
+  .widget-msg.user .widget-bubble { background: var(--gold); color: var(--midnight-deep); font-weight: 500; border-bottom-right-radius: 4px; }
+  .widget-quick-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .widget-quick-btn {
+    font-size: 0.72rem; padding: 5px 11px; border-radius: 99px;
+    background: rgba(217,164,65,0.1); border: 1px solid rgba(217,164,65,0.3);
+    color: var(--gold); cursor: pointer; transition: all var(--transition); font-weight: 600;
+  }
+  .widget-quick-btn:hover { background: var(--gold); color: var(--midnight-deep); }
+  .widget-input-row { padding: 12px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 8px; flex-shrink: 0; }
+  .widget-input {
+    flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md); padding: 10px 14px; color: var(--white);
+    font-size: 0.82rem; outline: none; transition: border-color var(--transition); font-family: inherit;
+  }
+  .widget-input::placeholder { color: rgba(255,255,255,0.3); }
+  .widget-input:focus { border-color: rgba(217,164,65,0.5); }
+  .widget-send {
+    width: 38px; height: 38px; border-radius: var(--radius-md); flex-shrink: 0;
+    background: var(--gold); color: var(--midnight-deep); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.95rem; transition: all var(--transition); border: none;
+  }
+  .widget-send:hover { background: var(--gold-light); transform: scale(1.08); }
+
+  /* ===== BACK TO TOP ===== */
+  #back-top {
+    position: fixed; bottom: 28px; right: 100px; z-index: 8000;
+    width: 42px; height: 42px; border-radius: 50%;
+    background: rgba(14,39,64,0.85); border: 1px solid rgba(217,164,65,0.3);
+    color: var(--gold); display: none; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 1rem; transition: all var(--transition); backdrop-filter: blur(8px);
+  }
+  #back-top.visible { display: flex; }
+  #back-top:hover { background: var(--midnight); border-color: var(--gold); transform: translateY(-3px); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .cost-grid { grid-template-columns: 1fr 1fr; }
+    .tips-grid { grid-template-columns: 1fr 1fr; }
+    .timing-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .spread-grid { gap: 36px; }
+  }
+  @media (max-width: 768px) {
+    .calc-row { grid-template-columns: 1fr; }
+    .calc-swap-btn { width: 100%; height: 44px; border-radius: var(--radius-md); justify-content: center; }
+    .cost-grid { grid-template-columns: 1fr; }
+    .tips-grid { grid-template-columns: 1fr; }
+    .timing-grid { grid-template-columns: 1fr 1fr; }
+    .editorial-grid { grid-template-columns: 1fr; }
+    .spread-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    #widget-panel { width: calc(100vw - 32px); right: 16px; bottom: 90px; }
+    #back-top { right: 88px; }
+    .hero-content { padding: 120px 24px 0; }
+    h1 { font-size: 1.85rem; }
+  }
+  @media (max-width: 480px) {
+    .timing-grid { grid-template-columns: 1fr; }
+    .cost-cta-row { flex-direction: column; align-items: center; }
+    .section { padding: 56px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav" id="main-nav" role="navigation" aria-label="主导航">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div class="nav-logo" aria-hidden="true">¥$</div>
+      <div class="nav-name"><span>汇率</span>试算器</div>
+    </div>
+    <div class="nav-links" role="menubar">
+      <a href="#calculator" role="menuitem">换汇计算</a>
+      <a href="#cost-compare" role="menuitem">费用对比</a>
+      <a href="#tips" role="menuitem">换汇攻略</a>
+      <a href="#faq" role="menuitem">常见问题</a>
+      <a href="#" class="nav-cta" role="menuitem">问汇率攻略</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="移动端菜单">
+  <a href="#calculator" onclick="closeMobileMenu()">换汇计算</a>
+  <a href="#cost-compare" onclick="closeMobileMenu()">费用对比</a>
+  <a href="#tips" onclick="closeMobileMenu()">换汇攻略</a>
+  <a href="#faq" onclick="closeMobileMenu()">常见问题</a>
+  <a href="#" onclick="closeMobileMenu()" style="color:var(--gold)">问汇率攻略</a>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<slot />
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand-col">
+        <div class="footer-logo-row">
+          <div class="footer-logo" aria-hidden="true">¥$</div>
+          <div class="footer-name"><span>汇率</span>试算器 · huilv.jisuan.help</div>
+        </div>
+        <p class="footer-desc">多币种换汇成本试算工具，留学换汇攻略参考站。数据仅供参考，不构成金融建议。</p>
+        <div class="footer-disclaimer">
+          <strong style="color:var(--neutral-300);">免责声明</strong><br>
+          本站所有汇率数据均为参考示意，不代表任何金融机构实际报价。换汇请以银行或相关金融机构实时报价为准。本站内容不构成任何形式的金融投资建议。
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>换汇工具</h5>
+        <ul class="footer-links">
+          <li><a href="#calculator">汇率换算器</a></li>
+          <li><a href="#cost-compare">渠道费用对比</a></li>
+          <li><a href="#">留学总费用计算</a></li>
+          <li><a href="#">GPA 换算器</a></li>
+          <li><a href="#">贷款月供计算</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>换汇攻略</h5>
+        <ul class="footer-links">
+          <li><a href="#">留学换汇完全指南</a></li>
+          <li><a href="#">渠道费用横向对比</a></li>
+          <li><a href="#">换汇时机如何选</a></li>
+          <li><a href="#">大额换汇注意事项</a></li>
+          <li><a href="#">个人购汇额度说明</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>关于本站</h5>
+        <ul class="footer-links">
+          <li><a href="#">关于我们</a></li>
+          <li><a href="#">数据来源说明</a></li>
+          <li><a href="#">免责声明</a></li>
+          <li><a href="#">隐私政策</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        &copy; 2026 huilv.jisuan.help · <a href="#">jisuan.help 计算器工具平台</a>
+      </div>
+      <div class="footer-legal">汇率仅供参考 · 不构成金融建议 · 换汇请以银行实时报价为准</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== WIDGET ===== -->
+<div id="widget-btn" role="button" aria-label="打开汇率攻略助手" tabindex="0" aria-expanded="false">
+  <div class="widget-online-dot" aria-hidden="true"></div>
+  <span class="widget-icon" aria-hidden="true">💱</span>
+</div>
+
+<div id="widget-panel" role="dialog" aria-label="汇率攻略助手" aria-modal="true">
+  <div class="widget-header">
+    <div class="widget-avatar" aria-hidden="true">
+      <div class="widget-avatar-dot"></div>
+      💹
+    </div>
+    <div class="widget-header-info">
+      <div class="widget-name">汇率攻略助手</div>
+      <div class="widget-status">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--green-tick);display:inline-block;"></span>
+        在线 · 换汇问题随时问
+      </div>
+    </div>
+    <button class="widget-close" id="widget-close" aria-label="关闭助手">×</button>
+  </div>
+  <div class="widget-messages" id="widget-messages">
+    <div class="widget-msg bot">
+      <div class="widget-bubble">想换外币又怕蚀汇率差？用试算器算清成本，问我换汇攻略 👋</div>
+    </div>
+    <div class="widget-msg bot">
+      <div class="widget-bubble">你是要换什么币种？或者有换汇方面的疑问？</div>
+      <div class="widget-quick-btns">
+        <button class="widget-quick-btn" onclick="widgetQuick('想换人民币换澳元')">人民币→澳元</button>
+        <button class="widget-quick-btn" onclick="widgetQuick('想换人民币换英镑')">人民币→英镑</button>
+        <button class="widget-quick-btn" onclick="widgetQuick('Wise和银行哪个好')">Wise vs 银行</button>
+        <button class="widget-quick-btn" onclick="widgetQuick('怎么省换汇成本')">省钱攻略</button>
+      </div>
+    </div>
+  </div>
+  <div class="widget-input-row">
+    <input type="text" class="widget-input" id="widget-input" placeholder="问问换汇攻略…" aria-label="输入问题" maxlength="200">
+    <button class="widget-send" id="widget-send-btn" aria-label="发送">→</button>
+  </div>
+</div>
+
+<!-- Back to Top -->
+<button id="back-top" aria-label="回到顶部" title="回到顶部">↑</button>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== STATIC REFERENCE RATES (示意参考，不代表实际牌价) =====
+const REF_RATES_TO_CNY = {
+  CNY: 1,
+  USD: 7.258,
+  GBP: 9.184,
+  AUD: 4.547,
+  EUR: 7.893,
+  HKD: 0.931,
+  CAD: 5.312,
+  JPY: 0.04726,
+  NZD: 4.183,
+  SGD: 5.412
+};
+
+const CURRENCY_SYMBOLS = {
+  CNY: '¥', USD: '$', GBP: '£', AUD: 'A$',
+  EUR: '€', HKD: 'HK$', CAD: 'CA$', JPY: '¥',
+  NZD: 'NZ$', SGD: 'S$'
+};
+
+const CURRENCY_FLAGS = {
+  CNY: '🇨🇳', USD: '🇺🇸', GBP: '🇬🇧', AUD: '🇦🇺',
+  EUR: '🇪🇺', HKD: '🇭🇰', CAD: '🇨🇦', JPY: '🇯🇵',
+  NZD: '🇳🇿', SGD: '🇸🇬'
+};
+
+function getRate(from, to) {
+  const fromCNY = REF_RATES_TO_CNY[from] || 1;
+  const toCNY = REF_RATES_TO_CNY[to] || 1;
+  return toCNY / fromCNY;
+}
+
+// ===== CALCULATOR =====
+function calcConvert() {
+  const amountEl = document.getElementById('calc-amount');
+  const fromEl = document.getElementById('from-currency');
+  const toEl = document.getElementById('to-currency');
+  if (!amountEl || !fromEl || !toEl) return;
+  const amount = parseFloat(amountEl.value) || 0;
+  const from = fromEl.value;
+  const to = toEl.value;
+  const rate = getRate(from, to);
+  const result = amount * rate;
+
+  const resultEl = document.getElementById('result-amount');
+  const rateEl = document.getElementById('result-rate');
+  const currencyEl = document.getElementById('result-currency');
+  const badgeEl = document.getElementById('from-badge');
+
+  if (badgeEl) badgeEl.textContent = from;
+  if (currencyEl) currencyEl.textContent = to;
+
+  if (resultEl) {
+    // Number roll animation
+    const start = parseFloat(resultEl.textContent.replace(/,/g, '')) || 0;
+    const end = result;
+    const duration = 400;
+    const startTime = performance.now();
+
+    function animate(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + (end - start) * eased;
+      resultEl.textContent = current.toLocaleString('zh-CN', {
+        minimumFractionDigits: 2, maximumFractionDigits: to === 'JPY' ? 0 : 2
+      });
+      if (progress < 1) requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  if (rateEl) {
+    rateEl.textContent = `参考汇率 1 ${from} ≈ ${rate.toFixed(4)} ${to}（${CURRENCY_FLAGS[from]}→${CURRENCY_FLAGS[to]}）`;
+  }
+
+  // Update cost comparison
+  buildCostGrid(amount, from, to, rate);
+}
+
+// Attach calculator listeners
+(function() {
+  const amountEl = document.getElementById('calc-amount');
+  const fromEl = document.getElementById('from-currency');
+  const toEl = document.getElementById('to-currency');
+  const swapEl = document.getElementById('swap-btn');
+  if (amountEl) amountEl.addEventListener('input', calcConvert);
+  if (fromEl) fromEl.addEventListener('change', calcConvert);
+  if (toEl) toEl.addEventListener('change', calcConvert);
+  if (swapEl) {
+    swapEl.addEventListener('click', function() {
+      const fEl = document.getElementById('from-currency');
+      const tEl = document.getElementById('to-currency');
+      if (!fEl || !tEl) return;
+      const tmp = fEl.value;
+      fEl.value = tEl.value;
+      tEl.value = tmp;
+      calcConvert();
+    });
+  }
+})();
+
+// ===== RATE TICKER =====
+function buildTicker() {
+  const tickerEl = document.getElementById('rate-ticker');
+  if (!tickerEl) return;
+  const pairs = [
+    ['USD', 'CNY'], ['AUD', 'CNY'], ['GBP', 'CNY'],
+    ['EUR', 'CNY'], ['HKD', 'CNY'], ['CAD', 'CNY'],
+    ['JPY', 'CNY'], ['NZD', 'CNY'], ['SGD', 'CNY'],
+    ['CNY', 'AUD'], ['CNY', 'USD'], ['CNY', 'GBP']
+  ];
+  const changes = ['+0.12%','+0.08%','-0.15%','+0.21%','-0.09%','+0.04%',
+                   '-0.18%','+0.11%','+0.06%','-0.08%','+0.15%','-0.11%'];
+
+  let html = '';
+  const allPairs = [...pairs, ...pairs]; // double for seamless loop
+  allPairs.forEach(([a, b], i) => {
+    const rate = getRate(a, b);
+    const change = changes[i % changes.length];
+    const isPos = change.startsWith('+');
+    html += `<div class="ticker-item">
+      <span class="ticker-pair">${CURRENCY_FLAGS[a]} ${a}/${b}</span>
+      <span class="ticker-rate">${rate < 0.1 ? rate.toFixed(5) : rate.toFixed(4)}</span>
+      <span class="ticker-change ${isPos ? 'pos' : 'neg'}">${change}</span>
+    </div>`;
+  });
+  tickerEl.innerHTML = html;
+}
+
+// ===== COST GRID =====
+function buildCostGrid(amount, from, to, rate) {
+  const grid = document.getElementById('cost-grid');
+  if (!grid) return;
+  const converted = amount * rate;
+  const symbol = CURRENCY_SYMBOLS[to] || '';
+
+  const channels = [
+    {
+      name: '国有银行电汇（留学优惠）',
+      sub: '工行/建行/中行，凭录取通知书',
+      spreadPct: 1.0,
+      fixedFee: 150,
+      minFee: 50,
+      recommended: false,
+    },
+    {
+      name: 'Wise（国际汇款平台）',
+      sub: '真实中间汇率 + 固定手续费',
+      spreadPct: 0.35,
+      fixedFee: 0,
+      minFee: 0,
+      recommended: true,
+    },
+    {
+      name: '机场/商场找换所',
+      sub: '现钞换汇，无需预约',
+      spreadPct: 4.0,
+      fixedFee: 0,
+      minFee: 0,
+      recommended: false,
+    }
+  ];
+
+  grid.innerHTML = channels.map(ch => {
+    const spreadLoss = amount * (ch.spreadPct / 100);
+    const totalFee = spreadLoss + ch.fixedFee;
+    const youGet = converted - (totalFee * rate);
+    const recHtml = ch.recommended ? `<span class="cost-badge-rec">推荐</span><br>` : '';
+    return `<div class="cost-card ${ch.recommended ? 'recommended' : ''} reveal">
+      ${recHtml}
+      <div class="cost-channel">${ch.name}</div>
+      <div class="cost-channel-sub">${ch.sub}</div>
+      <div class="cost-detail-row">
+        <span class="cost-detail-label">汇率点差</span>
+        <span class="cost-detail-val ${ch.spreadPct <= 0.5 ? 'good' : ch.spreadPct >= 3 ? 'bad' : ''}">${ch.spreadPct}%</span>
+      </div>
+      <div class="cost-detail-row">
+        <span class="cost-detail-label">固定手续费</span>
+        <span class="cost-detail-val">${ch.fixedFee > 0 ? '¥' + ch.fixedFee.toFixed(0) : '无'}</span>
+      </div>
+      <div class="cost-detail-row">
+        <span class="cost-detail-label">综合成本估算</span>
+        <span class="cost-detail-val ${ch.spreadPct <= 0.5 ? 'good' : ch.spreadPct >= 3 ? 'bad' : ''}">
+          ~¥${(totalFee).toLocaleString('zh-CN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}
+        </span>
+      </div>
+      <div class="cost-total">
+        <div class="cost-total-label">参考到手金额</div>
+        <div class="cost-total-amount">${symbol}${Math.max(0, youGet).toLocaleString('zh-CN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Re-observe new cards
+  document.querySelectorAll('.cost-card.reveal:not(.visible)').forEach(el => {
+    if (typeof observer !== 'undefined') observer.observe(el);
+  });
+}
+
+// ===== FAQ =====
+const faqs = [
+  { q: '这个汇率换算器的数据准确吗？', a: '本工具提供的是参考中间汇率示意，数据仅供估算参考，不代表任何银行或金融机构的实际报价。实际换汇时，请务必以银行柜台、网银或相关换汇平台的实时牌价为准。' },
+  { q: '人民币每年购汇有额度限制吗？', a: '根据中国外汇管理局规定，境内个人每自然年内购汇累计不超过等值 5 万美元（约合 36 万元人民币）。超过此额度需提供用途证明材料，如录取通知书、留学费用证明等。建议出行前提前与开户行确认相关手续。' },
+  { q: 'Wise 在中国大陆能用吗？', a: 'Wise 目前支持从中国大陆汇款，但需要通过其合规合作渠道完成，具体可用性和操作方式可能因时间而异。建议访问 Wise 官网查阅最新的中国大陆用户操作指引，并完成实名认证流程。' },
+  { q: '银行电汇和买汇的区别是什么？', a: '银行电汇（Telegraphic Transfer）是将人民币通过 SWIFT 网络汇出到境外账户；买汇则是在国内将人民币兑换成外币现钞。两者适用的汇率不同（电汇价通常优于现钞价），手续费结构也不同，大额留学汇款通常更适合走电汇渠道。' },
+  { q: '换汇点差是如何产生的？', a: '金融机构以中间价为基准，以低于中间价买入外币（买入价），以高于中间价卖出外币（卖出价），两者之差即为点差（spread），是换汇机构的主要盈利来源之一。点差越小，换汇成本越低。' },
+  { q: '留学换汇有什么优惠汇率可以申请？', a: '部分国有银行（如工商银行、中国银行、建设银行）针对出国留学汇款提供专属优惠汇率，需提供录取通知书、护照、学费缴费通知等材料。大额汇款可提前与银行国际汇款部门预约，询问当日优惠汇率及手续费减免情况。' },
+];
+
+(function initFAQ() {
+  const faqList = document.getElementById('faq-list');
+  if (!faqList) return;
+  faqList.innerHTML = faqs.map((faq, i) => `
+  <div class="faq-item" data-index="${i}" role="listitem">
+    <button class="faq-q" aria-expanded="false" aria-controls="faq-a-${i}" id="faq-q-${i}">
+      ${faq.q}
+      <span class="faq-q-icon" aria-hidden="true">+</span>
+    </button>
+    <div class="faq-a" id="faq-a-${i}" role="region" aria-labelledby="faq-q-${i}">
+      <div class="faq-a-inner">${faq.a}</div>
+    </div>
+  </div>
+`).join('');
+
+  faqList.addEventListener('click', e => {
+    const btn = e.target.closest('.faq-q');
+    if (!btn) return;
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+})();
+
+// ===== NAV SCROLL =====
+(function initNav() {
+  const nav = document.getElementById('main-nav');
+  if (!nav) return;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+})();
+
+// ===== HAMBURGER =====
+(function initHamburger() {
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (!hamburger || !mobileMenu) return;
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', (!isOpen).toString());
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+})();
+
+function closeMobileMenu() {
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburger = document.getElementById('hamburger');
+  if (mobileMenu) mobileMenu.classList.remove('open');
+  if (hamburger) {
+    hamburger.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+  document.body.style.overflow = '';
+}
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+// ===== SPREAD BARS ANIMATION =====
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const widths = [35, 60, 80, 100];
+      widths.forEach((w, i) => {
+        const bar = document.getElementById(`bar-${i}`);
+        if (bar) {
+          setTimeout(() => { bar.style.width = w + '%'; }, i * 120);
+        }
+      });
+      barObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+// ===== BACK TO TOP =====
+(function initBackTop() {
+  const backTop = document.getElementById('back-top');
+  if (!backTop) return;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) backTop.classList.add('visible');
+    else backTop.classList.remove('visible');
+  }, { passive: true });
+  backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
+// ===== WIDGET =====
+(function initWidget() {
+  const widgetBtn = document.getElementById('widget-btn');
+  const widgetPanel = document.getElementById('widget-panel');
+  const widgetClose = document.getElementById('widget-close');
+  const widgetInput = document.getElementById('widget-input');
+  const widgetMessages = document.getElementById('widget-messages');
+  const widgetSendBtn = document.getElementById('widget-send-btn');
+  if (!widgetBtn || !widgetPanel) return;
+
+  function toggleWidget() {
+    const isOpen = widgetPanel.classList.contains('open');
+    widgetPanel.classList.toggle('open');
+    widgetBtn.setAttribute('aria-expanded', (!isOpen).toString());
+    if (!isOpen && widgetInput) { setTimeout(() => widgetInput.focus(), 200); }
+  }
+
+  widgetBtn.addEventListener('click', toggleWidget);
+  widgetBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleWidget(); } });
+  if (widgetClose) widgetClose.addEventListener('click', () => { widgetPanel.classList.remove('open'); widgetBtn.setAttribute('aria-expanded', 'false'); });
+
+  const WIDGET_REPLIES = {
+    '人民币': '人民币换外币，建议先在上方试算器输入金额，查看不同渠道的参考到手金额对比。一般而言，Wise 等在线平台点差较低，适合中小额跨境汇款。',
+    '澳元': '人民币换澳元是留学最常见需求！参考汇率约 1 CNY ≈ 0.22 AUD，渠道对比建议看页面上方的费用对比卡。留学大额汇款也可咨询工行、建行的留学专项汇款服务。',
+    '英镑': '人民币换英镑，参考汇率约 1 CNY ≈ 0.109 GBP。英国留学换汇可使用 Wise 或 HSBC 等英国本地有账户更方便日常消费。',
+    'wise': 'Wise 以中间汇率计费，手续费透明，适合中小额换汇。需完成实名认证（护照+手机号）。请在 Wise 官网查询最新支持的汇款通道。',
+    '银行': '银行电汇适合大额留学汇款，凭录取通知书可申请优惠汇率。工行、建行、中行等国有大行均有留学汇款服务，建议提前预约并询问当日优惠汇率。',
+    '省钱': '省换汇成本核心三招：① 选点差低的渠道（Wise等）② 避开节假日和重大数据日换汇 ③ 大额汇款凭证申请留学优惠汇率。可用上方试算器比较各渠道实际到手金额。',
+    '攻略': '换汇省钱攻略：① 比渠道点差，不只看手续费 ② 工作日银行交易时段报价更优 ③ 大额分批换，摊平汇率风险 ④ 银行留学优惠汇率记得提前申请。详细攻略见页面"留学换汇攻略"板块。',
+  };
+
+  const DEFAULT_REPLY = '这个问题我需要再查查！你可以在上方试算器直接输入金额换算，或者查看页面"渠道费用对比"和"换汇攻略"板块。如有复杂换汇规划需求，建议直接咨询开户银行。';
+
+  function addMessage(text, type) {
+    if (!widgetMessages) return;
+    const msg = document.createElement('div');
+    msg.className = `widget-msg ${type}`;
+    msg.innerHTML = `<div class="widget-bubble">${text}</div>`;
+    widgetMessages.appendChild(msg);
+    widgetMessages.scrollTop = widgetMessages.scrollHeight;
+  }
+
+  window.widgetQuick = function(text) {
+    addMessage(text, 'user');
+    setTimeout(() => {
+      const lower = text.toLowerCase();
+      const reply = Object.entries(WIDGET_REPLIES).find(([k]) => lower.includes(k.toLowerCase()));
+      addMessage(reply ? reply[1] : DEFAULT_REPLY, 'bot');
+    }, 600);
+  };
+
+  function sendWidgetMsg() {
+    if (!widgetInput) return;
+    const text = widgetInput.value.trim();
+    if (!text) return;
+    addMessage(text, 'user');
+    widgetInput.value = '';
+    setTimeout(() => {
+      const lower = text.toLowerCase();
+      const reply = Object.entries(WIDGET_REPLIES).find(([k]) => lower.includes(k.toLowerCase()));
+      addMessage(reply ? reply[1] : DEFAULT_REPLY, 'bot');
+    }, 700);
+  }
+
+  if (widgetSendBtn) widgetSendBtn.addEventListener('click', sendWidgetMsg);
+  if (widgetInput) widgetInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); sendWidgetMsg(); } });
+})();
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  buildTicker();
+  calcConvert();
+
+  // Scroll reveal
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Spread bar observer
+  const barWrap = document.querySelector('.spread-bar-wrap');
+  if (barWrap) barObserver.observe(barWrap);
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

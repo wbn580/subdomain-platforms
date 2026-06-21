@@ -1,0 +1,22 @@
+{
+  "slug": "huilv-jisuan",
+  "domain": "huilv-jisuan.wubaining.workers.dev",
+  "brand": "汇率换汇试算器",
+  "tagline": "多币种换汇试算 + 留学换汇成本测算",
+  "lang": "zh-CN",
+  "bizLine": "fx-calculator",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0E2740",
+    "accent": "#D9A441"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "汇率攻略助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-huilv-jisuan",
+  "noBrandLink": true
+}

@@ -1,0 +1,4 @@
+name = "liuxue-jisuan"
+compatibility_date = "2026-06-20"
+[assets]
+directory = "./dist/liuxue-jisuan"

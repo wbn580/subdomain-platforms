@@ -1,0 +1,666 @@
+---
+---
+<!-- ═══ HERO ═══ -->
+<section id="hero" aria-label="平台介绍">
+  <div class="hero-bg">
+    <!-- Pexels photo 18545023 — abstract dark technology data visualization 7680×4320 -->
+    <img
+      class="hero-bg-img"
+      src="https://images.pexels.com/photos/18545023/pexels-photo-18545023.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+      alt="深色科技数据可视化背景"
+      loading="eager"
+      fetchpriority="high"
+      width="1920" height="1080"
+    >
+  </div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+    <div class="particle p6"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      全部工具免费 · 无需注册 · 随时可用
+    </div>
+
+    <h1 class="hero-title">
+      留学财务计算<br>
+      <span class="brand">一站算清</span>
+    </h1>
+
+    <p class="hero-tagline">
+      留学费用、GPA换算、汇率兑换、贷款月供、落户积分——<br>
+      jisuan.help，各种算什么都在这里。
+    </p>
+
+    <div class="hero-search" role="search">
+      <div class="hero-search-icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </div>
+      <input
+        type="text"
+        placeholder="搜索计算器，如「GPA换算」「贷款月供」"
+        id="hero-search-input"
+        aria-label="搜索计算工具"
+      >
+      <button class="hero-search-btn" onclick="doSearch()" aria-label="搜索">搜索</button>
+    </div>
+
+    <div class="hero-chips" role="list" aria-label="快速导航">
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">📚 留学费用</button>
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">🎓 GPA换算</button>
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">💱 汇率换汇</button>
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">🏠 贷款月供</button>
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">🏙️ 落户积分</button>
+      <button class="hero-chip" onclick="scrollToId('#calculators')" role="listitem">📊 个税计算</button>
+    </div>
+  </div>
+
+  <div class="hero-stats" role="group" aria-label="平台数据">
+    <div class="hero-stat">
+      <div class="hero-stat-num">18+</div>
+      <div class="hero-stat-label">在线计算工具</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">15万+</div>
+      <div class="hero-stat-label">月活跃用户</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">0</div>
+      <div class="hero-stat-label">注册门槛</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">实时</div>
+      <div class="hero-stat-label">汇率数据更新</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="hero-scroll-arrow">↓</div>
+    <span>向下探索</span>
+  </div>
+</section>
+
+<!-- ═══ CALCULATOR GRID ═══ -->
+<section id="calculators" class="section" aria-labelledby="calc-heading">
+  <div class="container">
+    <div class="calc-header">
+      <div class="section-eyebrow sr" aria-hidden="true">全部工具</div>
+      <h2 class="section-title sr sr-delay-1" id="calc-heading">18个专业计算器</h2>
+      <p class="section-sub sr sr-delay-2" style="margin:0 auto;">
+        覆盖留学、财务、落户、生活全场景，持续更新中。所有计算结果仅供参考，请以官方数据为准。
+      </p>
+    </div>
+
+    <div class="calc-tabs sr sr-delay-2" role="tablist" aria-label="分类筛选">
+      <button class="calc-tab active" role="tab" aria-selected="true" data-filter="all" onclick="filterCalcs('all', this)">全部</button>
+      <button class="calc-tab" role="tab" aria-selected="false" data-filter="liuxue" onclick="filterCalcs('liuxue', this)">🎓 留学</button>
+      <button class="calc-tab" role="tab" aria-selected="false" data-filter="finance" onclick="filterCalcs('finance', this)">💰 财务</button>
+      <button class="calc-tab" role="tab" aria-selected="false" data-filter="life" onclick="filterCalcs('life', this)">🏙️ 生活</button>
+      <button class="calc-tab" role="tab" aria-selected="false" data-filter="tax" onclick="filterCalcs('tax', this)">📋 税务</button>
+      <button class="calc-tab" role="tab" aria-selected="false" data-filter="visa" onclick="filterCalcs('visa', this)">🛂 签证</button>
+    </div>
+
+    <div class="calc-grid" id="calc-grid">
+
+      <!-- Row 1 -->
+      <a href="https://liuxue.jisuan.help" class="calc-card featured sr sr-delay-1" data-cat="liuxue" aria-label="留学总费用计算器">
+        <div class="calc-badge-hot">🔥 最热</div>
+        <div class="calc-icon">🎓</div>
+        <h3 class="calc-card-title">留学总费用计算器</h3>
+        <p class="calc-card-desc">澳洲/英国/美国/加拿大学费 + 生活费 + 医保 + 机票，一次算清三年总花费。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag liuxue">留学必备</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://gpa.jisuan.help" class="calc-card sr sr-delay-2" data-cat="liuxue" aria-label="GPA成绩换算器">
+        <div class="calc-badge-new">NEW</div>
+        <div class="calc-icon">📊</div>
+        <h3 class="calc-card-title">GPA 成绩换算器</h3>
+        <p class="calc-card-desc">国内百分制 / 五分制 / 四分制互转，支持澳洲 WAM、英国一等/二等学位对照。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag liuxue">留学必备</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://huilv.jisuan.help" class="calc-card sr sr-delay-3" data-cat="finance" aria-label="汇率换汇试算器">
+        <div class="calc-icon">💱</div>
+        <h3 class="calc-card-title">汇率换汇试算器</h3>
+        <p class="calc-card-desc">人民币 / 港币 / 澳元 / 英镑 / 美元多向换算，实时参考汇率，留学汇款前必试。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag finance">财务工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://yuegong.jisuan.help" class="calc-card sr sr-delay-4" data-cat="finance" aria-label="贷款月供计算器">
+        <div class="calc-icon">🏠</div>
+        <h3 class="calc-card-title">贷款月供计算器</h3>
+        <p class="calc-card-desc">房贷/车贷/个人贷款本息算法，支持等额本息与等额本金两种还款方式。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag finance">财务工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://huji.jisuan.help" class="calc-card sr sr-delay-5" data-cat="life" aria-label="落户积分计算器">
+        <div class="calc-icon">🏙️</div>
+        <h3 class="calc-card-title">落户积分计算器</h3>
+        <p class="calc-card-desc">上海积分制居住证 / 北京积分落户，输入年龄学历工作年限，一键测算积分。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag life">生活工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://geshui.jisuan.help" class="calc-card sr sr-delay-6" data-cat="tax" aria-label="个人所得税计算器">
+        <div class="calc-icon">📋</div>
+        <h3 class="calc-card-title">个人所得税计算器</h3>
+        <p class="calc-card-desc">2024最新税率表，月薪 → 实际到手工资，支持五险一金专项附加扣除。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag tax">税务工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <!-- Row 2 -->
+      <a href="https://yasi.jisuan.help" class="calc-card sr sr-delay-1" data-cat="liuxue" aria-label="雅思分数计算器">
+        <div class="calc-icon">📝</div>
+        <h3 class="calc-card-title">雅思综合分计算器</h3>
+        <p class="calc-card-desc">四项单科分 → 综合分 band 自动四舍五入，快速校验目标院校最低要求。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag liuxue">留学必备</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://qianzheng.jisuan.help" class="calc-card sr sr-delay-2" data-cat="visa" aria-label="签证费用计算器">
+        <div class="calc-icon">🛂</div>
+        <h3 class="calc-card-title">签证费用计算器</h3>
+        <p class="calc-card-desc">澳洲学签/工签/旅游签证申请费，汇率自动换算，含附申请人附加费。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag visa">签证工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://oshc.jisuan.help" class="calc-card sr sr-delay-3" data-cat="liuxue" aria-label="海外学生医保估价">
+        <div class="calc-icon">🏥</div>
+        <h3 class="calc-card-title">OSHC 医保费用估算</h3>
+        <p class="calc-card-desc">澳洲 OSHC 年费按学习年限 + 人数估算，Allianz / Medibank / BUPA 对比参考。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag liuxue">留学必备</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://auyimin.jisuan.help" class="calc-card sr sr-delay-4" data-cat="visa" aria-label="澳洲移民打分计算器">
+        <div class="calc-icon">🇦🇺</div>
+        <h3 class="calc-card-title">澳洲移民打分 (EOI)</h3>
+        <p class="calc-card-desc">独立技术移民 189 / 190 / 491，按年龄+英语+学历+工作经验自动测分。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag visa">签证工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://fudai.jisuan.help" class="calc-card sr sr-delay-5" data-cat="finance" aria-label="复利投资计算器">
+        <div class="calc-icon">📈</div>
+        <h3 class="calc-card-title">复利投资计算器</h3>
+        <p class="calc-card-desc">本金 × 年化利率 × 投资年限，复利滚算，直观展示财富增长曲线。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag finance">财务工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="https://auyimin.jisuan.help" class="calc-card sr sr-delay-6" data-cat="life" aria-label="房租与买房成本对比">
+        <div class="calc-icon">🔑</div>
+        <h3 class="calc-card-title">租房 vs 买房成本对比</h3>
+        <p class="calc-card-desc">综合贷款利息、印花税、物业费，算清 5 / 10 / 20 年租买哪个更划算。</p>
+        <div class="calc-card-meta">
+          <span class="calc-card-tag life">生活工具</span>
+          <span class="calc-card-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED / POPULAR ═══ -->
+<section id="featured" class="section" aria-labelledby="featured-heading">
+  <div class="container">
+    <div class="section-eyebrow sr" aria-hidden="true">精选推荐</div>
+    <h2 class="section-title sr sr-delay-1" id="featured-heading">本周最多人用</h2>
+    <p class="section-sub sr sr-delay-2" style="margin-bottom:40px;">根据用户访问量实时统计，以下是本周最受欢迎的计算工具。</p>
+
+    <div class="featured-grid sr sr-delay-2">
+      <div class="featured-main" role="article">
+        <div>
+          <div class="tag-chip" style="margin-bottom:12px;">🏆 本周 #1</div>
+          <h3 class="featured-main-title">留学总费用计算器</h3>
+          <p class="featured-main-desc">
+            澳洲四大 / 英国 G5 / 美国常春藤，留学三年总花费全面拆解。
+            学费＋生活＋签证＋医保＋机票，一个计算器全部搞定。
+            每周更新官方学费数据，是目前国内最精准的留学费用估算工具之一。
+          </p>
+        </div>
+        <a href="https://liuxue.jisuan.help" class="featured-main-cta">立即试算 →</a>
+      </div>
+
+      <div class="featured-list">
+        <a href="https://gpa.jisuan.help" class="featured-item">
+          <div class="featured-item-icon fi-green">🎓</div>
+          <div class="featured-item-body">
+            <div class="featured-item-title">GPA 换算器</div>
+            <div class="featured-item-meta">国内百分制 ↔ 海外 GPA</div>
+          </div>
+          <div class="featured-item-stat">本周 12,400 次</div>
+        </a>
+        <a href="https://huilv.jisuan.help" class="featured-item">
+          <div class="featured-item-icon fi-amber">💱</div>
+          <div class="featured-item-body">
+            <div class="featured-item-title">汇率换汇试算</div>
+            <div class="featured-item-meta">CNY / AUD / GBP / USD</div>
+          </div>
+          <div class="featured-item-stat">本周 9,810 次</div>
+        </a>
+        <a href="https://geshui.jisuan.help" class="featured-item">
+          <div class="featured-item-icon fi-purple">📋</div>
+          <div class="featured-item-body">
+            <div class="featured-item-title">个人所得税计算</div>
+            <div class="featured-item-meta">月薪 → 实际到手</div>
+          </div>
+          <div class="featured-item-stat">本周 7,350 次</div>
+        </a>
+        <a href="https://yuegong.jisuan.help" class="featured-item">
+          <div class="featured-item-icon fi-blue">🏠</div>
+          <div class="featured-item-body">
+            <div class="featured-item-title">贷款月供计算</div>
+            <div class="featured-item-meta">房贷 / 车贷 / 个人贷款</div>
+          </div>
+          <div class="featured-item-stat">本周 6,020 次</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section id="why" class="section" aria-labelledby="why-heading">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:48px;">
+      <div class="section-eyebrow sr" aria-hidden="true">平台优势</div>
+      <h2 class="section-title sr sr-delay-1" id="why-heading">为什么选 jisuan.help</h2>
+      <p class="section-sub sr sr-delay-2" style="margin:0 auto;">免费、精准、即用，专为华人留学生和新移民设计的计算工具平台。</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card sr sr-delay-1">
+        <div class="why-icon">⚡</div>
+        <h3 class="why-title">秒出结果</h3>
+        <p class="why-desc">浏览器端直接计算，无需等待，结果即填即出，不依赖服务器响应。</p>
+      </div>
+      <div class="why-card sr sr-delay-2">
+        <div class="why-icon">🎯</div>
+        <h3 class="why-title">数据精准</h3>
+        <p class="why-desc">学费 / 签证费 / 汇率参数每周由编辑团队核对官方数据，不用过期来源。</p>
+      </div>
+      <div class="why-card sr sr-delay-3">
+        <div class="why-icon">🔒</div>
+        <h3 class="why-title">零隐私风险</h3>
+        <p class="why-desc">无需注册、无需填写手机邮箱，计算数据不上传服务器，纯本地运算。</p>
+      </div>
+      <div class="why-card sr sr-delay-4">
+        <div class="why-icon">📱</div>
+        <h3 class="why-title">全平台可用</h3>
+        <p class="why-desc">桌面端/手机端完美自适应，随时随地在手机上算完发给家长或朋友。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INLINE DEMO CALCULATOR ═══ -->
+<section id="demo" class="section" aria-labelledby="demo-heading">
+  <div class="container">
+    <div class="demo-wrapper">
+      <div class="demo-copy sr">
+        <div class="section-eyebrow" aria-hidden="true">在线试算</div>
+        <h2 class="section-title" id="demo-heading">贷款月供，现在就算</h2>
+        <p class="section-sub">
+          无需跳转，在这里直接试算房贷或个人贷款月供。
+          等额本息 / 等额本金两种方式，结果即时呈现。
+        </p>
+        <div class="demo-features" style="margin-top:24px;">
+          <div class="demo-feat">
+            <div class="demo-feat-icon" aria-hidden="true">✓</div>
+            公开金融公式，与银行官方计算器一致
+          </div>
+          <div class="demo-feat">
+            <div class="demo-feat-icon" aria-hidden="true">✓</div>
+            支持 AUD / CNY / GBP / USD 贷款
+          </div>
+          <div class="demo-feat">
+            <div class="demo-feat-icon" aria-hidden="true">✓</div>
+            自动拆分本金/利息明细，一目了然
+          </div>
+          <div class="demo-feat">
+            <div class="demo-feat-icon" aria-hidden="true">✓</div>
+            仅供参考，实际贷款请咨询持牌贷款顾问
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-widget sr sr-delay-2" role="form" aria-label="贷款月供计算器">
+        <div class="calc-widget-header">
+          <div class="calc-widget-dots">
+            <div class="calc-widget-dot dot-r"></div>
+            <div class="calc-widget-dot dot-y"></div>
+            <div class="calc-widget-dot dot-g"></div>
+          </div>
+          <div class="calc-widget-title">🏠 贷款月供计算器 — yuegong.jisuan.help</div>
+        </div>
+        <div class="calc-widget-body">
+          <div class="cw-tabs" role="tablist">
+            <button class="cw-tab active" role="tab" aria-selected="true" onclick="setCwTab('annuity', this)">等额本息</button>
+            <button class="cw-tab" role="tab" aria-selected="false" onclick="setCwTab('principal', this)">等额本金</button>
+            <button class="cw-tab" role="tab" aria-selected="false" onclick="setCwTab('interest', this)">利息总额</button>
+          </div>
+
+          <div class="cw-field">
+            <label class="cw-label" for="cw-principal">贷款金额（元）</label>
+            <input class="cw-input" type="number" id="cw-principal" placeholder="如 1000000" min="1000" step="1000">
+          </div>
+          <div class="cw-row">
+            <div class="cw-field">
+              <label class="cw-label" for="cw-rate">年利率 (%)</label>
+              <input class="cw-input" type="number" id="cw-rate" placeholder="如 4.3" step="0.01" min="0.1">
+            </div>
+            <div class="cw-field">
+              <label class="cw-label" for="cw-months">还款月数</label>
+              <input class="cw-input" type="number" id="cw-months" placeholder="如 360" min="1" max="480">
+            </div>
+          </div>
+
+          <button class="cw-calc-btn" onclick="calcLoan()" aria-label="计算月供">计算月供</button>
+
+          <div class="cw-result" id="cw-result" role="region" aria-live="polite" aria-label="计算结果">
+            <div class="cw-result-label">每月还款金额</div>
+            <div class="cw-result-amount" id="cw-monthly">—</div>
+            <div class="cw-result-breakdown" id="cw-breakdown"></div>
+            <div class="cw-disclaimer">仅供参考 · 实际还款金额以银行最终核定为准</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="section" aria-labelledby="faq-heading">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:44px;">
+      <div class="section-eyebrow sr" aria-hidden="true">常见问题</div>
+      <h2 class="section-title sr sr-delay-1" id="faq-heading">高频问题快答</h2>
+    </div>
+    <div class="faq-list" role="list">
+
+      <div class="faq-item sr sr-delay-1" role="listitem">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          jisuan.help 上的计算结果准确吗？
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" role="region">
+          所有计算器均使用公开的、与官方一致的公式，学费/签证费/汇率等参数由编辑团队每周核对官方来源。但计算结果仅供<strong>参考估算</strong>，实际数字以院校官网/使馆/银行最终核定为准，建议做重要决策前咨询持牌专业人士。
+        </div>
+      </div>
+
+      <div class="faq-item sr sr-delay-2" role="listitem">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          使用需要注册账号或付费吗？
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" role="region">
+          完全免费，无需注册，无需留手机号或邮箱。所有计算在您的浏览器本地完成，不会上传任何个人数据。
+        </div>
+      </div>
+
+      <div class="faq-item sr sr-delay-3" role="listitem">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          留学费用计算器支持哪些国家？
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" role="region">
+          目前覆盖<strong>澳洲、英国、美国、加拿大、新西兰、新加坡、香港</strong>七个主要留学目的地，包含学费、生活费、OSHC/NHS 医保、签证申请费及往返机票参考价。更多国家持续添加中。
+        </div>
+      </div>
+
+      <div class="faq-item sr sr-delay-4" role="listitem">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          汇率数据是实时的吗？
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" role="region">
+          汇率数据为每日更新的银行参考中间价，并非外汇市场实时成交价。实际换汇时请以银行或汇款平台当时报价为准。
+        </div>
+      </div>
+
+      <div class="faq-item sr sr-delay-5" role="listitem">
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
+          GPA 换算支持哪些制度？
+          <span class="faq-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="faq-a" role="region">
+          支持：国内百分制（0-100）→ GPA4.0 / GPA4.3 / GPA5.0 互换；澳洲 WAM（0-100）→ HD/D/Cr/P 等第；英国一等/二等上/二等下/三等对应国际 GPA。WES 认证换算逻辑亦已参考。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEAM / ABOUT ═══ -->
+<section id="team" class="section" aria-labelledby="team-heading">
+  <div class="container">
+    <div class="team-inner">
+      <div class="team-copy sr">
+        <div class="section-eyebrow" aria-hidden="true">关于平台</div>
+        <h2 class="section-title" id="team-heading">专业团队，持续维护</h2>
+        <p class="section-sub">
+          jisuan.help 由一支专注华人留学与移民的编辑团队维护，
+          每周核对官方数据来源，确保所有计算器参数保持最新。
+        </p>
+        <div class="team-stats-grid" style="margin-top:32px;">
+          <div class="team-stat-box">
+            <div class="team-stat-num">2022</div>
+            <div class="team-stat-label">平台上线年份</div>
+          </div>
+          <div class="team-stat-box">
+            <div class="team-stat-num">每周</div>
+            <div class="team-stat-label">数据核对频率</div>
+          </div>
+          <div class="team-stat-box">
+            <div class="team-stat-num">7国</div>
+            <div class="team-stat-label">留学目的地覆盖</div>
+          </div>
+          <div class="team-stat-box">
+            <div class="team-stat-num">18+</div>
+            <div class="team-stat-label">在线计算工具</div>
+          </div>
+        </div>
+      </div>
+      <div class="team-update-card sr sr-delay-2">
+        <div class="team-update-title">📋 最近更新日志</div>
+        <div class="update-item">
+          <div class="update-dot green"></div>
+          <div class="update-body">
+            <div class="update-tool">留学总费用计算器</div>
+            <div class="update-date">2026年6月 — 更新澳洲各校 2026 学费数据</div>
+          </div>
+        </div>
+        <div class="update-item">
+          <div class="update-dot blue"></div>
+          <div class="update-body">
+            <div class="update-tool">GPA 换算器</div>
+            <div class="update-date">2026年5月 — 新增英国学位等第对照</div>
+          </div>
+        </div>
+        <div class="update-item">
+          <div class="update-dot amber"></div>
+          <div class="update-body">
+            <div class="update-tool">签证费用计算器</div>
+            <div class="update-date">2026年5月 — 同步澳洲移民局最新费率表</div>
+          </div>
+        </div>
+        <div class="update-item">
+          <div class="update-dot green"></div>
+          <div class="update-body">
+            <div class="update-tool">汇率换汇试算器</div>
+            <div class="update-date">2026年4月 — 新增港币 / 新台币换算</div>
+          </div>
+        </div>
+        <div class="update-item">
+          <div class="update-dot blue"></div>
+          <div class="update-body">
+            <div class="update-tool">个人所得税计算器</div>
+            <div class="update-date">2026年3月 — 更新 2024 最新税率表</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA BANNER ═══ -->
+<section id="cta-banner" aria-label="行动号召">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-copy">
+        <h2 class="section-title">还在手算留学花费？</h2>
+        <p class="section-sub">立即试用留学总费用计算器，三年花多少钱，两分钟算清楚。</p>
+      </div>
+      <div class="cta-btns">
+        <a href="https://liuxue.jisuan.help" class="btn-primary">免费算留学费用</a>
+        <a href="#calculators" class="btn-outline">浏览全部工具</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAGE-SPECIFIC JAVASCRIPT ═══ -->
+562|<script is:inline>
+'use strict';
+
+/* ── Hero search ── */
+function doSearch() {
+  const v = document.getElementById('hero-search-input').value.trim();
+  if (!v) return;
+  document.getElementById('calculators').scrollIntoView({ behavior: 'smooth' });
+}
+document.getElementById('hero-search-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') doSearch();
+});
+function scrollToId(id) {
+  document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Calc card filter ── */
+function filterCalcs(cat, btn) {
+  document.querySelectorAll('.calc-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+
+  document.querySelectorAll('.calc-card').forEach(card => {
+    const show = cat === 'all' || card.dataset.cat === cat;
+    card.style.display = show ? 'block' : 'none';
+    card.style.opacity = show ? '1' : '0';
+  });
+}
+
+/* ── Demo calculator widget ── */
+let cwMode = 'annuity';
+function setCwTab(mode, btn) {
+  cwMode = mode;
+  document.querySelectorAll('.cw-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  document.getElementById('cw-result').classList.remove('show');
+}
+
+function calcLoan() {
+  const P = parseFloat(document.getElementById('cw-principal').value);
+  const annualRate = parseFloat(document.getElementById('cw-rate').value);
+  const n = parseInt(document.getElementById('cw-months').value);
+
+  if (!P || !annualRate || !n || P <= 0 || annualRate <= 0 || n <= 0) {
+    alert('请填写有效的贷款金额、年利率和还款月数。');
+    return;
+  }
+
+  const r = annualRate / 100 / 12;
+  let monthly, totalPay, totalInterest;
+
+  if (cwMode === 'annuity') {
+    // 等额本息: M = P × r × (1+r)^n / ((1+r)^n - 1)
+    monthly = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    totalPay = monthly * n;
+    totalInterest = totalPay - P;
+  } else if (cwMode === 'principal') {
+    // 等额本金 — show first month
+    const principalPerMonth = P / n;
+    const firstMonthInterest = P * r;
+    monthly = principalPerMonth + firstMonthInterest;
+    totalPay = P + P * r * (n + 1) / 2;
+    totalInterest = totalPay - P;
+  } else {
+    // 利息总额 (same as annuity monthly)
+    monthly = P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    totalPay = monthly * n;
+    totalInterest = totalPay - P;
+  }
+
+  const fmt = (v) => v.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const suffix = cwMode === 'principal' ? '（首月）' : '';
+
+  document.getElementById('cw-monthly').textContent = '¥' + fmt(monthly) + suffix;
+  document.getElementById('cw-breakdown').innerHTML = `
+    <div class="cw-result-row"><span>贷款本金</span><span>¥${fmt(P)}</span></div>
+    <div class="cw-result-row"><span>还款总额</span><span>¥${fmt(totalPay)}</span></div>
+    <div class="cw-result-row"><span>总利息支出</span><span style="color:var(--c-red)">¥${fmt(totalInterest)}</span></div>
+    <div class="cw-result-row"><span>还款月数</span><span>${n} 个月 (${(n/12).toFixed(1)} 年)</span></div>
+  `;
+  document.getElementById('cw-result').classList.add('show');
+}
+
+/* ── FAQ accordion ── */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+</script>

@@ -1,0 +1,700 @@
+---
+// 月供计算器 · Bespoke homepage content
+---
+<!-- ===== HERO + CALCULATOR ===== -->
+<section class="hero" id="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge" role="text">
+      <span class="hero-badge-dot" aria-hidden="true"></span>
+      专业房贷 &amp; 车贷试算工具
+    </div>
+    <h1>每月<em>供几多</em>，<br>秒算即知道</h1>
+    <p class="hero-sub">
+      输入贷款金额、年利率和年限，选择还款方式，<br>即时显示月供明细与完整还款计划
+    </p>
+    <div class="hero-meta">
+      <span class="hero-meta-item"><span class="hero-meta-icon" aria-hidden="true">⚡</span>即时计算</span>
+      <span class="hero-meta-item"><span class="hero-meta-icon" aria-hidden="true">📊</span>可视化图解</span>
+      <span class="hero-meta-item"><span class="hero-meta-icon" aria-hidden="true">📋</span>完整还款表</span>
+      <span class="hero-meta-item"><span class="hero-meta-icon" aria-hidden="true">📱</span>移动端友好</span>
+    </div>
+  </div>
+
+  <!-- CALCULATOR CARD -->
+  <div class="calc-wrapper" id="calculator" aria-label="月供计算器">
+    <div class="calc-card">
+      <div class="calc-header">
+        <div class="calc-header-left">
+          <div class="calc-header-icon" aria-hidden="true">🧮</div>
+          <div>
+            <h2>月供计算器</h2>
+            <p>房贷 / 车贷 / 消费贷均适用</p>
+          </div>
+        </div>
+        <div class="loan-type-tabs" role="tablist" aria-label="还款方式">
+          <button class="loan-tab active" id="tab-equal-payment" role="tab" aria-selected="true" onclick="switchTab('equal-payment')">等额本息</button>
+          <button class="loan-tab" id="tab-equal-principal" role="tab" aria-selected="false" onclick="switchTab('equal-principal')">等额本金</button>
+        </div>
+      </div>
+
+      <div class="calc-body">
+        <!-- INPUTS -->
+        <div class="calc-inputs">
+          <div class="field-group">
+            <label class="field-label" for="loan-amount">
+              贷款总额
+              <span class="field-unit">元（人民币 / AUD）</span>
+            </label>
+            <div class="field-input-wrap">
+              <span class="field-prefix" aria-hidden="true">¥</span>
+              <input class="field-input" id="loan-amount" type="number"
+                     value="1000000" min="1" step="10000"
+                     placeholder="如：1000000"
+                     aria-label="贷款总额（元）"
+                     oninput="calculate()">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="annual-rate">
+              年利率
+              <span class="field-unit">% / 年</span>
+            </label>
+            <div class="field-input-wrap">
+              <span class="field-prefix" aria-hidden="true">%</span>
+              <input class="field-input" id="annual-rate" type="number"
+                     value="4.2" min="0.01" max="30" step="0.01"
+                     placeholder="如：4.20"
+                     aria-label="年利率（百分比）"
+                     oninput="calculate()">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label" for="loan-years">
+              贷款年限
+              <span class="field-unit">年</span>
+            </label>
+            <div class="field-input-wrap">
+              <span class="field-prefix" aria-hidden="true">年</span>
+              <input class="field-input" id="loan-years" type="number"
+                     value="30" min="1" max="50" step="1"
+                     placeholder="如：30"
+                     aria-label="贷款年限（年）"
+                     style="padding-left: 42px"
+                     oninput="calculate()">
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field-label">还款方式</div>
+            <div class="method-group" role="radiogroup" aria-label="还款方式选择">
+              <label class="method-option">
+                <input type="radio" name="method" value="equal-payment" checked
+                       onchange="switchTab('equal-payment')">
+                <div class="method-label">
+                  <span class="method-emoji">📊</span>
+                  <span class="method-name">等额本息</span>
+                  <span class="method-desc">每月固定，利多息少</span>
+                </div>
+              </label>
+              <label class="method-option">
+                <input type="radio" name="method" value="equal-principal"
+                       onchange="switchTab('equal-principal')">
+                <div class="method-label">
+                  <span class="method-emoji">📉</span>
+                  <span class="method-name">等额本金</span>
+                  <span class="method-desc">递减还款，总息少</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button class="calc-btn" onclick="calculate()" aria-label="计算月供">
+            立即计算月供 ⚡
+          </button>
+          <p class="calc-disclaimer">
+            ⚠ 以上结果仅供参考，以银行实际核定利率及合同条款为准，建议咨询专业贷款顾问。
+          </p>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="calc-results" id="calc-results" aria-live="polite">
+          <div class="result-placeholder" id="result-placeholder">
+            <div class="result-placeholder-icon" aria-hidden="true">🏠</div>
+            <div class="result-placeholder-text">输入参数后点击「立即计算」</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amortization -->
+      <div id="amort-section" style="padding: 0 32px 24px; display:none;">
+        <div class="amort-toggle" id="amort-toggle" onclick="toggleAmort()" role="button" aria-expanded="false" tabindex="0" onkeydown="if(event.key==='Enter')toggleAmort()">
+          <span class="amort-toggle-text" id="amort-toggle-text">📋 展开完整还款计划表</span>
+          <span class="amort-chevron" id="amort-chevron" aria-hidden="true">▼</span>
+        </div>
+        <div class="amort-container" id="amort-container" role="region" aria-label="还款计划表">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS RIBBON ===== -->
+<div class="stats-ribbon" aria-label="关键数据">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stats-item reveal">
+        <div class="stats-num">30<span>年</span></div>
+        <div class="stats-label">最长还款年限</div>
+      </div>
+      <div class="stats-item reveal reveal-delay-1">
+        <div class="stats-num">5.8<span>%</span></div>
+        <div class="stats-label">澳洲现行参考利率</div>
+      </div>
+      <div class="stats-item reveal reveal-delay-2">
+        <div class="stats-num">3.45<span>%</span></div>
+        <div class="stats-label">国内 5 年 LPR 参考</div>
+      </div>
+      <div class="stats-item reveal reveal-delay-3">
+        <div class="stats-num">20<span>%+</span></div>
+        <div class="stats-label">典型首付比例</div>
+      </div>
+    </div>
+  </div>
+</div>
+<p style="text-align:center;font-size:11px;color:var(--text-light);padding:8px 0;background:var(--accent-dark);">
+  数据仅供参考，以银行官网为准 · 更新于 2026 年
+</p>
+
+<!-- ===== METHOD COMPARISON ===== -->
+<section class="method-comparison" id="methods">
+  <div class="container">
+    <div class="section-label">还款方式对比</div>
+    <h2 class="section-title reveal">等额本息 vs<br>等额本金</h2>
+    <p class="section-subtitle reveal">两种主流还款方式各有优劣，选择前先了解核心差异</p>
+
+    <div class="method-comparison-grid">
+      <div class="method-card reveal">
+        <div class="method-card-header">
+          <div class="method-card-icon primary" aria-hidden="true">📊</div>
+          <div>
+            <div class="method-card-title">等额本息</div>
+            <span class="method-card-tag tag-primary">月供恒定</span>
+          </div>
+        </div>
+        <div class="method-card-body">
+          <p class="method-card-desc">
+            每月还款金额固定不变，利息占比前高后低。现金流可预测，适合收入稳定的工薪阶层。
+          </p>
+          <ul class="method-points">
+            <li><span class="point-icon">✅</span> 每月还款额固定，便于规划家庭支出</li>
+            <li><span class="point-icon">✅</span> 还款压力均匀，前期负担不沉重</li>
+            <li><span class="point-icon">⚠️</span> 总利息支出高于等额本金</li>
+            <li><span class="point-icon">⚠️</span> 前期本金偿还比例低，提前还款收益相对小</li>
+            <li><span class="point-icon">💡</span> 适合：收入稳定、规划能力强的购房者</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="method-card reveal reveal-delay-1">
+        <div class="method-card-header">
+          <div class="method-card-icon accent" aria-hidden="true">📉</div>
+          <div>
+            <div class="method-card-title">等额本金</div>
+            <span class="method-card-tag tag-accent">总息最少</span>
+          </div>
+        </div>
+        <div class="method-card-body">
+          <p class="method-card-desc">
+            每月偿还本金相同，利息随剩余本金减少而逐月递降。总利息支出比等额本息少。
+          </p>
+          <ul class="method-points">
+            <li><span class="point-icon">✅</span> 总利息更少，长期成本更低</li>
+            <li><span class="point-icon">✅</span> 月供逐月递减，后期还款压力小</li>
+            <li><span class="point-icon">⚠️</span> 前期月供金额较高，初期压力大</li>
+            <li><span class="point-icon">⚠️</span> 首月月供可能是等额本息的 1.5–2 倍</li>
+            <li><span class="point-icon">💡</span> 适合：有一定储蓄、收入较高或即将提升的人群</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PREPAYMENT TIPS ===== -->
+<section id="tips">
+  <div class="container">
+    <div class="section-label">省息攻略</div>
+    <h2 class="section-title reveal">提前还款，省息有门道</h2>
+    <p class="section-subtitle reveal">合理安排还款节奏，可节省数万至数十万利息支出</p>
+
+    <div class="tips-grid">
+      <div class="tip-card reveal">
+        <div class="tip-icon" aria-hidden="true">⏰</div>
+        <h3 class="tip-title">越早还越省</h3>
+        <p class="tip-text">
+          贷款前 1/3 期间是利息集中支出阶段。如果有额外资金，优先在前 3–5 年内提前还款，节省的利息往往是后期的 3 倍以上。
+        </p>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon" aria-hidden="true">📆</div>
+        <h3 class="tip-title">每年多还一次月供</h3>
+        <p class="tip-text">
+          将年终奖或年度储蓄额外还一期本金，30 年贷款可缩短约 4–6 年还款期，节省利息可观。计算建议用本工具验证。
+        </p>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon" aria-hidden="true">🔄</div>
+        <h3 class="tip-title">再融资降低利率</h3>
+        <p class="tip-text">
+          利率环境改变时，考虑向银行申请重新定价（重新定价 / refinance）。澳洲市场利率下行阶段，refinance 可每年省息数千至数万澳元。
+        </p>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon" aria-hidden="true">🏦</div>
+        <h3 class="tip-title">offset 账户对冲</h3>
+        <p class="tip-text">
+          澳洲银行普遍提供 100% offset 账户——账户余额抵扣贷款本金计息。日常工资收入停在 offset 账户，无需提前还款也能大幅减少利息。
+        </p>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon" aria-hidden="true">💳</div>
+        <h3 class="tip-title">提高还款频率</h3>
+        <p class="tip-text">
+          将月供改为双周或每周还款（部分银行支持），每年多还约 1 次月供的金额，相当于额外还款，有效缩短还款期限。
+        </p>
+      </div>
+      <div class="tip-card reveal reveal-delay-3">
+        <div class="tip-icon" aria-hidden="true">📊</div>
+        <h3 class="tip-title">对比固定 vs 浮动利率</h3>
+        <p class="tip-text">
+          加息周期选浮动可能较省；降息周期锁定固定利率规避风险。建议结合本工具对比两种方案的总利息差异后再做决策。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INTEREST RATE REFERENCE ===== -->
+<section class="rate-section">
+  <div class="container">
+    <div class="section-label" style="color: rgba(255,255,255,.5);">参考利率</div>
+    <h2 class="section-title reveal" style="color: #FFF;">主流贷款参考利率</h2>
+    <p class="section-subtitle reveal" style="color: rgba(255,255,255,.55);">仅供参考，以各银行官网及贷款合同为准</p>
+
+    <div class="rate-table-wrap reveal">
+      <div class="rate-row header" role="row">
+        <span role="columnheader">贷款类型</span>
+        <span role="columnheader">参考利率</span>
+        <span role="columnheader" class="bank">市场区间</span>
+        <span role="columnheader">说明</span>
+      </div>
+      <div class="rate-row" role="row">
+        <span class="type">🇨🇳 国内房贷（LPR）</span>
+        <span class="rate-val highlight">3.45%</span>
+        <span class="rate-val bank">3.10%–3.75%</span>
+        <span class="rate-val">5 年期 LPR（2026 年参考）</span>
+      </div>
+      <div class="rate-row" role="row">
+        <span class="type">🇦🇺 澳洲浮动房贷</span>
+        <span class="rate-val highlight">5.8%–6.2%</span>
+        <span class="rate-val bank">5.5%–7.0%</span>
+        <span class="rate-val">主要银行浮动利率参考区间</span>
+      </div>
+      <div class="rate-row" role="row">
+        <span class="type">🇦🇺 澳洲固定房贷</span>
+        <span class="rate-val highlight">5.5%–6.0%</span>
+        <span class="rate-val bank">5.0%–6.8%</span>
+        <span class="rate-val">1–5 年固定期，各行差异较大</span>
+      </div>
+      <div class="rate-row" role="row">
+        <span class="type">🚗 车贷（澳洲）</span>
+        <span class="rate-val highlight">6.5%–9.9%</span>
+        <span class="rate-val bank">5.9%–12%</span>
+        <span class="rate-val">新车优于旧车，信用评分影响大</span>
+      </div>
+      <div class="rate-row" role="row">
+        <span class="type">🏢 商业贷款（澳洲）</span>
+        <span class="rate-val highlight">7.0%–9.5%</span>
+        <span class="rate-val bank">6.5%–11%</span>
+        <span class="rate-val">视经营年限、资产及行业而定</span>
+      </div>
+    </div>
+    <p class="rate-disclaimer reveal">⚠ 以上利率仅供参考，实际利率因借款人资质、银行政策、市场环境而异，以贷款合同为准。建议联系专业顾问获取个性化报价。</p>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq" style="background: var(--bg-warm);">
+  <div class="container">
+    <div class="section-label">常见问题</div>
+    <h2 class="section-title reveal">贷款人常问的问题</h2>
+    <p class="section-subtitle reveal">帮你厘清月供计算背后的逻辑</p>
+
+    <div class="faq-list reveal" role="list">
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          等额本息和等额本金，哪个总利息更少？
+          <span class="faq-arrow" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            等额本金的总利息支出更少。因为等额本金方式每月偿还相同金额的本金，剩余本金递减更快，利息基数随之减少。同等条件下，等额本金节省的总利息可达等额本息的 15%–25%。但等额本金前期月供更高，需要更强的初期还款能力。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          月供计算公式是什么？
+          <span class="faq-arrow" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            <strong>等额本息</strong>：月供 = 贷款总额 × 月利率 × (1+月利率)^还款月数 ÷ [(1+月利率)^还款月数 - 1]<br><br>
+            <strong>等额本金</strong>：每月还款 = 每月本金 + 当月利息 = 贷款总额÷总月数 + 剩余本金×月利率<br><br>
+            其中月利率 = 年利率 ÷ 12。本工具使用上述标准公式计算，结果与各大银行计算器吻合，仅供参考。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          提前还款是否划算，怎么计算节省多少利息？
+          <span class="faq-arrow" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            提前还款是否划算，取决于「剩余贷款利率」vs「资金投资回报率」对比。若贷款利率 6%，手头资金能稳定获得 7%+ 收益，则未必立刻提前还款。若贷款利率 4–5%，且没有更高回报渠道，提前还款是最「无风险」的理财。您可用本工具对比原始总利息与提前还款后的差额。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          利率变化对月供影响有多大？
+          <span class="faq-arrow" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            以 100 万元 / 30 年等额本息贷款为例：利率从 4% 升至 5%，月供约增加 ¥600；升至 6%，月供约增加 ¥1,200。您可以在本工具中直接修改利率参数即时看到差异，无需手动对比。
+          </div>
+        </div>
+      </div>
+      <div class="faq-item" role="listitem">
+        <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+          计算器支持澳洲房贷吗？
+          <span class="faq-arrow" aria-hidden="true">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            完全支持。贷款额填入 AUD 金额，年利率填入澳洲银行报价（如 5.8%），年限选 25 或 30 年即可。注意澳洲银行月供计算方式与本工具标准公式一致，差异极小。如需更精确的个性化方案，建议联系专业贷款经纪人（Mortgage Broker）咨询。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section" id="consult">
+  <div class="container">
+    <div class="cta-content">
+      <p class="section-label" style="color: rgba(255,255,255,.5); margin-bottom: 8px;">专业贷款顾问</p>
+      <h2 class="cta-title reveal">算完了，下一步让专家帮你落地</h2>
+      <p class="cta-sub reveal">Arrivau 贷款团队提供澳洲房贷、商业贷款、refinance 全流程服务，免费评估，不成功不收费</p>
+      <div class="cta-buttons reveal">
+        <a href="#" class="btn-primary" aria-label="免费咨询 Arrivau 贷款顾问">免费咨询贷款顾问 →</a>
+        <a href="#calculator" class="btn-ghost">重新试算</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDITORIAL PICKS ===== -->
+<section>
+  <div class="container">
+    <div class="section-label">编辑精选</div>
+    <h2 class="section-title reveal">贷款知识精选</h2>
+    <p class="section-subtitle reveal">由专业编辑团队整理，帮助购房 / 购车人做更好的财务决策</p>
+    <div class="editorial-grid">
+      <a href="#" class="article-card reveal" aria-label="文章：澳洲 refinance 完全指南">
+        <div class="article-img" style="background: linear-gradient(135deg, rgba(156,74,46,.1), rgba(52,73,94,.15));" aria-hidden="true">
+          🔄
+        </div>
+        <div class="article-body">
+          <span class="article-tag">Refinance</span>
+          <h3 class="article-title">澳洲 Refinance 完全指南：什么时候换贷款最划算？</h3>
+          <div class="article-meta">编辑团队 · 2026 年更新</div>
+          <span class="article-read-more">阅读全文 →</span>
+        </div>
+      </a>
+      <a href="#" class="article-card reveal reveal-delay-1" aria-label="文章：等额本息 vs 等额本金深度对比">
+        <div class="article-img" style="background: linear-gradient(135deg, rgba(52,73,94,.12), rgba(156,74,46,.08));" aria-hidden="true">
+          📊
+        </div>
+        <div class="article-body">
+          <span class="article-tag">还款方式</span>
+          <h3 class="article-title">等额本息 vs 等额本金：30 年贷款到底差多少？数据实测</h3>
+          <div class="article-meta">编辑团队 · 2026 年更新</div>
+          <span class="article-read-more">阅读全文 →</span>
+        </div>
+      </a>
+      <a href="#" class="article-card reveal reveal-delay-2" aria-label="文章：澳洲首置房贷攻略">
+        <div class="article-img" style="background: linear-gradient(135deg, rgba(156,74,46,.08), rgba(52,73,94,.12));" aria-hidden="true">
+          🏠
+        </div>
+        <div class="article-body">
+          <span class="article-tag">首置房贷</span>
+          <h3 class="article-title">澳洲首次置业房贷申请全攻略：从 Pre-Approval 到 Settlement</h3>
+          <div class="article-meta">编辑团队 · 2026 年更新</div>
+          <span class="article-read-more">阅读全文 →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CALCULATOR SCRIPT ===== -->
+461|<script is:inline>
+'use strict';
+
+// ── Utility ──────────────────────────────────────────────────────────────────
+const fmt = (n) => Math.round(n).toLocaleString('zh-CN');
+const fmtDec = (n, d=2) => n.toLocaleString('zh-CN', {minimumFractionDigits:d, maximumFractionDigits:d});
+
+// ── Loan type state ───────────────────────────────────────────────────────────
+let currentMethod = 'equal-payment';
+
+function switchTab(method) {
+  currentMethod = method;
+  document.querySelectorAll('.loan-tab').forEach(t => {
+    t.classList.toggle('active', t.id === 'tab-' + method);
+    t.setAttribute('aria-selected', t.id === 'tab-' + method);
+  });
+  document.querySelectorAll('input[name="method"]').forEach(r => {
+    r.checked = r.value === method;
+  });
+  calculate();
+}
+
+// ── Core Calculation ──────────────────────────────────────────────────────────
+function calculate() {
+  const P  = parseFloat(document.getElementById('loan-amount').value) || 0;
+  const yr = parseFloat(document.getElementById('annual-rate').value) || 0;
+  const yrs= parseFloat(document.getElementById('loan-years').value)  || 0;
+
+  // Validate
+  const amtEl  = document.getElementById('loan-amount');
+  const ratEl  = document.getElementById('annual-rate');
+  const yrsEl  = document.getElementById('loan-years');
+  amtEl.classList.remove('error'); ratEl.classList.remove('error'); yrsEl.classList.remove('error');
+
+  if (!P || P <= 0) { amtEl.classList.add('error'); showPlaceholder('请输入有效的贷款金额'); return; }
+  if (!yr || yr <= 0 || yr > 30) { ratEl.classList.add('error'); showPlaceholder('请输入 0.01%–30% 范围内的年利率'); return; }
+  if (!yrs || yrs < 1 || yrs > 50) { yrsEl.classList.add('error'); showPlaceholder('请输入 1–50 年范围内的年限'); return; }
+
+  const r = yr / 100 / 12;     // monthly rate
+  const n = Math.round(yrs * 12); // total months
+
+  let schedule = [];
+
+  if (currentMethod === 'equal-payment') {
+    // 等额本息: M = P * r * (1+r)^n / [(1+r)^n - 1]
+    const factor = Math.pow(1 + r, n);
+    const M = P * r * factor / (factor - 1);
+    let balance = P;
+    for (let i = 1; i <= n; i++) {
+      const interest  = balance * r;
+      const principal = M - interest;
+      balance -= principal;
+      schedule.push({
+        month:     i,
+        payment:   M,
+        interest:  interest,
+        principal: principal,
+        balance:   Math.max(0, balance)
+      });
+    }
+    const totalPay   = M * n;
+    const totalInt   = totalPay - P;
+    renderResults(M, M, P, totalInt, totalPay, schedule, '等额本息');
+  } else {
+    // 等额本金: 每月本金 = P/n; 当月利息 = 余额 × r
+    const monthlyPrincipal = P / n;
+    let balance = P;
+    let firstPay = 0;
+    let totalInt = 0;
+    for (let i = 1; i <= n; i++) {
+      const interest = balance * r;
+      const payment  = monthlyPrincipal + interest;
+      balance       -= monthlyPrincipal;
+      totalInt      += interest;
+      if (i === 1) firstPay = payment;
+      schedule.push({
+        month:     i,
+        payment:   payment,
+        interest:  interest,
+        principal: monthlyPrincipal,
+        balance:   Math.max(0, balance)
+      });
+    }
+    const totalPay = P + totalInt;
+    renderResults(firstPay, schedule[Math.floor(n/2)].payment, P, totalInt, totalPay, schedule, '等额本金');
+  }
+}
+
+function showPlaceholder(msg) {
+  document.getElementById('result-placeholder').style.display = 'flex';
+  document.getElementById('result-placeholder').querySelector('.result-placeholder-text').textContent = msg;
+  document.getElementById('amort-section').style.display = 'none';
+}
+
+function renderResults(firstPay, midPay, principal, totalInt, totalPay, schedule, methodLabel) {
+  const rContainer = document.getElementById('calc-results');
+  const pPct = (principal / totalPay * 100).toFixed(1);
+  const iPct = (totalInt  / totalPay * 100).toFixed(1);
+  const isEqualPayment = currentMethod === 'equal-payment';
+
+  rContainer.innerHTML = `
+    <div class="result-hero">
+      <div class="result-label">${methodLabel} · 首月月供</div>
+      <div class="result-amount">
+        <span class="currency">¥</span>${fmt(firstPay)}<span class="unit">/月</span>
+      </div>
+      ${isEqualPayment
+        ? `<div class="result-note">每月固定 ¥${fmt(firstPay)}，全程不变</div>`
+        : `<div class="result-note">月供逐月递减，期中约 ¥${fmt(midPay)}/月</div>`
+      }
+    </div>
+
+    <div class="result-stats">
+      <div class="stat-card">
+        <div class="stat-name">本金总额</div>
+        <div class="stat-val principal">¥${fmt(principal)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-name">总利息</div>
+        <div class="stat-val interest">¥${fmt(totalInt)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-name">还款总额</div>
+        <div class="stat-val">¥${fmt(totalPay)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-name">利息/本金比</div>
+        <div class="stat-val">${fmtDec(totalInt/principal*100, 1)}%</div>
+      </div>
+    </div>
+
+    <div class="composition-bar-wrap">
+      <div class="comp-bar-title">还款构成</div>
+      <div class="comp-bar" role="img" aria-label="本金 ${pPct}%，利息 ${iPct}%">
+        <div class="comp-bar-principal" id="bar-principal" style="width:0%"></div>
+        <div class="comp-bar-interest"  id="bar-interest"  style="left:0%;width:0%"></div>
+      </div>
+      <div class="comp-legend">
+        <span class="comp-legend-item">
+          <span class="comp-dot p" aria-hidden="true"></span>
+          本金 ${pPct}%（¥${fmt(principal)}）
+        </span>
+        <span class="comp-legend-item">
+          <span class="comp-dot i" aria-hidden="true"></span>
+          利息 ${iPct}%（¥${fmt(totalInt)}）
+        </span>
+      </div>
+    </div>
+  `;
+
+  // Animate bars after paint
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const barP = document.getElementById('bar-principal');
+      const barI = document.getElementById('bar-interest');
+      if (barP) barP.style.width = pPct + '%';
+      if (barI) { barI.style.left = pPct + '%'; barI.style.width = iPct + '%'; }
+    });
+  });
+
+  // Build amortization schedule
+  buildAmortTable(schedule);
+  document.getElementById('amort-section').style.display = 'block';
+}
+
+function buildAmortTable(schedule) {
+  const container = document.getElementById('amort-container');
+  container.innerHTML = `
+    <div class="amort-header-row" role="row">
+      <span role="columnheader">期数</span>
+      <span role="columnheader">月供</span>
+      <span role="columnheader">本金</span>
+      <span role="columnheader">利息</span>
+      <span role="columnheader" class="bal-h">剩余本金</span>
+    </div>
+  `;
+  // Limit DOM to 360 rows max for performance
+  const limit = Math.min(schedule.length, 360);
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < limit; i++) {
+    const row = schedule[i];
+    const div = document.createElement('div');
+    div.className = 'amort-row'; div.setAttribute('role','row');
+    div.innerHTML = `
+      <span class="month" role="cell">${row.month}</span>
+      <span class="pay"   role="cell">¥${fmt(row.payment)}</span>
+      <span class="prin"  role="cell">¥${fmt(row.principal)}</span>
+      <span class="int"   role="cell">¥${fmt(row.interest)}</span>
+      <span class="bal"   role="cell">¥${fmt(row.balance)}</span>
+    `;
+    fragment.appendChild(div);
+  }
+  container.appendChild(fragment);
+  if (schedule.length > 360) {
+    const note = document.createElement('div');
+    note.style.cssText = 'padding:12px;text-align:center;font-size:12px;color:var(--text-muted)';
+    note.textContent = `（仅显示前 360 期，共 ${schedule.length} 期）`;
+    container.appendChild(note);
+  }
+}
+
+// ── Amort toggle ──────────────────────────────────────────────────────────────
+let amortOpen = false;
+function toggleAmort() {
+  amortOpen = !amortOpen;
+  const c = document.getElementById('amort-container');
+  const ch = document.getElementById('amort-chevron');
+  const tg = document.getElementById('amort-toggle');
+  const tt = document.getElementById('amort-toggle-text');
+  c.classList.toggle('visible', amortOpen);
+  ch.classList.toggle('open', amortOpen);
+  tg.setAttribute('aria-expanded', amortOpen);
+  tt.textContent = amortOpen ? '📋 收起还款计划表' : '📋 展开完整还款计划表';
+}
+
+// ── FAQ ───────────────────────────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const item   = btn.closest('.faq-item');
+  const answer = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.faq-item.open').forEach(openItem => {
+    openItem.classList.remove('open');
+    openItem.querySelector('.faq-answer').style.maxHeight = '0';
+    openItem.querySelector('.faq-question').setAttribute('aria-expanded','false');
+  });
+
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+    btn.setAttribute('aria-expanded','true');
+  }
+}
+
+// ── Init: auto-calculate on load ──────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  calculate();
+});
+</script>

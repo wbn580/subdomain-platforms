@@ -1,0 +1,358 @@
+---
+// 汇率换汇试算器 · Bespoke homepage content
+---
+
+<!-- ===== HERO ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" role="img" aria-label="金融交易背景图"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="hero-badge reveal">
+        <span class="hero-badge-dot"></span>
+        参考汇率实时更新 · 数据仅供试算参考
+      </div>
+      <h1 class="hero-title reveal reveal-delay-1" id="hero-title">
+        换汇前先<span class="highlight">算清成本</span><br>留学换汇不多付冤枉钱
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        多币种汇率即时试算，换汇渠道费用横向对比。留学生、海外工作、跨境汇款一站搞定。
+      </p>
+    </div>
+  </div>
+
+  <!-- CALCULATOR — embedded in hero -->
+  <div class="calc-hero-wrap" id="calculator">
+    <div class="calc-hero-inner">
+      <div class="calc-card reveal reveal-delay-2">
+        <div class="calc-header">
+          <div class="calc-title">
+            <span class="calc-icon">⇄</span>
+            汇率换算试算器
+          </div>
+          <div class="calc-subtitle">汇率仅供参考，实时以银行为准 · 数据源：参考中间汇率示意</div>
+        </div>
+
+        <div class="calc-row">
+          <div class="calc-field">
+            <label class="calc-label" for="calc-amount">换出金额</label>
+            <div class="calc-input-wrap">
+              <input type="number" id="calc-amount" class="calc-amount" placeholder="10000" value="10000" min="0" step="0.01" aria-label="换出金额" autocomplete="off">
+              <div class="calc-currency-badge" id="from-badge">CNY</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:2px;">
+            <label class="calc-label" style="visibility:hidden">换向</label>
+            <button class="calc-swap-btn" id="swap-btn" aria-label="对调币种" title="对调币种">⇄</button>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="from-currency">币种选择</label>
+            <select id="from-currency" class="calc-select" aria-label="源币种">
+              <option value="CNY">🇨🇳 人民币 CNY</option>
+              <option value="USD">🇺🇸 美元 USD</option>
+              <option value="GBP">🇬🇧 英镑 GBP</option>
+              <option value="AUD">🇦🇺 澳元 AUD</option>
+              <option value="EUR">🇪🇺 欧元 EUR</option>
+              <option value="HKD">🇭🇰 港元 HKD</option>
+              <option value="CAD">🇨🇦 加元 CAD</option>
+              <option value="JPY">🇯🇵 日元 JPY</option>
+              <option value="NZD">🇳🇿 纽元 NZD</option>
+              <option value="SGD">🇸🇬 新加坡元 SGD</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div class="calc-field">
+            <label class="calc-label" for="to-currency">换成</label>
+            <select id="to-currency" class="calc-select" aria-label="目标币种">
+              <option value="AUD" selected>🇦🇺 澳元 AUD</option>
+              <option value="USD">🇺🇸 美元 USD</option>
+              <option value="GBP">🇬🇧 英镑 GBP</option>
+              <option value="CNY">🇨🇳 人民币 CNY</option>
+              <option value="EUR">🇪🇺 欧元 EUR</option>
+              <option value="HKD">🇭🇰 港元 HKD</option>
+              <option value="CAD">🇨🇦 加元 CAD</option>
+              <option value="JPY">🇯🇵 日元 JPY</option>
+              <option value="NZD">🇳🇿 纽元 NZD</option>
+              <option value="SGD">🇸🇬 新加坡元 SGD</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="calc-result-area" id="result-area" aria-live="polite" aria-atomic="true">
+          <div class="calc-result-label">换算结果（参考值）</div>
+          <div class="calc-result-amount">
+            <span id="result-amount" style="transition:all 0.3s ease;">0.00</span>
+            <span class="calc-result-currency" id="result-currency">AUD</span>
+          </div>
+          <div class="calc-result-rate" id="result-rate">参考汇率 1 CNY ≈ 0.2200 AUD</div>
+        </div>
+
+        <p class="calc-disclaimer"><strong>⚠ 免责声明</strong>：以上汇率为参考中间价示意，不代表任何金融机构实际牌价。银行、换汇平台的实际汇率因时间、渠道、金额而异，换汇前请以实际机构报价为准。</p>
+
+        <!-- Rate Ticker -->
+        <div class="rate-ticker-wrap">
+          <div class="rate-ticker-label">参考汇率一览 · 数据仅供示意</div>
+          <div class="rate-ticker" id="rate-ticker" aria-hidden="true">
+            <!-- JS generated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-bottom-pad" style="height:48px;"></div>
+</section>
+
+<!-- ===== COST COMPARISON ===== -->
+<section class="cost-compare" id="cost-compare" aria-labelledby="cost-title">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">换汇渠道对比</div>
+      <h2 class="section-title-dark" id="cost-title">同样 10,000 元人民币换澳元<br>不同渠道差多少？</h2>
+      <p class="section-desc-dark">银行电汇、在线汇款平台、找换所的汇率点差与手续费差异显著。算清楚再换，省下的就是赚到的。</p>
+    </div>
+
+    <div class="cost-grid" id="cost-grid">
+      <!-- JS generated -->
+    </div>
+
+    <p class="cost-note reveal">以上数据为参考示意，基于公开资料测算，实际费用因金额大小、渠道优惠、账户类型而异。换汇前请以各机构实时报价为准。<br>* 工料手续费、汇款费等可能另计，请向相关机构查询完整收费。</p>
+
+    <div class="cost-cta-row reveal">
+      <a href="#" class="btn-gold" aria-label="了解更多换汇渠道">了解更多换汇渠道 →</a>
+      <a href="#calculator" class="btn-outline-gold" aria-label="重新试算">重新试算</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STUDY TIPS ===== -->
+<section class="study-tips section" id="tips" aria-labelledby="tips-title">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:0">
+      <div class="section-label" style="text-align:center">留学换汇攻略</div>
+      <h2 id="tips-title">留学生换汇，这几点一定要知道</h2>
+      <p style="max-width:560px;margin:12px auto 0;font-size:1rem;color:var(--neutral-500);">从选渠道到选时机，把换汇成本控到最低，留出更多预算给生活和学习。</p>
+    </div>
+
+    <div class="tips-grid">
+      <div class="tip-card reveal">
+        <div class="tip-icon">📊</div>
+        <div class="tip-title">别盯中间价，看实际到账</div>
+        <div class="tip-body">银行公示的"中间价"只是参考基准，实际换汇走的是"钞买价"或"汇买价"，两者差距可达1%–2.5%。换汇前要比较实际到账金额，不能只看名义汇率。</div>
+        <span class="tip-tag">汇率基础</span>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon">🏦</div>
+        <div class="tip-title">大额换汇优先考虑电汇</div>
+        <div class="tip-body">单笔超过5万元人民币，银行电汇综合成本往往低于多次小额换。部分银行对留学汇款有专属优惠汇率，凭录取通知书可咨询工行、建行国际汇款柜台。</div>
+        <span class="tip-tag">大额策略</span>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon">🌐</div>
+        <div class="tip-title">在线平台点差通常更低</div>
+        <div class="tip-body">Wise（原 TransferWise）等在线汇款平台以"真实中间汇率"加固定手续费模式收费，透明无隐藏成本，适合中小额跨境汇款。但需注意收款时限与账号认证要求。</div>
+        <span class="tip-tag">平台选择</span>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon">💰</div>
+        <div class="tip-title">分批换汇摊平汇率风险</div>
+        <div class="tip-body">不要一次性把一年的生活费全部换成外币。建议按学期分批换，或在汇率相对高位时换一部分，降低集中换汇带来的汇率时机风险。</div>
+        <span class="tip-tag">风险管理</span>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon">📱</div>
+        <div class="tip-title">留意银行每日限额</div>
+        <div class="tip-body">个人每年购汇限额为等值5万美元，跨越限额需提供额外资金证明材料。日常消费类换汇限额因银行和账户类型不同，出发前务必与开户行确认。</div>
+        <span class="tip-tag">合规要点</span>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon">🏠</div>
+        <div class="tip-title">学校住宿费用优先电汇</div>
+        <div class="tip-body">向大学官方账户支付的学费、宿舍费，建议走银行电汇并保留汇款水单，既方便学校确认到账，也是签证和奖学金申请的财务证明材料。</div>
+        <span class="tip-tag">留学实操</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPREAD EXPLAINER ===== -->
+<section class="spread-section" aria-labelledby="spread-title">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label" style="color:var(--gold)">汇率点差科普</div>
+      <h2 class="section-title-dark" id="spread-title">你缴纳的"隐形换汇税"：点差</h2>
+      <p class="section-desc-dark">每次换汇，你支付的不只是手续费，更大的成本往往藏在汇率点差里。</p>
+    </div>
+
+    <div class="spread-grid">
+      <div class="spread-visual reveal">
+        <div class="spread-bar-wrap">
+          <div class="spread-bar-label">换汇成本（点差+手续费，占换汇金额百分比示意）</div>
+
+          <div class="bar-row">
+            <div class="bar-row-header">
+              <span class="bar-channel">在线汇款平台（Wise等）</span>
+              <span class="bar-pct" style="color:var(--green-tick)">~0.35%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill good" style="width:0%" id="bar-0"></div></div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-row-header">
+              <span class="bar-channel">国有大行电汇（持证留学）</span>
+              <span class="bar-pct" style="color:var(--gold)">~0.8–1.2%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill ok" style="width:0%" id="bar-1"></div></div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-row-header">
+              <span class="bar-channel">一般商业银行零售换汇</span>
+              <span class="bar-pct" style="color:var(--gold)">~1.5–2.0%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill ok" style="width:0%" id="bar-2"></div></div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-row-header">
+              <span class="bar-channel">机场/酒店找换所</span>
+              <span class="bar-pct" style="color:#ff8c82">~3.0–5.0%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill bad" style="width:0%" id="bar-3"></div></div>
+          </div>
+
+          <div style="margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);">
+            <p style="color:var(--neutral-500);font-size:0.75rem;line-height:1.65;">数据为参考区间，实际因机构、时间、金额不同。以上分析不构成金融建议。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="spread-insights reveal reveal-delay-2">
+        <div class="insight-item">
+          <div class="insight-num">1万</div>
+          <div class="insight-label">人民币换澳元，点差多付约 ¥150–500</div>
+          <div class="insight-desc">同样 10,000 元人民币，走在线平台与走机场找换所的到手澳元可能相差 150 到 500 元人民币等值。</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-num">4年</div>
+          <div class="insight-label">本科留学，累计换汇成本值得认真管</div>
+          <div class="insight-desc">4年留学总生活费换汇若累计 40 万元人民币，每年换汇成本差异可达数千元，选对渠道相当于多一个月的生活费。</div>
+        </div>
+        <div class="insight-item">
+          <div class="insight-num">0.35%</div>
+          <div class="insight-label">主流在线汇款平台综合成本基准</div>
+          <div class="insight-desc">Wise 等平台以中间汇率加固定费率透明收费，是目前公认成本最低的合规跨境汇款渠道之一（需完成身份验证）。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TIMING SECTION ===== -->
+<section class="timing-section section" aria-labelledby="timing-title">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="text-align:center">换汇时机科普</div>
+      <h2 id="timing-title">大额换汇，这些时机要注意</h2>
+      <p style="max-width:500px;margin:12px auto 0;font-size:0.95rem;color:var(--neutral-500);">宏观因素影响汇率走势，了解基本规律有助于选择更合适的换汇窗口。不构成投资建议。</p>
+    </div>
+    <div class="timing-grid">
+      <div class="timing-card reveal">
+        <span class="timing-emoji">📅</span>
+        <div class="timing-title">避开重大经济数据日</div>
+        <div class="timing-body">非农、CPI、利率决议公布前后，汇率波动显著加大。急需换汇建议错开这些时间节点，减少不必要的价格风险。</div>
+        <span class="timing-chip caution">中等波动</span>
+      </div>
+      <div class="timing-card reveal reveal-delay-1">
+        <span class="timing-emoji">🕘</span>
+        <div class="timing-title">工作日北京时间9-16点</div>
+        <div class="timing-body">国内银行在工作日交易时段报价最新，点差通常比节假日更优。部分银行节假日的钞买价点差会扩大 0.3–0.8%。</div>
+        <span class="timing-chip positive">推荐时段</span>
+      </div>
+      <div class="timing-card reveal reveal-delay-2">
+        <span class="timing-emoji">📉</span>
+        <div class="timing-title">汇率相对高位分批换</div>
+        <div class="timing-body">无法准确预测短期汇率走势。如果留学还有3–6个月，可将换汇分2–3批进行，时间分散有助于摊平均价。</div>
+        <span class="timing-chip neutral">参考策略</span>
+      </div>
+      <div class="timing-card reveal reveal-delay-3">
+        <span class="timing-emoji">🏛️</span>
+        <div class="timing-title">留意目标国央行政策</div>
+        <div class="timing-body">澳大利亚央行（RBA）、英国央行（BoE）等的利率会议决议是影响该国货币走势的重要事件，换汇前可关注相关新闻。</div>
+        <span class="timing-chip caution">宏观参考</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section" id="faq" aria-labelledby="faq-title">
+  <div class="container-narrow">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="text-align:center">常见问题</div>
+      <h2 class="section-title-dark" id="faq-title">换汇常见疑问解答</h2>
+    </div>
+    <div class="faq-list reveal" id="faq-list">
+      <!-- JS generated -->
+    </div>
+  </div>
+</section>
+
+<!-- ===== EDITORIAL PICKS ===== -->
+<section class="editorial-section" id="editorial" aria-labelledby="editorial-title">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" style="text-align:center">编辑精选</div>
+      <h2 id="editorial-title">换汇与留学财务攻略精选</h2>
+      <p style="max-width:500px;margin:12px auto 0;font-size:0.95rem;color:var(--neutral-500);">由编辑团队从留学换汇实际问题出发，精选实用参考文章。</p>
+    </div>
+    <div class="editorial-grid">
+      <article class="editorial-card reveal">
+        <div class="editorial-img">
+          <div class="editorial-img-inner">💱</div>
+          <span class="editorial-tag">换汇基础</span>
+        </div>
+        <div class="editorial-body">
+          <h3 class="editorial-title">留学换汇完全指南：银行、Wise、找换所全比较（2026版）</h3>
+          <p class="editorial-excerpt">从点差、手续费到汇款时效，全面对比主流留学换汇渠道，帮你找到最划算的方案。</p>
+          <div class="editorial-meta">
+            <span class="editorial-date">2026-06-15</span>
+            <span class="editorial-read" tabindex="0">阅读全文</span>
+          </div>
+        </div>
+      </article>
+      <article class="editorial-card reveal reveal-delay-1">
+        <div class="editorial-img">
+          <div class="editorial-img-inner">🇦🇺</div>
+          <span class="editorial-tag">澳洲留学</span>
+        </div>
+        <div class="editorial-body">
+          <h3 class="editorial-title">澳大利亚留学一年生活费换汇策略：分几批换最合理？</h3>
+          <p class="editorial-excerpt">实测对比分3批、6批换汇与一次性换汇的成本差异，附RBA利率周期与澳元走势参考。</p>
+          <div class="editorial-meta">
+            <span class="editorial-date">2026-06-08</span>
+            <span class="editorial-read" tabindex="0">阅读全文</span>
+          </div>
+        </div>
+      </article>
+      <article class="editorial-card reveal reveal-delay-2">
+        <div class="editorial-img">
+          <div class="editorial-img-inner">🏦</div>
+          <span class="editorial-tag">银行实操</span>
+        </div>
+        <div class="editorial-body">
+          <h3 class="editorial-title">工商银行、建行国际汇款留学优惠汇率申请全流程</h3>
+          <p class="editorial-excerpt">凭录取通知书可申请的留学专项汇款汇率优惠，附材料清单和申请注意事项。</p>
+          <div class="editorial-meta">
+            <span class="editorial-date">2026-05-29</span>
+            <span class="editorial-read" tabindex="0">阅读全文</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+{
+  "slug": "jisuan-hub",
+  "domain": "jisuan-hub.wubaining.workers.dev",
+  "brand": "jisuan.help",
+  "tagline": "留学财务计算，一站算清",
+  "lang": "zh-CN",
+  "bizLine": "calculator-hub",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0F1317",
+    "accent": "#3B82F6"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "计算助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-jisuan-hub",
+  "noBrandLink": true
+}

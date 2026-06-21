@@ -1,0 +1,22 @@
+{
+  "slug": "liuxue-jisuan",
+  "domain": "liuxue-jisuan.wubaining.workers.dev",
+  "brand": "留学费用计算器",
+  "tagline": "一键算清留学学费 + 生活 + 保险 + 机票总开销",
+  "lang": "zh-CN",
+  "bizLine": "study-cost-calc",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#0F5F5C",
+    "accent": "#E0A33C"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "留学费用助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-liuxue-jisuan",
+  "noBrandLink": true
+}

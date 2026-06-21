@@ -9,6 +9,11 @@ import OsIndex from '../../sites/oshc-bijia/theme/IndexContent.astro';
 import LhIndex from '../../sites/luohu-chaxun/theme/IndexContent.astro';
 import HkIndex from '../../sites/huikuan-bijia/theme/IndexContent.astro';
 import YsIndex from '../../sites/yasi-peixun/theme/IndexContent.astro';
+import LxIndex from '../../sites/liuxue-jisuan/theme/IndexContent.astro';
+import JhIndex from '../../sites/jisuan-hub/theme/IndexContent.astro';
+import GpIndex from '../../sites/gpa-jisuan/theme/IndexContent.astro';
+import HvIndex from '../../sites/huilv-jisuan/theme/IndexContent.astro';
+import YgIndex from '../../sites/yuegong-jisuan/theme/IndexContent.astro';
 
 const slug: string = siteConfig.slug || 'zhongjie-paiming';
 
@@ -19,6 +24,11 @@ const bespokeMap: Record<string, any> = {
   'luohu-chaxun': LhIndex,
   'huikuan-bijia': HkIndex,
   'yasi-peixun': YsIndex,
+  'liuxue-jisuan': LxIndex,
+  'jisuan-hub': JhIndex,
+  'gpa-jisuan': GpIndex,
+  'yuegong-jisuan': YgIndex,
+  'huilv-jisuan': HvIndex,
 };
 
 const BespokeIndex = bespokeMap[slug];

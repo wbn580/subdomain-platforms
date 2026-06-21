@@ -1,0 +1,645 @@
+---
+// Bespoke homepage content
+---
+
+<!-- ===== HERO ===== -->
+<section class="hero" role="banner">
+  <div class="hero-bg" role="img" aria-label="大学校园留学生走路的场景"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      每月更新 · 覆盖 7 个热门留学目的地
+    </div>
+    <h1>一键算清<em>留学总花销</em><br>心里有底再出发</h1>
+    <p class="hero-sub">选国家 · 选学位 · 选城市，秒算学费 + 生活费 + 保险 + 机票全口径开销，费用构成一目了然</p>
+
+    <!-- CALCULATOR CARD inside Hero -->
+    <div class="calc-card" id="calculator" role="main">
+      <div class="calc-tabs" role="tablist">
+        <div class="calc-tab active" role="tab" aria-selected="true" aria-controls="calcPanel" tabindex="0" onclick="switchTab(this,'full')">📊 全口径费用测算</div>
+        <div class="calc-tab" role="tab" aria-selected="false" tabindex="-1" onclick="switchTab(this,'compare')">🌏 国家横向对比</div>
+        <div class="calc-tab" role="tab" aria-selected="false" tabindex="-1" onclick="switchTab(this,'budget')">💰 预算逆推</div>
+      </div>
+      <div class="calc-body" id="calcPanel">
+        <!-- Full calc panel -->
+        <div id="panelFull">
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label for="country">目的国 <span aria-hidden="true">🌍</span></label>
+              <select id="country" onchange="onCountryChange()">
+                <option value="">请选择国家</option>
+                <option value="AU">🇦🇺 澳大利亚</option>
+                <option value="UK">🇬🇧 英国</option>
+                <option value="US">🇺🇸 美国</option>
+                <option value="CA">🇨🇦 加拿大</option>
+                <option value="NZ">🇳🇿 新西兰</option>
+                <option value="SG">🇸🇬 新加坡</option>
+                <option value="HK">🇭🇰 香港</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label for="degree">学位层次</label>
+              <select id="degree">
+                <option value="bachelor">本科 (3–4年)</option>
+                <option value="master" selected>硕士 (1–2年)</option>
+                <option value="phd">博士 (3–5年)</option>
+                <option value="language">语言学校 (0.5–1年)</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label for="city">城市 / 地区</label>
+              <select id="city">
+                <option value="">请先选择国家</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label for="years">学习年限</label>
+              <select id="years">
+                <option value="0.5">0.5 年</option>
+                <option value="1">1 年</option>
+                <option value="1.5">1.5 年</option>
+                <option value="2" selected>2 年</option>
+                <option value="3">3 年</option>
+                <option value="4">4 年</option>
+              </select>
+            </div>
+          </div>
+          <button class="calc-btn" onclick="calculate()" aria-label="立即计算留学总费用">
+            立即计算总费用
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <!-- RESULT -->
+          <div class="result-panel" id="resultPanel" aria-live="polite" aria-atomic="true">
+            <div class="result-header">
+              <div>
+                <div class="result-total-label">留学总费用估算</div>
+                <div class="result-total-amount" id="totalAmount">¥ 0</div>
+                <div class="result-total-period" id="totalPeriod">计算中…</div>
+              </div>
+              <div class="result-disclaimer" role="note">
+                <span>⚠️</span>
+                <span>费用区间数据来源公开资料，<strong>仅供参考</strong>，实际以院校及当地生活为准</span>
+              </div>
+            </div>
+            <div class="result-layout">
+              <div class="donut-wrap" id="donutWrap">
+                <svg id="donutSvg" width="200" height="200" viewBox="0 0 200 200" aria-label="费用构成环形图" role="img">
+                  <circle cx="100" cy="100" r="75" fill="none" stroke="#F2F5F4" stroke-width="28"/>
+                  <g id="donutArcs"></g>
+                </svg>
+                <div class="donut-center">
+                  <div class="donut-center-pct" id="donutTopPct">—</div>
+                  <div class="donut-center-lbl" id="donutTopLbl">学费占比</div>
+                </div>
+              </div>
+              <div>
+                <div class="breakdown-list" id="breakdownList"></div>
+                <span class="note-tag" id="calcNote"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compare panel -->
+        <div id="panelCompare" style="display:none;">
+          <div class="calc-field" style="margin-bottom:20px;">
+            <label for="cmpDegree">学位层次</label>
+            <select id="cmpDegree" onchange="compare()">
+              <option value="bachelor">本科 (3年均值)</option>
+              <option value="master" selected>硕士 (1.5年均值)</option>
+            </select>
+          </div>
+          <div id="compareTable" style="display:flex;flex-direction:column;gap:10px;"></div>
+          <span class="note-tag">数据为各国主要城市区间均值，汇率按 1 USD ≈ 7.25 CNY 换算，仅供参考</span>
+        </div>
+
+        <!-- Budget panel -->
+        <div id="panelBudget" style="display:none;">
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label for="budgetCNY">可用总预算 (万人民币)</label>
+              <input type="number" id="budgetCNY" placeholder="如：80" min="10" max="500" step="5" oninput="budgetCalc()">
+            </div>
+            <div class="calc-field">
+              <label for="budgetDegree">目标学位</label>
+              <select id="budgetDegree" onchange="budgetCalc()">
+                <option value="master" selected>硕士</option>
+                <option value="bachelor">本科</option>
+                <option value="language">语言学校</option>
+              </select>
+            </div>
+          </div>
+          <div id="budgetResult" style="margin-top:8px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COUNTRIES ── -->
+<section class="section" id="countries">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">各国留学费用参考</span>
+      <h2 class="section-title">7 大热门留学目的地费用概览</h2>
+      <p class="section-sub">学费 + 生活费年均参考区间，点击卡片自动填入计算器</p>
+    </div>
+    <div class="country-grid">
+      <div class="country-card reveal reveal-delay-1" onclick="prefill('AU')" role="button" tabindex="0" aria-label="选择澳大利亚">
+        <div class="country-flag">🇦🇺</div>
+        <div class="country-name">澳大利亚</div>
+        <div class="country-range">年均 <strong>¥22–38 万</strong></div>
+        <div class="country-tag">热门首选</div>
+      </div>
+      <div class="country-card reveal reveal-delay-2" onclick="prefill('UK')" role="button" tabindex="0" aria-label="选择英国">
+        <div class="country-flag">🇬🇧</div>
+        <div class="country-name">英国</div>
+        <div class="country-range">年均 <strong>¥25–45 万</strong></div>
+        <div class="country-tag">G5 名校</div>
+      </div>
+      <div class="country-card reveal reveal-delay-3" onclick="prefill('US')" role="button" tabindex="0" aria-label="选择美国">
+        <div class="country-flag">🇺🇸</div>
+        <div class="country-name">美国</div>
+        <div class="country-range">年均 <strong>¥30–55 万</strong></div>
+        <div class="country-tag">综合最贵</div>
+      </div>
+      <div class="country-card reveal reveal-delay-1" onclick="prefill('CA')" role="button" tabindex="0" aria-label="选择加拿大">
+        <div class="country-flag">🇨🇦</div>
+        <div class="country-name">加拿大</div>
+        <div class="country-range">年均 <strong>¥20–36 万</strong></div>
+        <div class="country-tag">移民友好</div>
+      </div>
+      <div class="country-card reveal reveal-delay-2" onclick="prefill('NZ')" role="button" tabindex="0" aria-label="选择新西兰">
+        <div class="country-flag">🇳🇿</div>
+        <div class="country-name">新西兰</div>
+        <div class="country-range">年均 <strong>¥18–30 万</strong></div>
+        <div class="country-tag">性价比高</div>
+      </div>
+      <div class="country-card reveal reveal-delay-3" onclick="prefill('SG')" role="button" tabindex="0" aria-label="选择新加坡">
+        <div class="country-flag">🇸🇬</div>
+        <div class="country-name">新加坡</div>
+        <div class="country-range">年均 <strong>¥22–40 万</strong></div>
+        <div class="country-tag">亚洲首选</div>
+      </div>
+      <div class="country-card reveal reveal-delay-4" onclick="prefill('HK')" role="button" tabindex="0" aria-label="选择香港">
+        <div class="country-flag">🇭🇰</div>
+        <div class="country-name">香港</div>
+        <div class="country-range">年均 <strong>¥20–35 万</strong></div>
+        <div class="country-tag">近便捷</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TIPS ── -->
+<section class="section tips-section" id="tips">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">省钱攻略</span>
+      <h2 class="section-title">留学家庭必看：6 大实用省钱策略</h2>
+      <p class="section-sub">经验丰富的留学顾问整理，帮你在不降低体验前提下最大化节省开支</p>
+    </div>
+    <div class="tips-grid">
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon" aria-hidden="true">🏠</div>
+        <div class="tip-title">校内宿舍 vs 校外租房</div>
+        <div class="tip-desc">大一优先申请校内宿舍（有补贴、省通勤）；研究生可 2–3 人合租，在主要城市年省 ¥3–8 万，选房时优先考虑步行或公交距离。</div>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon" aria-hidden="true">📚</div>
+        <div class="tip-title">奖学金 + 助学金组合拳</div>
+        <div class="tip-desc">政府奖（如澳洲 ADB、英国 Chevening）、院校奖（Early Bird/Merit Scholarship）、私人基金会三类并行申请，实际覆盖率高达 30%–60% 学费。</div>
+      </div>
+      <div class="tip-card reveal reveal-delay-3">
+        <div class="tip-icon" aria-hidden="true">✈️</div>
+        <div class="tip-title">机票抢购时机</div>
+        <div class="tip-desc">开学前 3–4 个月购票最划算；中转亚洲枢纽（曼谷 / 迪拜）比直飞一般便宜 ¥1,500–4,000；用积分兑换可免机票费用。</div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon" aria-hidden="true">🍱</div>
+        <div class="tip-title">餐饮 & 日常生活</div>
+        <div class="tip-desc">每周采购一次食材自炊，对比外卖可节省约 60% 饮食开支。善用学生折扣（Apple / Adobe / 公共交通），年省 ¥5,000–15,000。</div>
+      </div>
+      <div class="tip-card reveal reveal-delay-2">
+        <div class="tip-icon" aria-hidden="true">🛡️</div>
+        <div class="tip-title">保险别超买也别漏保</div>
+        <div class="tip-desc">澳洲 OSHC、英国 IHS 是强制险，美国各校自购计划差异大；额外旅行险 + 电子设备险常被忽视，合理组合比套餐省 ¥1,000–3,000/年。</div>
+      </div>
+      <div class="tip-card reveal reveal-delay-3">
+        <div class="tip-icon" aria-hidden="true">💱</div>
+        <div class="tip-title">换汇 & 转账策略</div>
+        <div class="tip-desc">避开银行柜台高手续费；Wise / 招行跨境汇款相差可达 1.5%–3%；若家庭每年汇款 ¥20 万，手续费差额高达 ¥3,000–6,000。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SCHOLARSHIP ── -->
+<section class="section scholarship-section" id="scholarship">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">主要奖学金</span>
+      <h2 class="section-title">热门留学奖学金一览</h2>
+      <p class="section-sub">覆盖 5 个热门目的国，每年都有新一轮申请机会</p>
+    </div>
+    <div class="scholar-grid">
+      <div class="scholar-card reveal reveal-delay-1">
+        <div class="scholar-flag">🇦🇺</div>
+        <div class="scholar-name">澳大利亚政府奖学金 (Australia Awards)</div>
+        <div class="scholar-amount">最高覆盖全额学费 + 生活费</div>
+        <div class="scholar-desc">针对发展中国家学生，涵盖学费、生活费、往返机票及健康保险，每年开放申请窗口。</div>
+      </div>
+      <div class="scholar-card reveal reveal-delay-2">
+        <div class="scholar-flag">🇬🇧</div>
+        <div class="scholar-name">英国 Chevening 奖学金</div>
+        <div class="scholar-amount">学费 + 生活费 + 机票全覆盖</div>
+        <div class="scholar-desc">英国外交部颁发，面向全球有领导力潜质的优秀学生，每年约 1,700 个名额，竞争激烈。</div>
+      </div>
+      <div class="scholar-card reveal reveal-delay-3">
+        <div class="scholar-flag">🇨🇦</div>
+        <div class="scholar-name">加拿大各省政府奖学金</div>
+        <div class="scholar-amount">年均 CAD 5,000–20,000</div>
+        <div class="scholar-desc">安大略省、BC 省等均设有省级国际生奖学金，叠加院校奖励可大幅降低留学成本。</div>
+      </div>
+      <div class="scholar-card reveal reveal-delay-1">
+        <div class="scholar-flag">🇸🇬</div>
+        <div class="scholar-name">新加坡政府奖学金 (SINGA)</div>
+        <div class="scholar-amount">全额博士奖学金</div>
+        <div class="scholar-desc">针对理工科博士生，由新加坡科研局资助，包含学费、生活津贴及安家费，竞争度高但含金量十足。</div>
+      </div>
+      <div class="scholar-card reveal reveal-delay-2">
+        <div class="scholar-flag">🎓</div>
+        <div class="scholar-name">各院校 Early Bird 奖学金</div>
+        <div class="scholar-amount">学费减免 10%–25%</div>
+        <div class="scholar-desc">澳、英、加、新等主要院校均设置早鸟优惠，提前 6–12 个月确认录取可直接减免学费，申请成本极低。</div>
+      </div>
+      <div class="scholar-card reveal reveal-delay-3">
+        <div class="scholar-flag">🏆</div>
+        <div class="scholar-name">院校 Merit Scholarship</div>
+        <div class="scholar-amount">高 GPA 可获 20%–50% 减免</div>
+        <div class="scholar-desc">以 GPA / 学术成就为标准，部分 G8 / QS Top 100 院校无需单独申请，录取时自动评定。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">常见问题</span>
+      <h2 class="section-title">留学费用规划高频问题</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-q" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+          <span>计算器的数据来源是什么，能有多准确？</span>
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">本计算器数据来源于各国政府官网、院校公开招生信息及留学服务机构公开的费用区间报告，每季度人工核对更新。由于学费因专业、院校、学生背景各异，生活费受个人生活方式影响，<strong>所有结果仅供规划参考</strong>，实际费用以院校录取通知书及官方生活费指导为准，建议与专业顾问确认。</div></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <div class="faq-q" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+          <span>留学费用里通常包含哪些项目？机票每年都要算吗？</span>
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">主要分五类：<strong>① 学费</strong>（最大头，专业差异巨大，医学/法律通常是均价 2–3 倍）<strong>② 住宿费</strong>（校内宿舍 vs 校外租房差距约 20%–50%）<strong>③ 日常生活费</strong>（餐饮/交通/通讯/日用品）<strong>④ 海外医疗保险</strong>（澳洲 OSHC、英国 IHS 是强制项目）<strong>⑤ 往返机票</strong>（本计算器按首年单次计入，短期回国按需另算）。签证费、申请费、课本费、户外活动等属于小项，本计算器未单独列出，建议额外预留 ¥5,000–15,000/年。</div></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-2">
+        <div class="faq-q" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+          <span>澳洲和英国同是硕士，为什么费用差距这么大？</span>
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">主要有三个驱动因素：<strong>① 学制长短</strong>：英国硕士通常 1 年制，澳洲 1.5–2 年，相同年度费率时总额差异明显。<strong>② 城市生活成本</strong>：伦敦住宿+生活费远高于曼彻斯特或墨尔本，同一国家内不同城市差距可达 40%。<strong>③ 汇率波动</strong>：澳元/英镑兑人民币汇率年度波动约 5%–15%，会显著影响实际到手金额，建议锁定汇率或分批购汇。</div></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-3">
+        <div class="faq-q" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+          <span>新加坡和香港生活费很高，有没有办法降低？</span>
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">两地生活成本高，但有几个可行策略：<strong>新加坡</strong>——NUS/NTU 宿舍名额有限但价格低于市场 30%–50%，尽早申请；食堂（Canteen/Hawker Center）用餐 SGD 3–6 远低于餐馆，坚持自食是最大省钱点。<strong>香港</strong>——HKUST、HKU 等宿舍竞争激烈，可考虑沙田、大埔等新界地区，通勤 30–45 分钟但租金省 HKD 2,000–4,000/月；港府公共交通学生优惠覆盖 MTR + 公交，年省约 HKD 6,000。</div></div>
+      </div>
+      <div class="faq-item reveal reveal-delay-4">
+        <div class="faq-q" onclick="toggleFaq(this)" tabindex="0" role="button" aria-expanded="false">
+          <span>如何评估自己需要携带多少启动资金？</span>
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="faq-a"><div class="faq-a-inner">启动资金 = <strong>第一学期学费 + 3 个月生活费 + 押金（2 个月租金）+ 机票 + 日用品采购（约 ¥3,000–8,000）</strong>。以澳洲硕士为例：约 ¥14–18 万作为启动资金相对充裕。签证财力证明（Genuine Temporary Entrant / Bank Statement）通常要求 12 个月学费 + 生活费，建议提前 3 个月备妥存款记录。如需对接专业顾问做个性化规划，可使用下方「免费评估」入口。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDITORIAL ── -->
+<section class="section" style="background:var(--surface-2);" id="editorial">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <span class="section-eyebrow">编辑精选</span>
+      <h2 class="section-title">留学费用规划深度文章</h2>
+      <p class="section-sub">编辑团队每周更新，数据实时校对</p>
+    </div>
+    <div class="editorial-grid">
+      <article class="article-card reveal reveal-delay-1">
+        <div class="article-img">
+          <img class="article-img-inner" src="https://images.pexels.com/photos/5538583/pexels-photo-5538583.jpeg?auto=compress&cs=tinysrgb&w=480&h=280&fit=crop" alt="留学生在校园草坪学习" loading="lazy" width="480" height="280">
+          <span class="article-cat">澳大利亚</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">2026 年澳洲留学费用全攻略：八大高校实际支出数据</h3>
+          <p class="article-desc">收录 G8 八所名校最新学费区间、各州生活费对比及奖学金申请指南，帮你精准规划两年预算。</p>
+          <div class="article-meta">
+            <span class="article-date">2026-06-15 更新</span>
+            <span class="article-read">阅读全文 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+      <article class="article-card reveal reveal-delay-2">
+        <div class="article-img">
+          <img class="article-img-inner" src="https://images.pexels.com/photos/8197508/pexels-photo-8197508.jpeg?auto=compress&cs=tinysrgb&w=480&h=280&fit=crop" alt="大学图书馆多元留学生" loading="lazy" width="480" height="280">
+          <span class="article-cat">英国</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">英国留学一年真实花销：G5 名校 vs 普通大学费用对比</h3>
+          <p class="article-desc">LSE、UCL、帝国理工与曼彻斯特、爱丁堡的真实学费+生活费差异，学费可差 ¥10 万/年以上。</p>
+          <div class="article-meta">
+            <span class="article-date">2026-06-10 更新</span>
+            <span class="article-read">阅读全文 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+      <article class="article-card reveal reveal-delay-3">
+        <div class="article-img">
+          <img class="article-img-inner" src="https://images.pexels.com/photos/16420473/pexels-photo-16420473.jpeg?auto=compress&cs=tinysrgb&w=480&h=280&fit=crop" alt="留学生使用笔记本电脑" loading="lazy" width="480" height="280">
+          <span class="article-cat">费用规划</span>
+        </div>
+        <div class="article-body">
+          <h3 class="article-title">留学预算这样做：家庭财务规划师给的 5 步骤方法论</h3>
+          <p class="article-desc">从目标院校确认到外汇策略、保险组合，系统梳理留学全周期资金规划，减少临时应急的焦虑。</p>
+          <div class="article-meta">
+            <span class="article-date">2026-06-05 更新</span>
+            <span class="article-read">阅读全文 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section" id="consult">
+  <div class="cta-inner reveal">
+    <h2 class="cta-title">算完费用，想知道怎么省？</h2>
+    <p class="cta-sub">UNILINK 留学顾问免费为你评估最优方案：奖学金申请路径 + 院校匹配 + 预算把控</p>
+    <div class="cta-buttons">
+      <button class="btn-primary" onclick="document.getElementById('widgetPanel').classList.toggle('open')">免费咨询留学顾问</button>
+      <button class="btn-outline" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">重新计算费用</button>
+    </div>
+  </div>
+</section>
+
+404|<script is:inline>
+// ── DATA ──
+const COUNTRIES = {
+  AU: {
+    name:'澳大利亚', cities:['悉尼','墨尔本','布里斯班','珀斯','阿德莱德','堪培拉'],
+    tuition:{bachelor:[28000,45000],master:[22000,42000],phd:[18000,30000],language:[8000,14000]},
+    // AUD/year → CNY, rent+living+insurance per year CNY
+    cityMod:{悉尼:1.15,墨尔本:1.1,布里斯班:0.92,珀斯:0.88,阿德莱德:0.85,堪培拉:0.95},
+    living:{悉尼:95000,墨尔本:88000,布里斯班:78000,珀斯:72000,阿德莱德:68000,堪培拉:82000},
+    insurance:{bachelor:4800,master:4800,phd:4800,language:2400},
+    flight:5500, currency:'AUD', cnyRate:4.72
+  },
+  UK: {
+    name:'英国', cities:['伦敦','曼彻斯特','爱丁堡','伯明翰','格拉斯哥','利兹'],
+    tuition:{bachelor:[120000,210000],master:[110000,190000],phd:[80000,140000],language:[30000,60000]},
+    living:{伦敦:130000,曼彻斯特:88000,爱丁堡:92000,伯明翰:82000,格拉斯哥:78000,利兹:80000},
+    insurance:{bachelor:11000,master:11000,phd:11000,language:5500},
+    flight:5800, currency:'GBP', cnyRate:9.2
+  },
+  US: {
+    name:'美国', cities:['纽约','洛杉矶','波士顿','芝加哥','旧金山','西雅图'],
+    tuition:{bachelor:[180000,350000],master:[150000,300000],phd:[0,50000],language:[40000,80000]},
+    living:{纽约:150000,洛杉矶:128000,波士顿:130000,芝加哥:108000,旧金山:145000,西雅图:118000},
+    insurance:{bachelor:12000,master:12000,phd:12000,language:6000},
+    flight:6500, currency:'USD', cnyRate:7.25
+  },
+  CA: {
+    name:'加拿大', cities:['多伦多','温哥华','蒙特利尔','渥太华','卡尔加里','埃德蒙顿'],
+    tuition:{bachelor:[130000,200000],master:[110000,180000],phd:[40000,90000],language:[25000,50000]},
+    living:{多伦多:110000,温哥华:115000,蒙特利尔:78000,渥太华:88000,卡尔加里:82000,埃德蒙顿:76000},
+    insurance:{bachelor:6000,master:6000,phd:6000,language:3000},
+    flight:6200, currency:'CAD', cnyRate:5.3
+  },
+  NZ: {
+    name:'新西兰', cities:['奥克兰','惠灵顿','基督城','达尼丁','汉密顿'],
+    tuition:{bachelor:[100000,165000],master:[95000,155000],phd:[40000,80000],language:[20000,40000]},
+    living:{奥克兰:88000,惠灵顿:80000,基督城:72000,达尼丁:65000,汉密顿:68000},
+    insurance:{bachelor:4200,master:4200,phd:4200,language:2100},
+    flight:5200, currency:'NZD', cnyRate:4.35
+  },
+  SG: {
+    name:'新加坡', cities:['新加坡'],
+    tuition:{bachelor:[120000,200000],master:[100000,180000],phd:[15000,40000],language:[20000,40000]},
+    living:{新加坡:100000},
+    insurance:{bachelor:3500,master:3500,phd:3500,language:1800},
+    flight:3800, currency:'SGD', cnyRate:5.38
+  },
+  HK: {
+    name:'香港', cities:['香港'],
+    tuition:{bachelor:[100000,160000],master:[90000,155000],phd:[20000,60000],language:[15000,30000]},
+    living:{香港:110000},
+    insurance:{bachelor:3200,master:3200,phd:3200,language:1600},
+    flight:2800, currency:'HKD', cnyRate:0.93
+  }
+};
+
+const COLORS = ['#0F5F5C','#E0A33C','#2D9CDB','#22A06B','#9B59B6'];
+const ITEMS  = ['学费','住宿生活','医疗保险','往返机票'];
+
+// ── UTILS ──
+function fmt(n){ return '¥'+Math.round(n/1000)+'万' }
+function fmtFull(n){ return '¥'+n.toLocaleString('zh-CN') }
+
+// ── TABS ──
+function switchTab(el,panel){
+  document.querySelectorAll('.calc-tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  el.classList.add('active'); el.setAttribute('aria-selected','true');
+  document.getElementById('panelFull').style.display = panel==='full'?'':'none';
+  document.getElementById('panelCompare').style.display = panel==='compare'?'':'none';
+  document.getElementById('panelBudget').style.display = panel==='budget'?'':'none';
+  if(panel==='compare') compare();
+  if(panel==='budget') budgetCalc();
+}
+
+// ── COUNTRY CHANGE ──
+function onCountryChange(){
+  const cc = document.getElementById('country').value;
+  const sel = document.getElementById('city');
+  sel.innerHTML = '<option value="">请选择城市</option>';
+  if(cc && COUNTRIES[cc]){
+    COUNTRIES[cc].cities.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; sel.appendChild(o); });
+    sel.value = COUNTRIES[cc].cities[0];
+  }
+}
+
+// ── CALCULATE ──
+function calculate(){
+  const cc = document.getElementById('country').value;
+  const deg = document.getElementById('degree').value;
+  const city = document.getElementById('city').value || (cc ? COUNTRIES[cc].cities[0] : '');
+  const years = parseFloat(document.getElementById('years').value) || 2;
+  if(!cc){ alert('请先选择目的国'); return; }
+  const d = COUNTRIES[cc];
+  const [tMin,tMax] = d.tuition[deg];
+  const tuition = Math.round((tMin+tMax)/2) * years;
+  const livingPerYear = d.living[city] || Object.values(d.living)[0];
+  const living = Math.round(livingPerYear * years);
+  const insPerYear = d.insurance[deg];
+  const insurance = Math.round(insPerYear * years);
+  const flight = d.flight; // one way first year only
+  const total = tuition + living + insurance + flight;
+  const amounts = [tuition, living, insurance, flight];
+  showResult(total, amounts, cc, deg, city, years);
+}
+
+function showResult(total, amounts, cc, deg, city, years){
+  document.getElementById('totalAmount').textContent = fmtFull(total);
+  const degName = {bachelor:'本科',master:'硕士',phd:'博士',language:'语言学校'}[deg];
+  document.getElementById('totalPeriod').textContent = `${COUNTRIES[cc].name} · ${city} · ${degName} · ${years} 年总费用`;
+  // donut
+  drawDonut(amounts, total);
+  // breakdown
+  const bl = document.getElementById('breakdownList');
+  bl.innerHTML='';
+  amounts.forEach((amt,i)=>{
+    const pct = (amt/total*100).toFixed(1);
+    bl.innerHTML+=`
+      <div class="breakdown-item">
+        <div class="breakdown-row">
+          <div class="breakdown-dot-label">
+            <div class="breakdown-dot" style="background:${COLORS[i]}"></div>
+            <span class="breakdown-name">${ITEMS[i]}</span>
+          </div>
+          <div>
+            <span class="breakdown-amount">${fmtFull(amt)}</span>
+            <span class="breakdown-pct" style="margin-left:6px">${pct}%</span>
+          </div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:${COLORS[i]}" data-width="${pct}"></div></div>
+      </div>`;
+  });
+  document.getElementById('donutTopPct').textContent = (amounts[0]/total*100).toFixed(0)+'%';
+  document.getElementById('calcNote').textContent = '数据仅供规划参考，实际以院校官方收费及生活为准。汇率区间用当前均值估算。';
+  const panel = document.getElementById('resultPanel');
+  panel.classList.add('visible');
+  // animate bars
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+    document.querySelectorAll('.bar-fill').forEach(b=>{ b.style.width = b.dataset.width+'%'; });
+  });});
+}
+
+function drawDonut(amounts, total){
+  const svg = document.getElementById('donutArcs');
+  svg.innerHTML = '';
+  const cx=100,cy=100,r=75,sw=28;
+  const circ = 2*Math.PI*r;
+  let offset = -circ/4; // start top
+  amounts.forEach((amt,i)=>{
+    const frac = amt/total;
+    const dash = frac*circ - 2;
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx',cx); circle.setAttribute('cy',cy); circle.setAttribute('r',r);
+    circle.setAttribute('fill','none'); circle.setAttribute('stroke',COLORS[i]);
+    circle.setAttribute('stroke-width',sw);
+    circle.setAttribute('stroke-dasharray', `${dash} ${circ-dash}`);
+    circle.setAttribute('stroke-dashoffset', -offset);
+    circle.setAttribute('stroke-linecap','round');
+    circle.style.transition = 'stroke-dasharray 0.8s cubic-bezier(0.4,0,0.2,1)';
+    svg.appendChild(circle);
+    offset += frac*circ;
+  });
+}
+
+// ── COMPARE ──
+function compare(){
+  const deg = document.getElementById('cmpDegree').value;
+  const years = deg==='master' ? 1.5 : 3;
+  const container = document.getElementById('compareTable');
+  const sorted = Object.entries(COUNTRIES).map(([cc,d])=>{
+    const [tMin,tMax]=d.tuition[deg];
+    const tAvg = (tMin+tMax)/2*years;
+    const lAvg = Object.values(d.living).reduce((a,b)=>a+b,0)/Object.values(d.living).length*years;
+    const ins = d.insurance[deg]*years;
+    const total = tAvg+lAvg+ins+d.flight;
+    return {cc,name:d.name,total};
+  }).sort((a,b)=>a.total-b.total);
+  const maxTotal = sorted[sorted.length-1].total;
+  container.innerHTML = sorted.map(({cc,name,total})=>{
+    const flags={AU:'🇦🇺',UK:'🇬🇧',US:'🇺🇸',CA:'🇨🇦',NZ:'🇳🇿',SG:'🇸🇬',HK:'🇭🇰'};
+    const pct = (total/maxTotal*100).toFixed(1);
+    return `<div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:1.4rem;width:28px">${flags[cc]}</span>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:.9rem;font-weight:600">
+          <span>${name}</span><span style="color:var(--primary)">${fmt(total)}</span>
+        </div>
+        <div class="bar-track" style="height:8px"><div class="bar-fill" style="background:var(--primary);opacity:${0.4+0.6*total/maxTotal};width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── BUDGET ──
+function budgetCalc(){
+  const budget = parseFloat(document.getElementById('budgetCNY').value);
+  const deg = document.getElementById('budgetDegree').value;
+  const res = document.getElementById('budgetResult');
+  if(!budget||budget<5){res.innerHTML='';return;}
+  const budgetCNY = budget*10000;
+  const matches = [];
+  Object.entries(COUNTRIES).forEach(([cc,d])=>{
+    const years = deg==='master'?1.5:deg==='bachelor'?3:0.75;
+    const [tMin,tMax]=d.tuition[deg];
+    const tAvg=(tMin+tMax)/2*years;
+    const lAvg=Object.values(d.living).reduce((a,b)=>a+b,0)/Object.values(d.living).length*years;
+    const ins=d.insurance[deg]*years;
+    const total=tAvg+lAvg+ins+d.flight;
+    matches.push({cc,name:d.name,total,feasible:budgetCNY>=total*0.85});
+  });
+  matches.sort((a,b)=>a.total-b.total);
+  const flags={AU:'🇦🇺',UK:'🇬🇧',US:'🇺🇸',CA:'🇨🇦',NZ:'🇳🇿',SG:'🇸🇬',HK:'🇭🇰'};
+  res.innerHTML='<div style="font-size:.85rem;font-weight:700;color:var(--text-2);margin-bottom:10px">根据预算推荐目的地：</div>'+
+  matches.map(m=>`<div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">
+    <span style="font-size:1.2rem">${flags[m.cc]}</span>
+    <span style="flex:1;font-size:.9rem;font-weight:600;color:var(--text)">${m.name}</span>
+    <span style="font-size:.85rem;color:var(--text-2)">${fmt(m.total)}</span>
+    <span style="font-size:.75rem;font-weight:700;padding:3px 8px;border-radius:4px;background:${m.feasible?'rgba(34,160,107,.12)':'rgba(224,163,60,.12)'};color:${m.feasible?'var(--success)':'var(--accent-dark)'}">${m.feasible?'✓ 可行':'⚡ 偏紧'}</span>
+  </div>`).join('')+
+  '<p style="font-size:.75rem;color:var(--text-3);margin-top:10px">以均价估算，实际以院校报价为准</p>';
+}
+
+// ── PREFILL ──
+function prefill(cc){
+  document.getElementById('country').value = cc;
+  onCountryChange();
+  document.getElementById('calculator').scrollIntoView({behavior:'smooth'});
+  // switch to full tab
+  const tabs = document.querySelectorAll('.calc-tab');
+  switchTab(tabs[0],'full');
+}
+
+// ── FAQ ──
+function toggleFaq(el){
+  const item = el.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>{ i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+  if(!isOpen){ item.classList.add('open'); el.setAttribute('aria-expanded','true'); }
+}
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleFaq(q); }});
+});
+</script>

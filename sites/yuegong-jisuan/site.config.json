@@ -1,0 +1,22 @@
+{
+  "slug": "yuegong-jisuan",
+  "domain": "yuegong-jisuan.wubaining.workers.dev",
+  "brand": "月供计算器",
+  "tagline": "房贷/车贷等额本息&本金试算",
+  "lang": "zh-CN",
+  "bizLine": "mortgage-calc",
+  "theme": "bespoke",
+  "palette": {
+    "primary": "#9C4A2E",
+    "accent": "#34495E"
+  },
+  "font": "-apple-system, BlinkMacSystemFont, \"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", \"Source Han Sans SC\", \"Helvetica Neue\", Arial, sans-serif",
+  "author": "UNILINK",
+  "chatbot": {
+    "backend": "ai-widget",
+    "botName": "月供助手"
+  },
+  "deployTarget": "workers",
+  "cfProject": "sp-yuegong-jisuan",
+  "noBrandLink": true
+}
